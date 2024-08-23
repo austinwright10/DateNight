@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, View } from 'react-native'
 import Button from 'components/Button'
+//import { NavigationContainer } from '@react-navigation/native'
 
 export default function App() {
   return (
+    // <NavigationContainer>
     <View style={styles.container}>
       <View style={styles.headerView}>
         <Text style={styles.header}>DateNight</Text>
@@ -18,6 +20,7 @@ export default function App() {
       />
       <StatusBar style='auto' />
     </View>
+    // </NavigationContainer>
   )
 }
 
