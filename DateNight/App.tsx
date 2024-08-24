@@ -1,24 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { StatusBar } from 'expo-status-bar'
+import { StyleSheet, Text, View } from 'react-native'
+import Button from 'components/Button'
+import { useNavigation, NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import StepOneScreen from 'src/onboarding/StepOneScreen'
+
+const Stack = createNativeStackNavigator()
 
 export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.headerView}>
         <Text style={styles.header}>DateNight</Text>
-        <Text style={styles.subheader}>Inspiring Date Ideas at Your Fingertips</Text>
+        <Text style={styles.subheader}>
+          Inspiring Date Ideas at Your Fingertips
+        </Text>
       </View>
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          Alert.alert('Button Pressed', 'Start Now button was pressed');
+          Alert.alert('Button Pressed', 'Start Now button was pressed')
         }}
       >
         <Text style={styles.buttonText}>Start Now</Text>
       </TouchableOpacity>
-      <StatusBar style="auto" />
+      <StatusBar style='auto' />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -50,4 +58,4 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
-});
+})
