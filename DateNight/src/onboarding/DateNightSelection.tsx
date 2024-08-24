@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import React, { useState } from 'react'
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 
 const daysOfWeek = [
   { short: 'Su', full: 'Sunday' },
@@ -9,23 +9,22 @@ const daysOfWeek = [
   { short: 'Th', full: 'Thursday' },
   { short: 'Fr', full: 'Friday' },
   { short: 'Sa', full: 'Saturday' },
-];
+]
 
 export default function DateNightScreen() {
-  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [selectedDay, setSelectedDay] = useState<string | null>(null)
 
   const handleDaySelect = (day: string) => {
-    setSelectedDay(day);
-  };
+    setSelectedDay(day)
+  }
 
   const handleContinue = () => {
     if (!selectedDay) {
-      Alert.alert('Selection Required', 'Please select a day of the week.');
-      return;
+      Alert.alert('Selection Required', 'Please select a day of the week.')
+      return
     }
-    // Continue with the next step (e.g., navigate to another screen)
-    Alert.alert('Selected Day', `You have selected ${selectedDay}`);
-  };
+    Alert.alert('Selected Day', `You have selected ${selectedDay}`)
+  }
 
   return (
     <View style={styles.container}>
@@ -37,9 +36,7 @@ export default function DateNightScreen() {
         {daysOfWeek.map((day) => (
           <TouchableOpacity
             key={day.short}
-            style={[
-              styles.dayButton
-            ]}
+            style={[styles.dayButton]}
             onPress={() => handleDaySelect(day.short)}
           >
             <Text
@@ -57,7 +54,7 @@ export default function DateNightScreen() {
         <Text style={styles.continueButtonText}>Continue</Text>
       </TouchableOpacity>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -110,4 +107,4 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
-});
+})
