@@ -1,43 +1,53 @@
-import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
-import Button from 'components/Button'
-//import { NavigationContainer } from '@react-navigation/native'
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 
 export default function App() {
   return (
-    // <NavigationContainer>
     <View style={styles.container}>
       <View style={styles.headerView}>
         <Text style={styles.header}>DateNight</Text>
-        <Text>Date Ideas and Weekly Reminders</Text>
+        <Text style={styles.subheader}>Inspiring Date Ideas at Your Fingertips</Text>
       </View>
-      <Button
-        title='Start Now'
-        style={{ borderWidth: 1, borderColor: 'black' }}
+      <TouchableOpacity
+        style={styles.button}
         onPress={() => {
-          console.log('hi')
+          Alert.alert('Button Pressed', 'Start Now button was pressed');
         }}
-      />
-      <StatusBar style='auto' />
+      >
+        <Text style={styles.buttonText}>Start Now</Text>
+      </TouchableOpacity>
+      <StatusBar style="auto" />
     </View>
-    // </NavigationContainer>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
-    backgroundColor: 'rgba(255, 0, 0, 0.3)',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-  header: {
-    fontSize: 30,
-  },
-  headerView: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height: '20%',
+    backgroundColor: '#ffcccc',
   },
-})
+  headerView: {
+    marginBottom: 20,
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  subheader: {
+    fontSize: 16,
+    color: 'grey',
+  },
+  button: {
+    backgroundColor: '#ff6666',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+});
