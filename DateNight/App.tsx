@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import DateNightSelection from 'src/onboarding/DateNightSelection'
 import HomePageScreen from 'src/homepage/homePage'
 import AddressAndPrice from 'src/onboarding/AdressAndPrice'
+import InterestSelection from 'src/onboarding/InterestSelection'
 
 const Stack = createNativeStackNavigator()
 
@@ -24,6 +25,11 @@ export default function App() {
           name='addressAndPrice'
           component={AddressAndPrice}
           //options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='InterestSelection'
+          component={InterestSelection}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
