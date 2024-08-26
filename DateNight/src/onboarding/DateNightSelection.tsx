@@ -11,7 +11,7 @@ const daysOfWeek = [
   { short: 'Sa', full: 'Saturday' },
 ]
 
-export default function DateNightScreen() {
+export default function DateNightScreen({ navigation }: any) {
   const [selectedDay, setSelectedDay] = useState<string | null>(null)
 
   const handleDaySelect = (day: string) => {
@@ -19,18 +19,14 @@ export default function DateNightScreen() {
   }
 
   const handleContinue = () => {
-    if (!selectedDay) {
-      Alert.alert('Selection Required', 'Please select a day of the week.')
-      return
-    }
-    Alert.alert('Selected Day', `You have selected ${selectedDay}`)
+    navigation.navigate('addressAndPrice')
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Date Night</Text>
       <Text style={styles.subheader}>
-        Choose a day of the week that you’d like to have your date night.
+        Choose a day of the week that you&apos;d like to have your date night.
       </Text>
       <View style={styles.daysContainer}>
         {daysOfWeek.map((day) => (
