@@ -24,7 +24,7 @@ const activities = [
   'Baking',
 ]
 
-export default function InterestsScreen({ navigation }: any) {
+export default function InterestSelectionScreen({ navigation }: any) {
   const [selectedActivities, setSelectedActivities] = useState<string[]>([])
 
   const handleActivitySelect = (activity: string) => {
@@ -38,7 +38,7 @@ export default function InterestsScreen({ navigation }: any) {
   }
 
   const handleContinue = () => {
-    console.log(`Selected activities: ${selectedActivities.join(', ')}`)
+    navigation.navigate('SignUp')
   }
 
   return (

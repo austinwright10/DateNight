@@ -1,34 +1,40 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import DateNightSelection from 'src/onboarding/DateNightSelection'
-import HomePageScreen from 'src/homepage/homePage'
+import HomePage from 'src/homepage/HomePage'
 import AddressAndPrice from 'src/onboarding/AddressAndPrice'
 import InterestSelection from 'src/onboarding/InterestSelection'
+import SignUp from 'src/onboarding/SignUp'
 
 const Stack = createNativeStackNavigator()
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='homepage'>
+      <Stack.Navigator initialRouteName='HomePage'>
         <Stack.Screen
-          name='homepage'
-          component={HomePageScreen}
+          name='HomePage'
+          component={HomePage}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name='day'
+          name='DateNightSelection'
           component={DateNightSelection}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name='addressAndPrice'
+          name='AddressAndPrice'
           component={AddressAndPrice}
           options={{ headerShown: false }}
         />
         <Stack.Screen
           name='InterestSelection'
           component={InterestSelection}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='SignUp'
+          component={SignUp}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

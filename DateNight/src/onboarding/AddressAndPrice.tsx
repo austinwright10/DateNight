@@ -2,13 +2,13 @@ import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { Slider } from '@miblanchard/react-native-slider'
 import SliderContainer from 'src/components/SliderContainer'
 
-export default function AddressAndPrice({ navigation }: any) {
+export default function AddressAndPriceScreen({ navigation }: any) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Price and Travel</Text>
       <View style={styles.price}>
         <Text style={styles.subheader}>What is your desired price range?</Text>
-        <SliderContainer sliderValue={[10, 20]} dollar={true}>
+        <SliderContainer sliderValue={[50]} dollar={true}>
           <Slider
             trackClickable={true}
             trackStyle={styles.slider}
@@ -20,7 +20,7 @@ export default function AddressAndPrice({ navigation }: any) {
       </View>
       <View style={styles.range}>
         <Text style={styles.subheader}>How far are you willing to travel?</Text>
-        <SliderContainer mileage={true}>
+        <SliderContainer sliderValue={[25]} mileage={true}>
           <Slider
             trackClickable={true}
             trackStyle={styles.slider}
