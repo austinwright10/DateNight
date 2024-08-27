@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import DateNightSelection from 'src/onboarding/DateNightSelection'
-import HomePage from 'src/homepage/HomePage'
+import HomePage from 'src/homepage/homePage'
 import AddressAndPrice from 'src/onboarding/AddressAndPrice'
 import InterestSelection from 'src/onboarding/InterestSelection'
 import SignUp from 'src/onboarding/SignUp'
