@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'grey',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   daysContainer: {
     flexDirection: 'row',

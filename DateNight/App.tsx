@@ -24,7 +24,7 @@ export default function App() {
         <Stack.Screen
           name='addressAndPrice'
           component={AddressAndPrice}
-          //options={{ headerShown: false }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name='InterestSelection'

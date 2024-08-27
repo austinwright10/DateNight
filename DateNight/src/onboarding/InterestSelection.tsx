@@ -39,7 +39,6 @@ export default function InterestsScreen({ navigation }: any) {
 
   const handleContinue = () => {
     console.log(`Selected activities: ${selectedActivities.join(', ')}`)
-    // Navigation logic here, e.g., navigation.navigate('NextScreen');
   }
 
   return (
@@ -90,7 +89,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   subheader: {
-    fontSize: 16,
+    fontSize: 18,
     color: 'grey',
     textAlign: 'center',
     marginBottom: 20,

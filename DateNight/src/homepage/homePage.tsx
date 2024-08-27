@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   subheader: {
-    fontSize: 16,
+    fontSize: 18,
     color: 'grey',
   },
   button: {
