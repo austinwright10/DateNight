@@ -14,14 +14,13 @@ const daysOfWeek = [
 
 export default function DateNightSelectionScreen({ navigation }: any) {
   const [selectedDay, setSelectedDay] = useState<string | null>(null)
-  const [progress, setProgress] = useState(0.3);
+  const [progress] = useState(0);
 
   const handleDaySelect = (day: string) => {
     setSelectedDay(day);
   }
 
   const handleContinue = () => {
-    setProgress(1);  // Update the progress to 100% when continuing
     navigation.navigate('AddressAndPrice');
   }
 
