@@ -46,7 +46,11 @@ export default function DateNightScreen({ navigation }: any) {
           </TouchableOpacity>
         ))}
       </View>
-      <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
+      <TouchableOpacity
+        style={styles.continueButton}
+        onPress={handleContinue}
+        disabled={!selectedDay}
+      >
         <Text style={styles.continueButtonText}>Continue</Text>
       </TouchableOpacity>
     </View>
@@ -71,7 +75,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'grey',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   daysContainer: {
     flexDirection: 'row',
