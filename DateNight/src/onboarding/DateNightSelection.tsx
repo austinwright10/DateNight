@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import * as Progress from 'react-native-progress'
 
 const daysOfWeek = [
   { short: 'Su', full: 'Sunday' },
@@ -25,14 +24,6 @@ export default function DateNightSelectionScreen({ navigation }: any) {
 
   return (
     <View style={styles.container}>
-      {/* Progress Bar at the Top */}
-      <Progress.Bar
-        progress={0}
-        width={350}
-        color='#ff6666'
-        style={styles.progressBar}
-      />
-
       <Text style={styles.header}>Date Night</Text>
       <Text style={styles.subheader}>
         Choose a day of the week that you&apos;d like to have your date night.
@@ -74,11 +65,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ffcccc',
     padding: 20,
-  },
-  progressBar: {
-    position: 'absolute',
-    top: 60,
-    alignSelf: 'center', // Center the progress bar horizontally
   },
   header: {
     fontSize: 24,

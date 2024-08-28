@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native'
-import * as Progress from 'react-native-progress'
 
 export default function SignUpScreen() {
   const [name, setName] = useState('')
@@ -32,12 +31,6 @@ export default function SignUpScreen() {
 
   return (
     <View style={styles.container}>
-      <Progress.Bar
-        progress={0.8}
-        width={350}
-        color='#ff6666'
-        style={styles.progressBar}
-      />
       <Text style={styles.header}>Create Your Account</Text>
 
       <TextInput
@@ -112,11 +105,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ffcccc',
     padding: 20,
-  },
-  progressBar: {
-    position: 'absolute',
-    top: 60,
-    alignSelf: 'center', // Center the progress bar horizontally
   },
   header: {
     fontSize: 24,
