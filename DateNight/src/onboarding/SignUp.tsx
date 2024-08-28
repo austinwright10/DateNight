@@ -1,69 +1,75 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import * as Progress from 'react-native-progress';
+import React, { useState } from 'react'
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from 'react-native'
+import * as Progress from 'react-native-progress'
 
 export default function SignUpScreen() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [progress] = useState(.8);
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   const handleSignUp = () => {
     if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match");
-      return;
+      Alert.alert('Error', 'Passwords do not match')
+      return
     }
-    console.log(`Name: ${name}, Email: ${email}, Phone Number: ${phoneNumber}`);
+    console.log(`Name: ${name}, Email: ${email}, Phone Number: ${phoneNumber}`)
     // Implement your sign-up logic here
-  };
+  }
 
   const handleSocialSignUp = (provider: string) => {
-    console.log(`Sign up with ${provider}`);
+    console.log(`Sign up with ${provider}`)
     // Implement your social sign-up logic here
-  };
+  }
 
   return (
     <View style={styles.container}>
       <Progress.Bar
-        progress={progress}
+        progress={0.8}
         width={350}
-        color="#ff6666"
+        color='#ff6666'
         style={styles.progressBar}
       />
       <Text style={styles.header}>Create Your Account</Text>
 
       <TextInput
         style={styles.input}
-        placeholder="Name"
+        placeholder='Name'
         value={name}
         onChangeText={setName}
       />
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        placeholder='Email'
         value={email}
         onChangeText={setEmail}
-        keyboardType="email-address"
+        keyboardType='email-address'
       />
       <TextInput
         style={styles.input}
-        placeholder="Phone Number"
+        placeholder='Phone Number'
         value={phoneNumber}
         onChangeText={setPhoneNumber}
-        keyboardType="phone-pad"
+        keyboardType='phone-pad'
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
+        placeholder='Password'
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
       <TextInput
         style={styles.input}
-        placeholder="Confirm Password"
+        placeholder='Confirm Password'
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         secureTextEntry
@@ -96,7 +102,7 @@ export default function SignUpScreen() {
         </TouchableOpacity>
       </View>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -168,4 +174,4 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
-});
+})

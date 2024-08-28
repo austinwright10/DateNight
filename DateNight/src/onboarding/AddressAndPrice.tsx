@@ -1,17 +1,16 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { Slider } from '@miblanchard/react-native-slider'
 import SliderContainer from 'src/components/SliderContainer'
-import * as Progress from 'react-native-progress';
+import * as Progress from 'react-native-progress'
 
 export default function AddressAndPriceScreen({ navigation }: any) {
-  const [progress] = useState(0.3);
   return (
     <View style={styles.container}>
       <Progress.Bar
-        progress={progress}
+        progress={0.3}
         width={350}
-        color="#ff6666"
+        color='#ff6666'
         style={styles.progressBar}
       />
       <Text style={styles.header}>Price and Travel</Text>

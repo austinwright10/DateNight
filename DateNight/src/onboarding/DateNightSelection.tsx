@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import * as Progress from 'react-native-progress';
+import * as Progress from 'react-native-progress'
 
 const daysOfWeek = [
   { short: 'Su', full: 'Sunday' },
@@ -14,23 +14,22 @@ const daysOfWeek = [
 
 export default function DateNightSelectionScreen({ navigation }: any) {
   const [selectedDay, setSelectedDay] = useState<string | null>(null)
-  const [progress] = useState(0);
 
   const handleDaySelect = (day: string) => {
-    setSelectedDay(day);
+    setSelectedDay(day)
   }
 
   const handleContinue = () => {
-    navigation.navigate('AddressAndPrice');
+    navigation.navigate('AddressAndPrice')
   }
 
   return (
     <View style={styles.container}>
       {/* Progress Bar at the Top */}
       <Progress.Bar
-        progress={progress}
+        progress={0}
         width={350}
-        color="#ff6666"
+        color='#ff6666'
         style={styles.progressBar}
       />
 

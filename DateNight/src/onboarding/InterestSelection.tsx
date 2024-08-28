@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import * as Progress from 'react-native-progress';
+import * as Progress from 'react-native-progress'
 
 const activities = [
   'Hiking',
@@ -27,7 +27,6 @@ const activities = [
 
 export default function InterestSelectionScreen({ navigation }: any) {
   const [selectedActivities, setSelectedActivities] = useState<string[]>([])
-  const [progress] = useState(0.5);
 
   const handleActivitySelect = (activity: string) => {
     if (selectedActivities.includes(activity)) {
@@ -46,9 +45,9 @@ export default function InterestSelectionScreen({ navigation }: any) {
   return (
     <View style={styles.container}>
       <Progress.Bar
-        progress={progress}
+        progress={0.5}
         width={350}
-        color="#ff6666"
+        color='#ff6666'
         style={styles.progressBar}
       />
       <Text style={styles.header}>Interests</Text>
