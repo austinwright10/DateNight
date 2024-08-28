@@ -28,7 +28,7 @@ export default function ReviewScreen({ navigation }: any) {
         <View style={styles.reviewItem}>
           <Text style={styles.label}>Interests:</Text>
           <Text style={styles.activitiesText}>
-            {activities.join(', ')}
+            {activities.join(' | ')}
           </Text>
         </View>
       </View>
