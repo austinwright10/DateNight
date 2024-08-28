@@ -26,21 +26,10 @@ const activities = [
 ]
 
 export default function InterestSelectionScreen({ navigation }: any) {
-  //const [selectedActivities, setSelectedActivities] = useState<string[]>([])
-
   const selectedActivities = interestStore((state: any) => state.interests)
   const setSelectedActivities = interestStore(
     (state: any) => state.setInterests
   )
-
-  const handleActivitySelect = (activity: string) => {
-    if (selectedActivities.includes(activity)) {
-      selectedActivities.filter((a: string) => a !== activity)
-    }
-    console.log('s ', selectedActivities)
-    setSelectedActivities(activity)
-  }
-
   const handleContinue = () => {
     navigation.navigate('Review')
   }
@@ -49,15 +38,14 @@ export default function InterestSelectionScreen({ navigation }: any) {
     <View style={styles.container}>
       <Text style={styles.header}>Interests</Text>
       <Text style={styles.subheader}>
-        Select your favorite activities and hobbies from the list below. The
-        more you select, the more you'll enjoy your dates!
+        Select your favorite activities and hobbies from the list below.
       </Text>
       <View style={styles.activitiesContainer}>
         {activities.map((activity) => (
           <TouchableOpacity
             key={activity}
             style={[styles.activityButton]}
-            onPress={() => handleActivitySelect(activity)}
+            onPress={() => setSelectedActivities(activity)}
           >
             <Text
               style={[

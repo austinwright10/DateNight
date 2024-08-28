@@ -1,49 +1,39 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { dayOfWeekStore, priceStore, travelStore } from 'src/stores/store'
 
 export default function ReviewScreen({ navigation }: any) {
-  const [activities, setActivities] = useState<string[]>(['Hiking', 'Photography', 'Photography', 'Photography', 'Photography', 'Photography', 'Photography']);
+  const selectedDay = dayOfWeekStore((state: any) => state.day)
+  const selectedTravel = travelStore((state: any) => state.travel)
+  const selectedPrice = priceStore((state: any) => state.price)
 
   const handleSignUp = () => {
-    navigation.navigate('SignUp'); // Navigate to the Sign-Up page
+    navigation.navigate('SignUp') // Navigate to the Sign-Up page
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Review Your Selections</Text>
-      
+
       <View style={styles.reviewContainer}>
         <View style={styles.reviewItem}>
           <Text style={styles.label}>Date Night:</Text>
-          <Text style={styles.value}>Friday</Text>
+          <Text style={styles.value}>{selectedDay}</Text>
         </View>
         <View style={styles.reviewItem}>
           <Text style={styles.label}>Budget:</Text>
-          <Text style={styles.value}>$50</Text>
+          <Text style={styles.value}>{selectedPrice}</Text>
         </View>
         <View style={styles.reviewItem}>
           <Text style={styles.label}>Distance:</Text>
-          <Text style={styles.value}>25 miles</Text>
-        </View>
-        <View style={styles.reviewItem}>
-          <Text style={styles.label}>Interests:</Text>
-          <View style={styles.activitiesContainer}>
-        {activities.map((activity) => (
-            <Text
-              style={[
-                styles.activityText
-              ]}
-            >
-              {activity}
-            </Text>
-        ))}
-      </View>
+          <Text style={styles.value}>{selectedTravel}</Text>
         </View>
       </View>
 
       <Text style={styles.subheader}>
-        To receive personalized date ideas and reminders, please create an account. 
-        This helps us save your preferences and send you the best date ideas tailored to your interests.
+        To receive personalized date ideas and reminders, please create an
+        account. This helps us save your preferences and send you the best date
+        ideas tailored to your interests.
       </Text>
 
       <TouchableOpacity style={styles.continueButton} onPress={handleSignUp}>
