@@ -12,7 +12,7 @@ export default function AddressAndPriceScreen({ navigation }: any) {
           <Slider
             trackClickable={true}
             trackStyle={styles.slider}
-            step={1}
+            step={5}
             minimumValue={0}
             maximumValue={100}
           />
@@ -24,8 +24,8 @@ export default function AddressAndPriceScreen({ navigation }: any) {
           <Slider
             trackClickable={true}
             trackStyle={styles.slider}
-            step={1}
-            minimumValue={1}
+            step={5}
+            minimumValue={0}
             maximumValue={50}
           />
         </SliderContainer>
