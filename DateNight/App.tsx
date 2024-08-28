@@ -5,6 +5,7 @@ import HomePage from 'src/homepage/homePage'
 import AddressAndPrice from 'src/onboarding/AddressAndPrice'
 import InterestSelection from 'src/onboarding/InterestSelection'
 import SignUp from 'src/onboarding/SignUp'
+import Review from 'src/onboarding/Review'
 
 const Stack = createNativeStackNavigator()
 
@@ -35,6 +36,11 @@ export default function App() {
         <Stack.Screen
           name='SignUp'
           component={SignUp}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='Review'
+          component={Review}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

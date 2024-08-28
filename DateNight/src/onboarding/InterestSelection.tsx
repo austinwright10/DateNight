@@ -38,7 +38,7 @@ export default function InterestSelectionScreen({ navigation }: any) {
   }
 
   const handleContinue = () => {
-    navigation.navigate('SignUp')
+    navigation.navigate('Review')
   }
 
   return (
