@@ -18,5 +18,10 @@ export const travelStore = create((set) => ({
 export const interestStore = create((set) => ({
   interests: [],
   setInterests: (newInterest: any) =>
-    set((state: any) => ({ interests: [...state.interests, newInterest] })),
+    set((state: any) => {
+      const updatedInterests = state.interests.includes(newInterest)
+        ? state.interests.filter((interest: any) => interest !== newInterest)
+        : [...state.interests, newInterest]
+      return { interests: updatedInterests }
+    }),
 }))

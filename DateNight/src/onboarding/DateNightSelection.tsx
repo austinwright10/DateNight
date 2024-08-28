@@ -37,12 +37,12 @@ export default function DateNightSelectionScreen({ navigation }: any) {
           <TouchableOpacity
             key={day.short}
             style={[styles.dayButton]}
-            onPress={() => handleDaySelect(day.short)}
+            onPress={() => handleDaySelect(day.full)}
           >
             <Text
               style={[
                 styles.dayText,
-                selectedDay === day.short && styles.selectedDayText,
+                selectedDay === day.full && styles.selectedDayText,
               ]}
             >
               {day.short}
