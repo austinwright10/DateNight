@@ -1,10 +1,19 @@
+import React, { useState } from 'react'
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { Slider } from '@miblanchard/react-native-slider'
 import SliderContainer from 'src/components/SliderContainer'
+import * as Progress from 'react-native-progress';
 
 export default function AddressAndPriceScreen({ navigation }: any) {
+  const [progress] = useState(0.3);
   return (
     <View style={styles.container}>
+      <Progress.Bar
+        progress={progress}
+        width={350}
+        color="#ff6666"
+        style={styles.progressBar}
+      />
       <Text style={styles.header}>Price and Travel</Text>
       <View style={styles.price}>
         <Text style={styles.subheader}>What is your desired price range?</Text>
@@ -49,6 +58,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+  },
+  progressBar: {
+    position: 'absolute',
+    top: 60,
+    alignSelf: 'center', // Center the progress bar horizontally
   },
   header: {
     fontSize: 24,

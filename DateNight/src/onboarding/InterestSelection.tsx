@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import * as Progress from 'react-native-progress';
 
 const activities = [
   'Hiking',
@@ -26,6 +27,7 @@ const activities = [
 
 export default function InterestSelectionScreen({ navigation }: any) {
   const [selectedActivities, setSelectedActivities] = useState<string[]>([])
+  const [progress] = useState(0.5);
 
   const handleActivitySelect = (activity: string) => {
     if (selectedActivities.includes(activity)) {
@@ -43,6 +45,12 @@ export default function InterestSelectionScreen({ navigation }: any) {
 
   return (
     <View style={styles.container}>
+      <Progress.Bar
+        progress={progress}
+        width={350}
+        color="#ff6666"
+        style={styles.progressBar}
+      />
       <Text style={styles.header}>Interests</Text>
       <Text style={styles.subheader}>
         Select your favorite activities and hobbies from the list below. The
@@ -81,6 +89,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ffcccc',
     padding: 20,
+  },
+  progressBar: {
+    position: 'absolute',
+    top: 60,
+    alignSelf: 'center', // Center the progress bar horizontally
   },
   header: {
     fontSize: 24,
