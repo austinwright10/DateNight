@@ -10,6 +10,7 @@ module.exports = function (api) {
             src: './src',
             components: './src/components',
             onboarding: './src/onboarding',
+            stores: './src/stores',
           },
         },
       ],

@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: 'black',
+    marginBottom: 10,
   },
   subheader: {
     fontSize: 18,

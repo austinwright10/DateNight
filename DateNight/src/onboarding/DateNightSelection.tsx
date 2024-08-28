@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import * as Progress from 'react-native-progress'
+import { dayOfWeekStore } from 'src/stores/store'
 
 const daysOfWeek = [
   { short: 'Su', full: 'Sunday' },
@@ -12,7 +14,8 @@ const daysOfWeek = [
 ]
 
 export default function DateNightSelectionScreen({ navigation }: any) {
-  const [selectedDay, setSelectedDay] = useState<string | null>(null)
+  const selectedDay = dayOfWeekStore((state: any) => state.day)
+  const setSelectedDay = dayOfWeekStore((state: any) => state.setDay)
 
   const handleDaySelect = (day: string) => {
     setSelectedDay(day)

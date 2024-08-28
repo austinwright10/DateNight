@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { interestStore } from 'src/stores/store'
 
 const activities = [
   'Hiking',
@@ -25,16 +26,19 @@ const activities = [
 ]
 
 export default function InterestSelectionScreen({ navigation }: any) {
-  const [selectedActivities, setSelectedActivities] = useState<string[]>([])
+  //const [selectedActivities, setSelectedActivities] = useState<string[]>([])
+
+  const selectedActivities = interestStore((state: any) => state.interests)
+  const setSelectedActivities = interestStore(
+    (state: any) => state.setInterests
+  )
 
   const handleActivitySelect = (activity: string) => {
     if (selectedActivities.includes(activity)) {
-      setSelectedActivities(
-        selectedActivities.filter((item) => item !== activity)
-      )
-    } else {
-      setSelectedActivities([...selectedActivities, activity])
+      selectedActivities.filter((a: string) => a !== activity)
     }
+    console.log('s ', selectedActivities)
+    setSelectedActivities(activity)
   }
 
   const handleContinue = () => {

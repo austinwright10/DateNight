@@ -2,7 +2,12 @@ import React from 'react'
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { Slider } from '@miblanchard/react-native-slider'
 import SliderContainer from 'src/components/SliderContainer'
+import { priceStore, travelStore } from 'src/stores/store'
+
 export default function AddressAndPriceScreen({ navigation }: any) {
+  const setSelectedPrice = priceStore((state: any) => state.setPrice)
+  const setSelectedTravel = travelStore((state: any) => state.setTravel)
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Price and Travel</Text>
@@ -15,6 +20,7 @@ export default function AddressAndPriceScreen({ navigation }: any) {
             step={5}
             minimumValue={0}
             maximumValue={100}
+            onValueChange={(value) => setSelectedPrice(value)}
           />
         </SliderContainer>
       </View>
@@ -27,6 +33,7 @@ export default function AddressAndPriceScreen({ navigation }: any) {
             step={5}
             minimumValue={0}
             maximumValue={50}
+            onValueChange={(value) => setSelectedTravel(value)}
           />
         </SliderContainer>
       </View>

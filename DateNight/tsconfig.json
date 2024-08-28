@@ -5,7 +5,8 @@
     "paths": {
       "src/*": ["./src/*"],
       "components/*": ["./src/components/*"],
-      "onboarding/*": ["./src/onboarding/*"]
+      "onboarding/*": ["./src/onboarding/*"],
+      "stores/*": ["./src/stores/*"]
     }
   }
 }
