@@ -16,11 +16,9 @@ export default function AddressAndPriceScreen({ navigation }: any) {
         <SliderContainer sliderValue={[50]} dollar={true}>
           <Slider
             trackClickable={true}
-            trackStyle={styles.slider}
             step={5}
             minimumValue={0}
             maximumValue={100}
-            onValueChange={(value) => setSelectedPrice(value)}
           />
         </SliderContainer>
       </View>
@@ -29,7 +27,6 @@ export default function AddressAndPriceScreen({ navigation }: any) {
         <SliderContainer sliderValue={[25]} mileage={true}>
           <Slider
             trackClickable={true}
-            trackStyle={styles.slider}
             step={5}
             minimumValue={0}
             maximumValue={50}
@@ -71,7 +68,6 @@ const styles = StyleSheet.create({
   },
   price: { marginBottom: 20, marginTop: 0 },
   range: { marginBottom: 20 },
-  slider: {},
   continueButton: {
     backgroundColor: '#ff6666',
     padding: 15,
