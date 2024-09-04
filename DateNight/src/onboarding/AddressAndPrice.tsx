@@ -1,38 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { Slider } from '@miblanchard/react-native-slider'
-import SliderContainer from 'src/components/SliderContainer'
 import { priceStore, travelStore } from 'src/stores/store'
 
 export default function AddressAndPriceScreen({ navigation }: any) {
+  const selectedPrice = priceStore((state: any) => state.price)
   const setSelectedPrice = priceStore((state: any) => state.setPrice)
+  const selectedTravel = travelStore((state: any) => state.travel)
   const setSelectedTravel = travelStore((state: any) => state.setTravel)
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Price and Travel</Text>
-      <View style={styles.price}>
-        <Text style={styles.subheader}>What is your desired price range?</Text>
-        <SliderContainer sliderValue={[50]} dollar={true}>
-          <Slider
-            trackClickable={true}
-            step={5}
-            minimumValue={0}
-            maximumValue={100}
-          />
-        </SliderContainer>
+      <View style={styles.priceSection}>
+        <Text style={styles.subheader}>What is your budget per date?</Text>
+        <Text style={styles.priceText}>${selectedPrice}</Text>
+        <Slider
+          trackClickable={true}
+          step={1}
+          minimumValue={0}
+          maximumValue={100}
+          value={selectedPrice}
+          onValueChange={(value) => setSelectedPrice(value)}
+        />
       </View>
-      <View style={styles.range}>
+      <View style={styles.travelSection}>
         <Text style={styles.subheader}>How far are you willing to travel?</Text>
-        <SliderContainer sliderValue={[25]} mileage={true}>
-          <Slider
-            trackClickable={true}
-            step={5}
-            minimumValue={0}
-            maximumValue={50}
-            onValueChange={(value) => setSelectedTravel(value)}
-          />
-        </SliderContainer>
+        <Text style={styles.travelText}>{selectedTravel} mi.</Text>
+        <Slider
+          trackClickable={true}
+          step={1}
+          minimumValue={0}
+          maximumValue={50}
+          value={selectedTravel}
+          onValueChange={(value) => setSelectedTravel(value)}
+        />
       </View>
       <TouchableOpacity
         style={styles.continueButton}
@@ -66,8 +68,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10,
   },
-  price: { marginBottom: 20, marginTop: 0 },
-  range: { marginBottom: 20 },
+  priceText: { fontSize: 18, textAlign: 'center' },
+  travelText: { fontSize: 18, textAlign: 'center' },
+  priceSection: { width: '70%' },
+  travelSection: { width: '70%' },
   continueButton: {
     backgroundColor: '#ff6666',
     padding: 15,
