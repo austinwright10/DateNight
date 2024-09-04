@@ -22,11 +22,11 @@ export default function ReviewScreen({ navigation }: any) {
         </View>
         <View style={styles.reviewItem}>
           <Text style={styles.label}>Budget:</Text>
-          <Text style={styles.value}>{selectedPrice}</Text>
+          <Text style={styles.value}>${selectedPrice}.00</Text>
         </View>
         <View style={styles.reviewItem}>
           <Text style={styles.label}>Distance:</Text>
-          <Text style={styles.value}>{selectedTravel}</Text>
+          <Text style={styles.value}>{selectedTravel} mi.</Text>
         </View>
       </View>
 

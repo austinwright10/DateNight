@@ -6,13 +6,13 @@ export const dayOfWeekStore = create((set) => ({
 }))
 
 export const priceStore = create((set) => ({
-  price: '',
-  setPrice: (newPrice: string) => set({ price: newPrice }),
+  price: 50,
+  setPrice: (newPrice: number) => set({ price: newPrice }),
 }))
 
 export const travelStore = create((set) => ({
-  travel: '',
-  setTravel: (newTravel: string) => set({ travel: newTravel }),
+  travel: 25,
+  setTravel: (newTravel: number) => set({ travel: newTravel }),
 }))
 
 export const interestStore = create((set) => ({
