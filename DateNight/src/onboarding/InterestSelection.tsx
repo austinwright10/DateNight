@@ -65,7 +65,7 @@ export default function InterestSelectionScreen({ navigation }: any) {
           selectedActivities.length === 0 && styles.disabled,
         ]}
         onPress={handleContinue}
-        disabled={selectedActivities === 0}
+        disabled={selectedActivities.length === 0}
       >
         <Text style={styles.continueButtonText}>Continue</Text>
       </TouchableOpacity>
