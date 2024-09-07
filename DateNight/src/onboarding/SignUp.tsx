@@ -35,13 +35,13 @@ export default function SignUpScreen() {
 
       <TextInput
         style={styles.input}
-        placeholder='Name'
+        placeholder='First Name'
         value={name}
         onChangeText={setName}
       />
       <TextInput
         style={styles.input}
-        placeholder='Email'
+        placeholder='Last Name'
         value={email}
         onChangeText={setEmail}
         keyboardType='email-address'
