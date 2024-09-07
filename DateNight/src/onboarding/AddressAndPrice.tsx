@@ -12,29 +12,33 @@ export default function AddressAndPriceScreen({ navigation }: any) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Price and Travel</Text>
-      <View style={styles.priceSection}>
-        <Text style={styles.subheader}>What is your budget per date?</Text>
-        <Text style={styles.priceText}>${selectedPrice}</Text>
-        <Slider
-          trackClickable={true}
-          step={1}
-          minimumValue={0}
-          maximumValue={100}
-          value={selectedPrice}
-          onValueChange={(value) => setSelectedPrice(value)}
-        />
-      </View>
-      <View style={styles.travelSection}>
-        <Text style={styles.subheader}>How far are you willing to travel?</Text>
-        <Text style={styles.travelText}>{selectedTravel} mi.</Text>
-        <Slider
-          trackClickable={true}
-          step={1}
-          minimumValue={0}
-          maximumValue={50}
-          value={selectedTravel}
-          onValueChange={(value) => setSelectedTravel(value)}
-        />
+      <View style={styles.body}>
+        <View style={styles.priceSection}>
+          <Text style={styles.subheader}>What is your budget per date?</Text>
+          <Text style={styles.priceText}>${selectedPrice}</Text>
+          <Slider
+            trackClickable={true}
+            step={1}
+            minimumValue={0}
+            maximumValue={100}
+            value={selectedPrice}
+            onValueChange={(value) => setSelectedPrice(value)}
+          />
+        </View>
+        <View style={styles.travelSection}>
+          <Text style={styles.subheader}>
+            How far are you willing to travel?
+          </Text>
+          <Text style={styles.travelText}>{selectedTravel} mi.</Text>
+          <Slider
+            trackClickable={true}
+            step={1}
+            minimumValue={0}
+            maximumValue={50}
+            value={selectedTravel}
+            onValueChange={(value) => setSelectedTravel(value)}
+          />
+        </View>
       </View>
       <TouchableOpacity
         style={styles.continueButton}
@@ -58,7 +62,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '500',
     color: 'black',
     marginBottom: 20,
   },
@@ -68,10 +72,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10,
   },
-  priceText: { fontSize: 18, textAlign: 'center' },
-  travelText: { fontSize: 18, textAlign: 'center' },
-  priceSection: { width: '70%' },
-  travelSection: { width: '70%' },
+  body: { width: '70%', justifyContent: 'center', alignItems: 'center' },
+  priceText: { fontSize: 20, textAlign: 'center' },
+  travelText: { fontSize: 20, textAlign: 'center' },
+  priceSection: { width: '100%' },
+  travelSection: { width: '100%' },
   continueButton: {
     backgroundColor: '#ff6666',
     padding: 15,

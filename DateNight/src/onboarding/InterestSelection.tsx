@@ -59,7 +59,14 @@ export default function InterestSelectionScreen({ navigation }: any) {
           </TouchableOpacity>
         ))}
       </View>
-      <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
+      <TouchableOpacity
+        style={[
+          styles.continueButton,
+          selectedActivities.length === 0 && styles.disabled,
+        ]}
+        onPress={handleContinue}
+        disabled={selectedActivities.length === 0}
+      >
         <Text style={styles.continueButtonText}>Continue</Text>
       </TouchableOpacity>
     </View>
@@ -76,7 +83,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '500',
     color: 'black',
     marginBottom: 20,
   },
@@ -86,10 +93,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
+  disabled: {
+    backgroundColor: 'rgba(255, 102, 102, 0.5)',
+  },
   activitiesContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    padding: 10,
   },
   activityButton: {
     backgroundColor: 'transparent',
@@ -99,11 +110,12 @@ const styles = StyleSheet.create({
   },
   activityText: {
     color: 'grey',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '400',
   },
   selectedActivityText: {
     color: 'black',
+    fontWeight: '600',
   },
   continueButton: {
     backgroundColor: '#ff6666',

@@ -32,8 +32,7 @@ export default function ReviewScreen({ navigation }: any) {
 
       <Text style={styles.subheader}>
         To receive personalized date ideas and reminders, please create an
-        account. This helps us save your preferences and send you the best date
-        ideas tailored to your interests.
+        account.
       </Text>
 
       <TouchableOpacity style={styles.continueButton} onPress={handleSignUp}>
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '500',
     color: 'black',
     marginBottom: 20,
   },
@@ -85,12 +84,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   label: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#333',
     fontWeight: '600',
   },
   value: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#666',
   },
   subheader: {
@@ -105,6 +104,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     width: '100%',
+    marginTop: 20,
   },
   continueButtonText: {
     color: 'white',

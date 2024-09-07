@@ -117,13 +117,13 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 10,
     backgroundColor: 'white',
-    borderRadius: 5,
+    borderRadius: 10,
     fontSize: 16,
   },
   signUpButton: {
     backgroundColor: '#ff6666',
     padding: 15,
-    borderRadius: 5,
+    borderRadius: 10,
     marginTop: 20,
     alignItems: 'center',
     width: '100%',
@@ -151,12 +151,15 @@ const styles = StyleSheet.create({
   },
   googleButton: {
     backgroundColor: '#db4437',
+    borderRadius: 10,
   },
   appleButton: {
     backgroundColor: '#000000',
+    borderRadius: 10,
   },
   facebookButton: {
     backgroundColor: '#4267B2',
+    borderRadius: 10,
   },
   socialButtonText: {
     color: 'white',

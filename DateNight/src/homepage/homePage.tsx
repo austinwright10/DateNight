@@ -16,7 +16,7 @@ export default function HomePage({ navigation }: any) {
           navigation.navigate('DateNightSelection')
         }}
       >
-        <Text style={styles.buttonText}>Start Now</Text>
+        <Text style={styles.buttonText}>Start</Text>
       </TouchableOpacity>
       <StatusBar style='auto' />
     </View>
@@ -35,12 +35,12 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '500',
     color: 'black',
     marginBottom: 10,
   },
   subheader: {
-    fontSize: 18,
+    fontSize: 20,
     color: 'grey',
   },
   button: {
