@@ -51,7 +51,7 @@ export default function DateNightSelectionScreen({ navigation }: any) {
         ))}
       </View>
       <TouchableOpacity
-        style={styles.continueButton}
+        style={[styles.continueButton, selectedDay === '' && styles.disabled]}
         onPress={handleContinue}
         disabled={!selectedDay}
       >
@@ -99,6 +99,9 @@ const styles = StyleSheet.create({
   },
   selectedDayText: {
     color: 'black',
+  },
+  disabled: {
+    backgroundColor: 'rgba(255, 102, 102, 0.5)',
   },
   continueButton: {
     backgroundColor: '#ff6666',
