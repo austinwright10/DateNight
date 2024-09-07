@@ -71,12 +71,12 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '500',
     color: 'black',
     marginBottom: 20,
   },
   subheader: {
-    fontSize: 16,
+    fontSize: 18,
     color: 'grey',
     textAlign: 'center',
     marginBottom: 10,
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   dayText: {
     color: 'grey',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '400', // Thin lettering
   },
   selectedDayText: {

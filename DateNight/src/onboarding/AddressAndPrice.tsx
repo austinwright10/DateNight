@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '500',
     color: 'black',
     marginBottom: 20,
   },
@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   body: { width: '70%', justifyContent: 'center', alignItems: 'center' },
-  priceText: { fontSize: 22, textAlign: 'center' },
-  travelText: { fontSize: 22, textAlign: 'center' },
+  priceText: { fontSize: 20, textAlign: 'center' },
+  travelText: { fontSize: 20, textAlign: 'center' },
   priceSection: { width: '100%' },
   travelSection: { width: '100%' },
   continueButton: {
