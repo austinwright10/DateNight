@@ -25,11 +25,26 @@ export default function SignUpScreen() {
   })
 
   const handleSignUp = () => {
-    if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match')
-      return
+    try {
+      const formData = {
+        firstName,
+        lastName,
+        phoneNumber,
+        password,
+        confirmPassword,
+      }
+      signUpSchema.parse(formData)
+      console.log(formData)
+
+      if (password !== confirmPassword) {
+        Alert.alert('Error', 'Passwords do not match')
+        return
+      }
+
+      // Implement your sign-up logic here
+    } catch (error) {
+      console.log('Error', error)
     }
-    // Implement your sign-up logic here
   }
 
   const handleSocialSignUp = (provider: string) => {
