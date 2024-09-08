@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { z } from 'zod'
 import {
   View,
   Text,
@@ -9,18 +10,25 @@ import {
 } from 'react-native'
 
 export default function SignUpScreen() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+
+  const signUpSchema = z.object({
+    firstName: z.string().min(2),
+    lastName: z.string().min(2),
+    phoneNumber: z.string().min(10),
+    password: z.string().min(6),
+    confirmPassword: z.string(),
+  })
 
   const handleSignUp = () => {
     if (password !== confirmPassword) {
       Alert.alert('Error', 'Passwords do not match')
       return
     }
-    console.log(`Name: ${name}, Email: ${email}, Phone Number: ${phoneNumber}`)
     // Implement your sign-up logic here
   }
 
@@ -36,15 +44,14 @@ export default function SignUpScreen() {
       <TextInput
         style={styles.input}
         placeholder='First Name'
-        value={name}
-        onChangeText={setName}
+        value={firstName}
+        onChangeText={setFirstName}
       />
       <TextInput
         style={styles.input}
         placeholder='Last Name'
-        value={email}
-        onChangeText={setEmail}
-        keyboardType='email-address'
+        value={lastName}
+        onChangeText={setLastName}
       />
       <TextInput
         style={styles.input}
