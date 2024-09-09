@@ -15,6 +15,7 @@ export default function SignUpScreen() {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [phoneError, setPhoneError] = useState(false)
 
   const signUpSchema = z.object({
     firstName: z.string().min(2),
@@ -40,16 +41,19 @@ export default function SignUpScreen() {
         Alert.alert('Error', 'Passwords do not match')
         return
       }
-
-      // Implement your sign-up logic here
     } catch (error) {
-      console.log('Error', error)
+      const zodErrors = error.errors.map((err) => err.path[0])
+      if (zodErrors.includes('phoneNumber')) {
+        setPhoneError(true)
+      } else {
+        setPhoneError(false)
+      }
+      console.log(zodErrors)
     }
   }
 
   const handleSocialSignUp = (provider: string) => {
     console.log(`Sign up with ${provider}`)
-    // Implement your social sign-up logic here
   }
 
   return (
@@ -69,7 +73,7 @@ export default function SignUpScreen() {
         onChangeText={setLastName}
       />
       <TextInput
-        style={styles.input}
+        style={[styles.input, phoneError && styles.phoneError]}
         placeholder='Phone Number'
         value={phoneNumber}
         onChangeText={setPhoneNumber}
@@ -130,7 +134,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '500',
     color: 'black',
     marginBottom: 20,
   },
@@ -141,6 +145,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     fontSize: 16,
+  },
+  phoneError: {
+    borderWidth: 1,
+    borderColor: 'red',
   },
   signUpButton: {
     backgroundColor: '#ff6666',
