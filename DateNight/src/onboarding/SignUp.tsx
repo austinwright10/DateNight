@@ -19,6 +19,7 @@ export default function SignUpScreen() {
   const [phoneError, setPhoneError] = useState(false)
   const [firstNameError, setFirstNameError] = useState(false)
   const [lastNameError, setLastNameError] = useState(false)
+  const [passwordError, setPasswordError] = useState(false)
 
   const signUpSchema = z.object({
     firstName: z
@@ -26,8 +27,8 @@ export default function SignUpScreen() {
       .min(2, { message: 'First name must be more than two characters' }),
     lastName: z.string().min(2),
     phoneNumber: z.string().min(10),
-    password: z.string().min(6),
-    confirmPassword: z.string(),
+    password: z.string().min(1),
+    confirmPassword: z.string().min(1),
   })
 
   function resetErrors() {
@@ -62,6 +63,9 @@ export default function SignUpScreen() {
       }
       if (zodErrors.includes('firstName')) {
         setLastNameError(true)
+      }
+      if (zodErrors.includes('password')) {
+        setPasswordError(true)
       } else {
         resetErrors()
       }
@@ -118,12 +122,19 @@ export default function SignUpScreen() {
           </View>
         )}
         <TextInput
-          style={styles.input}
+          style={[styles.input, passwordError && styles.passWordError]}
           placeholder='Password'
           value={password}
           onChangeText={setPassword}
           secureTextEntry
         />
+        {passwordError && (
+          <View style={styles.error}>
+            <Text style={styles.errorMessage}>
+              *Password needs to be longer than 2 digits
+            </Text>
+          </View>
+        )}
         <TextInput
           style={styles.input}
           placeholder='Confirm Password'
@@ -191,6 +202,7 @@ const styles = StyleSheet.create({
   },
   firstNameError: { borderLeftWidth: 8, borderColor: 'red' },
   lastNameError: { borderLeftWidth: 8, borderColor: 'red' },
+  passWordError: { borderLeftWidth: 8, borderColor: 'red' },
   inputSection: {
     justifyContent: 'center',
     alignItems: 'center',
