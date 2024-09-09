@@ -18,7 +18,9 @@ export default function SignUpScreen() {
   const [phoneError, setPhoneError] = useState(false)
 
   const signUpSchema = z.object({
-    firstName: z.string().min(2),
+    firstName: z
+      .string()
+      .min(2, { message: 'First name must be more than two characters' }),
     lastName: z.string().min(2),
     phoneNumber: z.string().min(10),
     password: z.string().min(6),
@@ -59,66 +61,72 @@ export default function SignUpScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Create Your Account</Text>
+      <View style={styles.inputSection}>
+        <TextInput
+          style={styles.input}
+          placeholder='First Name'
+          value={firstName}
+          onChangeText={setFirstName}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder='Last Name'
+          value={lastName}
+          onChangeText={setLastName}
+        />
+        <TextInput
+          style={[styles.input, phoneError && styles.phoneError]}
+          placeholder='Phone Number'
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+          keyboardType='phone-pad'
+        />
+        {phoneError && (
+          <View style={styles.error}>
+            <Text>*Phone Number should be 10 numbers long</Text>
+          </View>
+        )}
+        <TextInput
+          style={styles.input}
+          placeholder='Password'
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+        <TextInput
+          style={styles.input}
+          placeholder='Confirm Password'
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder='First Name'
-        value={firstName}
-        onChangeText={setFirstName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder='Last Name'
-        value={lastName}
-        onChangeText={setLastName}
-      />
-      <TextInput
-        style={[styles.input, phoneError && styles.phoneError]}
-        placeholder='Phone Number'
-        value={phoneNumber}
-        onChangeText={setPhoneNumber}
-        keyboardType='phone-pad'
-      />
-      <TextInput
-        style={styles.input}
-        placeholder='Password'
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <TextInput
-        style={styles.input}
-        placeholder='Confirm Password'
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-      />
-
-      <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-        <Text style={styles.signUpButtonText}>Sign Up</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.orText}>Or sign up with</Text>
-
-      <View style={styles.socialButtonsContainer}>
-        <TouchableOpacity
-          style={[styles.socialButton, styles.googleButton]}
-          onPress={() => handleSocialSignUp('Google')}
-        >
-          <Text style={styles.socialButtonText}>Google</Text>
+        <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
+          <Text style={styles.signUpButtonText}>Sign Up</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.socialButton, styles.appleButton]}
-          onPress={() => handleSocialSignUp('Apple')}
-        >
-          <Text style={styles.socialButtonText}>Apple</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.socialButton, styles.facebookButton]}
-          onPress={() => handleSocialSignUp('Facebook')}
-        >
-          <Text style={styles.socialButtonText}>Facebook</Text>
-        </TouchableOpacity>
+
+        <Text style={styles.orText}>Or sign up with</Text>
+
+        <View style={styles.socialButtonsContainer}>
+          <TouchableOpacity
+            style={[styles.socialButton, styles.googleButton]}
+            onPress={() => handleSocialSignUp('Google')}
+          >
+            <Text style={styles.socialButtonText}>Google</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.socialButton, styles.appleButton]}
+            onPress={() => handleSocialSignUp('Apple')}
+          >
+            <Text style={styles.socialButtonText}>Apple</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.socialButton, styles.facebookButton]}
+            onPress={() => handleSocialSignUp('Facebook')}
+          >
+            <Text style={styles.socialButtonText}>Facebook</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   )
@@ -147,9 +155,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   phoneError: {
-    borderWidth: 1,
+    borderLeftWidth: 8,
     borderColor: 'red',
   },
+  inputSection: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '95%',
+  },
+  error: { width: '100%', alignItems: 'flex-start', fontSize: 12 },
   signUpButton: {
     backgroundColor: '#ff6666',
     padding: 15,
