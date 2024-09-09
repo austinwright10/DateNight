@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native'
+import { useForm, SubmitHandler } from 'react-hook-form'
 
 export default function SignUpScreen() {
   const [firstName, setFirstName] = useState('')
@@ -16,6 +17,8 @@ export default function SignUpScreen() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [phoneError, setPhoneError] = useState(false)
+  const [firstNameError, setFirstNameError] = useState(false)
+  const [lastNameError, setLastNameError] = useState(false)
 
   const signUpSchema = z.object({
     firstName: z
@@ -26,6 +29,12 @@ export default function SignUpScreen() {
     password: z.string().min(6),
     confirmPassword: z.string(),
   })
+
+  function resetErrors() {
+    setPhoneError(false)
+    setFirstNameError(false)
+    setLastNameError(false)
+  }
 
   const handleSignUp = () => {
     try {
@@ -43,12 +52,18 @@ export default function SignUpScreen() {
         Alert.alert('Error', 'Passwords do not match')
         return
       }
-    } catch (error) {
-      const zodErrors = error.errors.map((err) => err.path[0])
+    } catch (error: any) {
+      const zodErrors = error.errors.map((err: any) => err.path[0])
       if (zodErrors.includes('phoneNumber')) {
         setPhoneError(true)
+      }
+      if (zodErrors.includes('firstName')) {
+        setFirstNameError(true)
+      }
+      if (zodErrors.includes('firstName')) {
+        setLastNameError(true)
       } else {
-        setPhoneError(false)
+        resetErrors()
       }
       console.log(zodErrors)
     }
@@ -63,17 +78,31 @@ export default function SignUpScreen() {
       <Text style={styles.header}>Create Your Account</Text>
       <View style={styles.inputSection}>
         <TextInput
-          style={styles.input}
+          style={[styles.input, firstNameError && styles.firstNameError]}
           placeholder='First Name'
           value={firstName}
           onChangeText={setFirstName}
         />
+        {firstNameError && (
+          <View style={styles.error}>
+            <Text style={styles.errorMessage}>
+              *First Name needs to be longer than 2 characters
+            </Text>
+          </View>
+        )}
         <TextInput
-          style={styles.input}
+          style={[styles.input, lastNameError && styles.lastNameError]}
           placeholder='Last Name'
           value={lastName}
           onChangeText={setLastName}
         />
+        {lastNameError && (
+          <View style={styles.error}>
+            <Text style={styles.errorMessage}>
+              *Last Name needs to be longer than 2 characters
+            </Text>
+          </View>
+        )}
         <TextInput
           style={[styles.input, phoneError && styles.phoneError]}
           placeholder='Phone Number'
@@ -83,7 +112,9 @@ export default function SignUpScreen() {
         />
         {phoneError && (
           <View style={styles.error}>
-            <Text>*Phone Number should be 10 numbers long</Text>
+            <Text style={styles.errorMessage}>
+              *Phone Number should be 10 digits
+            </Text>
           </View>
         )}
         <TextInput
@@ -158,12 +189,18 @@ const styles = StyleSheet.create({
     borderLeftWidth: 8,
     borderColor: 'red',
   },
+  firstNameError: { borderLeftWidth: 8, borderColor: 'red' },
+  lastNameError: { borderLeftWidth: 8, borderColor: 'red' },
   inputSection: {
     justifyContent: 'center',
     alignItems: 'center',
     width: '95%',
   },
-  error: { width: '100%', alignItems: 'flex-start', fontSize: 12 },
+  error: {
+    width: '100%',
+    alignItems: 'flex-start',
+  },
+  errorMessage: { fontSize: 10 },
   signUpButton: {
     backgroundColor: '#ff6666',
     padding: 15,
