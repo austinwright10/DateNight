@@ -20,6 +20,7 @@ export default function SignUpScreen() {
   const [firstNameError, setFirstNameError] = useState(false)
   const [lastNameError, setLastNameError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false)
 
   const signUpSchema = z.object({
     firstName: z
@@ -35,6 +36,8 @@ export default function SignUpScreen() {
     setPhoneError(false)
     setFirstNameError(false)
     setLastNameError(false)
+    setConfirmPasswordError(false)
+    setPasswordError(false)
   }
 
   const handleSignUp = () => {
@@ -47,12 +50,8 @@ export default function SignUpScreen() {
         confirmPassword,
       }
       signUpSchema.parse(formData)
-      console.log(formData)
-
-      if (password !== confirmPassword) {
-        Alert.alert('Error', 'Passwords do not match')
-        return
-      }
+      console.log('worked')
+      resetErrors()
     } catch (error: any) {
       const zodErrors = error.errors.map((err: any) => err.path[0])
       if (zodErrors.includes('phoneNumber')) {
@@ -66,8 +65,9 @@ export default function SignUpScreen() {
       }
       if (zodErrors.includes('password')) {
         setPasswordError(true)
-      } else {
-        resetErrors()
+      }
+      if (zodErrors.includes('confirmPassword')) {
+        setConfirmPasswordError(true)
       }
       console.log(zodErrors)
     }
@@ -136,12 +136,20 @@ export default function SignUpScreen() {
           </View>
         )}
         <TextInput
-          style={styles.input}
+          style={[
+            styles.input,
+            confirmPasswordError && styles.confirmPassWordError,
+          ]}
           placeholder='Confirm Password'
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry
         />
+        {confirmPasswordError && (
+          <View style={styles.error}>
+            <Text style={styles.errorMessage}>*Passwords do not match</Text>
+          </View>
+        )}
 
         <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
           <Text style={styles.signUpButtonText}>Sign Up</Text>
@@ -203,6 +211,7 @@ const styles = StyleSheet.create({
   firstNameError: { borderLeftWidth: 8, borderColor: 'red' },
   lastNameError: { borderLeftWidth: 8, borderColor: 'red' },
   passWordError: { borderLeftWidth: 8, borderColor: 'red' },
+  confirmPassWordError: { borderLeftWidth: 8, borderColor: 'red' },
   inputSection: {
     justifyContent: 'center',
     alignItems: 'center',
