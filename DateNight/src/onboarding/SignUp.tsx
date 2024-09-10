@@ -50,23 +50,28 @@ export default function SignUpScreen() {
         confirmPassword,
       }
       signUpSchema.parse(formData)
-      console.log('worked')
+      console.log('worked') // code for database sent is here
       resetErrors()
     } catch (error: any) {
       const zodErrors = error.errors.map((err: any) => err.path[0])
+      resetErrors()
+
       if (zodErrors.includes('phoneNumber')) {
         setPhoneError(true)
       }
       if (zodErrors.includes('firstName')) {
         setFirstNameError(true)
       }
-      if (zodErrors.includes('firstName')) {
+      if (zodErrors.includes('lastName')) {
         setLastNameError(true)
       }
       if (zodErrors.includes('password')) {
         setPasswordError(true)
       }
-      if (zodErrors.includes('confirmPassword')) {
+      if (
+        zodErrors.includes('confirmPassword') ||
+        password !== confirmPassword
+      ) {
         setConfirmPasswordError(true)
       }
       console.log(zodErrors)
