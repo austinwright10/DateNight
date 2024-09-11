@@ -6,8 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Alert,
 } from 'react-native'
+import * as Location from 'expo-location'
 
 export default function SignUpScreen() {
   const [firstName, setFirstName] = useState('')
@@ -20,6 +20,7 @@ export default function SignUpScreen() {
   const [lastNameError, setLastNameError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
   const [confirmPasswordError, setConfirmPasswordError] = useState(false)
+  const [city, setCity] = useState('')
 
   const signUpSchema = z.object({
     firstName: z
@@ -73,7 +74,6 @@ export default function SignUpScreen() {
       ) {
         setConfirmPasswordError(true)
       }
-      console.log(zodErrors)
     }
   }
 
@@ -96,7 +96,7 @@ export default function SignUpScreen() {
             {firstNameError && (
               <View style={styles.error}>
                 <Text style={styles.errorMessage}>
-                  *First Name needs to be longer than 2 characters
+                  *First name needs to be longer than 2 characters
                 </Text>
               </View>
             )}
@@ -111,7 +111,7 @@ export default function SignUpScreen() {
             {lastNameError && (
               <View style={styles.error}>
                 <Text style={styles.errorMessage}>
-                  *Last Name needs to be longer than 2 characters
+                  *Last name needs to be longer than 2 characters
                 </Text>
               </View>
             )}
@@ -131,6 +131,12 @@ export default function SignUpScreen() {
             </Text>
           </View>
         )}
+        <TextInput
+          style={[styles.input, phoneError && styles.phoneError]}
+          placeholder='City (generate dates in your area)'
+          value={city}
+          onChangeText={setCity}
+        />
         <TextInput
           style={[styles.input, passwordError && styles.passWordError]}
           placeholder='Password'
@@ -218,7 +224,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    marginBottom: 10,
+    marginBottom: 5,
   },
   firstNameInput: { width: '48%' },
   lastNameInput: { width: '48%' },
