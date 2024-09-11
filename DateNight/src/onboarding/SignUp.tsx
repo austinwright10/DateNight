@@ -85,32 +85,38 @@ export default function SignUpScreen() {
     <View style={styles.container}>
       <Text style={styles.header}>Create Your Account</Text>
       <View style={styles.inputSection}>
-        <TextInput
-          style={[styles.input, firstNameError && styles.firstNameError]}
-          placeholder='First Name'
-          value={firstName}
-          onChangeText={setFirstName}
-        />
-        {firstNameError && (
-          <View style={styles.error}>
-            <Text style={styles.errorMessage}>
-              *First Name needs to be longer than 2 characters
-            </Text>
+        <View style={styles.nameSection}>
+          <View style={styles.firstNameInput}>
+            <TextInput
+              style={[styles.input, firstNameError && styles.firstNameError]}
+              placeholder='First Name'
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+            {firstNameError && (
+              <View style={styles.error}>
+                <Text style={styles.errorMessage}>
+                  *First Name needs to be longer than 2 characters
+                </Text>
+              </View>
+            )}
           </View>
-        )}
-        <TextInput
-          style={[styles.input, lastNameError && styles.lastNameError]}
-          placeholder='Last Name'
-          value={lastName}
-          onChangeText={setLastName}
-        />
-        {lastNameError && (
-          <View style={styles.error}>
-            <Text style={styles.errorMessage}>
-              *Last Name needs to be longer than 2 characters
-            </Text>
+          <View style={styles.lastNameInput}>
+            <TextInput
+              style={[styles.input, lastNameError && styles.lastNameError]}
+              placeholder='Last Name'
+              value={lastName}
+              onChangeText={setLastName}
+            />
+            {lastNameError && (
+              <View style={styles.error}>
+                <Text style={styles.errorMessage}>
+                  *Last Name needs to be longer than 2 characters
+                </Text>
+              </View>
+            )}
           </View>
-        )}
+        </View>
         <TextInput
           style={[styles.input, phoneError && styles.phoneError]}
           placeholder='Phone Number'
@@ -208,6 +214,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontSize: 16,
   },
+  nameSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom: 10,
+  },
+  firstNameInput: { width: '48%' },
+  lastNameInput: { width: '48%' },
   phoneError: {
     borderLeftWidth: 8,
     borderColor: 'red',
