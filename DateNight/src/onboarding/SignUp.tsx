@@ -22,6 +22,7 @@ export default function SignUpScreen() {
   const [passwordError, setPasswordError] = useState(false)
   const [confirmPasswordError, setConfirmPasswordError] = useState(false)
   const [location, setLocation] = useState('')
+  const [locationError, setLocationError] = useState(false)
 
   const signUpSchema = z.object({
     firstName: z
@@ -40,7 +41,9 @@ export default function SignUpScreen() {
     setLastNameError(false)
     setConfirmPasswordError(false)
     setPasswordError(false)
+    setLocationError(false)
   }
+  const locationRegex = /^([A-Za-z\s]+),\s*([A-Z]{2})$/
 
   const handleSignUp = () => {
     try {
@@ -59,14 +62,17 @@ export default function SignUpScreen() {
       const zodErrors = error.errors.map((err: any) => err.path[0])
       resetErrors()
 
-      if (zodErrors.includes('phoneNumber')) {
-        setPhoneError(true)
-      }
       if (zodErrors.includes('firstName')) {
         setFirstNameError(true)
       }
       if (zodErrors.includes('lastName')) {
         setLastNameError(true)
+      }
+      if (!locationRegex.test(location)) {
+        setLocationError(true)
+      }
+      if (zodErrors.includes('phoneNumber')) {
+        setPhoneError(true)
       }
       if (zodErrors.includes('password')) {
         setPasswordError(true)
@@ -81,7 +87,6 @@ export default function SignUpScreen() {
   }
   const getCurrentLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync() //used for the pop up box where we give permission to use location
-    console.log(status)
     if (status !== 'granted') {
       Alert.alert(
         'Permission denied',
@@ -168,12 +173,17 @@ export default function SignUpScreen() {
           </View>
         )}
         <TextInput
-          style={[styles.input, phoneError && styles.phoneError]}
+          style={[styles.input, locationError && styles.locationError]}
           placeholder='City (generate dates in your area)'
           value={location}
           onChangeText={setLocation}
           onFocus={getCurrentLocation}
         />
+        {locationError && (
+          <View style={styles.error}>
+            <Text style={styles.errorMessage}>*Example format: Dallas, TX</Text>
+          </View>
+        )}
         <TextInput
           style={[styles.input, passwordError && styles.passWordError]}
           placeholder='Password'
@@ -273,6 +283,7 @@ const styles = StyleSheet.create({
   lastNameError: { borderLeftWidth: 8, borderColor: 'red' },
   passWordError: { borderLeftWidth: 8, borderColor: 'red' },
   confirmPassWordError: { borderLeftWidth: 8, borderColor: 'red' },
+  locationError: { borderLeftWidth: 8, borderColor: 'red' },
   inputSection: {
     justifyContent: 'center',
     alignItems: 'center',
