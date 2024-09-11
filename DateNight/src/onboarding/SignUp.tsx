@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from 'react-native'
 import * as Location from 'expo-location'
 
@@ -20,13 +21,14 @@ export default function SignUpScreen() {
   const [lastNameError, setLastNameError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
   const [confirmPasswordError, setConfirmPasswordError] = useState(false)
-  const [city, setCity] = useState('')
+  const [location, setLocation] = useState('')
 
   const signUpSchema = z.object({
     firstName: z
       .string()
       .min(2, { message: 'First name must be more than two characters' }),
     lastName: z.string().min(2),
+    location: z.string().min(2),
     phoneNumber: z.string().min(10),
     password: z.string().min(1),
     confirmPassword: z.string().min(1),
@@ -45,6 +47,7 @@ export default function SignUpScreen() {
       const formData = {
         firstName,
         lastName,
+        location,
         phoneNumber,
         password,
         confirmPassword,
@@ -73,6 +76,39 @@ export default function SignUpScreen() {
         password !== confirmPassword
       ) {
         setConfirmPasswordError(true)
+      }
+    }
+  }
+  const getCurrentLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync() //used for the pop up box where we give permission to use location
+    console.log(status)
+    if (status !== 'granted') {
+      Alert.alert(
+        'Permission denied',
+        'Allow the app to use the location services',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ]
+      )
+    }
+
+    const { coords } = await Location.getCurrentPositionAsync()
+
+    if (coords) {
+      const { latitude, longitude } = coords
+
+      let response = await Location.reverseGeocodeAsync({
+        latitude,
+        longitude,
+      })
+      for (let item of response) {
+        let address = `${item.city}, ${item.region}`
+        setLocation(address)
       }
     }
   }
@@ -134,8 +170,9 @@ export default function SignUpScreen() {
         <TextInput
           style={[styles.input, phoneError && styles.phoneError]}
           placeholder='City (generate dates in your area)'
-          value={city}
-          onChangeText={setCity}
+          value={location}
+          onChangeText={setLocation}
+          onFocus={getCurrentLocation}
         />
         <TextInput
           style={[styles.input, passwordError && styles.passWordError]}
