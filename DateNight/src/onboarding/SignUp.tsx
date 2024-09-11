@@ -8,7 +8,6 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native'
-import { useForm, SubmitHandler } from 'react-hook-form'
 
 export default function SignUpScreen() {
   const [firstName, setFirstName] = useState('')
