@@ -14,7 +14,6 @@ export default function ReviewScreen({ navigation }: any) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Review Your Selections</Text>
-
       <View style={styles.reviewContainer}>
         <View style={styles.reviewItem}>
           <Text style={styles.label}>Date Night:</Text>
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
   reviewContainer: {
     padding: 15,
     borderRadius: 10,
-    width: '100%',
+    width: '75%',
     marginBottom: 20,
   },
   reviewItem: {
@@ -97,13 +96,14 @@ const styles = StyleSheet.create({
     color: 'grey',
     textAlign: 'center',
     marginBottom: 20,
+    width: '75%',
   },
   continueButton: {
     backgroundColor: '#ff6666',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
-    width: '100%',
+    width: '75%',
     marginTop: 20,
   },
   continueButtonText: {
