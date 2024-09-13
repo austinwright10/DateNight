@@ -226,7 +226,7 @@ export default function SignUpScreen({ navigation }: any) {
           <Text style={styles.signUpButtonText}>Sign Up</Text>
         </TouchableOpacity>
 
-        <Text style={styles.orText}>Or sign up with</Text>
+        {/* <Text style={styles.orText}>Or sign up with</Text>
 
         <View style={styles.socialButtonsContainer}>
           <TouchableOpacity
@@ -247,7 +247,7 @@ export default function SignUpScreen({ navigation }: any) {
           >
             <Text style={styles.socialButtonText}>Facebook</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
     </View>
   )
