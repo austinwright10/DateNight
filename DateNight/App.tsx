@@ -6,6 +6,7 @@ import AddressAndPrice from 'src/onboarding/AddressAndPrice'
 import InterestSelection from 'src/onboarding/InterestSelection'
 import SignUp from 'src/onboarding/SignUp'
 import Review from 'src/onboarding/Review'
+import OTP from 'src/onboarding/OTP'
 
 const Stack = createNativeStackNavigator()
 
@@ -34,13 +35,18 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name='Review'
+          component={Review}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name='SignUp'
           component={SignUp}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name='Review'
-          component={Review}
+          name='OTP'
+          component={OTP}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

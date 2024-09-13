@@ -9,8 +9,9 @@ import {
   Alert,
 } from 'react-native'
 import * as Location from 'expo-location'
+import { supabase } from 'src/lib/supabase'
 
-export default function SignUpScreen() {
+export default function SignUpScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -45,7 +46,7 @@ export default function SignUpScreen() {
   }
   const locationRegex = /^([A-Za-z\s]+),\s*([A-Z]{2})$/
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     try {
       const formData = {
         firstName,
@@ -56,8 +57,14 @@ export default function SignUpScreen() {
         confirmPassword,
       }
       signUpSchema.parse(formData)
-      console.log('worked') // code for database sent is here
+      // const { error } = await supabase.from('users').insert({
+      //   first_name: firstName,
+      //   last_name: lastName,
+      //   phone_number: phoneNumber,
+      //   location: location,
+      // })
       resetErrors()
+      navigation.navigate('OTP')
     } catch (error: any) {
       const zodErrors = error.errors.map((err: any) => err.path[0])
       resetErrors()
