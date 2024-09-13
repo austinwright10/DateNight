@@ -10,7 +10,11 @@ export default function OTP() {
       <OtpInput
         numberOfDigits={6}
         onTextChange={(text) => console.log(text)}
-        theme={{ pinCodeContainerStyle: styles.pinCodeContainer }}
+        theme={{
+          pinCodeContainerStyle: styles.pinCodeContainer,
+          focusedPinCodeContainerStyle: styles.focusedPinCodeContainer,
+        }}
+        focusColor={'black'}
       />
     </View>
   )
@@ -26,4 +30,5 @@ const styles = StyleSheet.create({
   },
   text: { marginBottom: 30, fontSize: 18 },
   pinCodeContainer: { borderWidth: 1, borderColor: 'black' },
+  focusedPinCodeContainer: { borderColor: 'black', borderWidth: 2 },
 })
