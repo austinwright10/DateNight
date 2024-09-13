@@ -5527,6 +5527,11 @@ react-is@^17.0.1:
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-otp-entry@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/react-native-otp-entry/-/react-native-otp-entry-1.7.1.tgz#926c8f4e8ffeb48290bd8a1d07e986f5b63cf204"
+  integrity sha512-ZZErm8R0eww0lQu/D2KZuMbio4k3bBfijS8sgBvlsDTyREOH6edZZ4ingtLR1sqvKpoylhunR2NbcWLrV/ekBA==
+
 react-native-progress@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npmjs.org/react-native-progress/-/react-native-progress-5.0.1.tgz"
