@@ -57,12 +57,13 @@ export default function SignUpScreen({ navigation }: any) {
         confirmPassword,
       }
       signUpSchema.parse(formData)
-      // const { error } = await supabase.from('users').insert({
-      //   first_name: firstName,
-      //   last_name: lastName,
-      //   phone_number: phoneNumber,
-      //   location: location,
-      // })
+      const { error } = await supabase.from('users').insert({
+        first_name: firstName,
+        last_name: lastName,
+        phone_number: phoneNumber,
+        location: location,
+      })
+      console.log('error ', error)
       resetErrors()
       navigation.navigate('OTP')
     } catch (error: any) {
