@@ -3,7 +3,11 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { OtpInput } from 'react-native-otp-entry'
 import { supabase } from 'src/lib/supabase'
 
-export default function OTP() {
+type OTPProps = {
+  phoneNumber: string
+}
+
+export default function OTP({ phoneNumber }: OTPProps) {
   const [otpCode, setOTPCode] = useState('')
 
   // function handleSubmit() {
@@ -18,7 +22,7 @@ export default function OTP() {
   return (
     <View>
       <Text style={styles.text}>
-        Enter the 6 digit code we sent to your number.
+        Enter the 6 digit code we sent to {phoneNumber}.
       </Text>
       <OtpInput
         numberOfDigits={6}

@@ -137,6 +137,7 @@ export default function SignUpScreen({ navigation }: any) {
       <OTPModal
         handleModalVisibility={handleModalVisibility}
         isVisible={isModalVisible}
+        phoneNumber={phoneNumber}
       />
       <Text style={styles.header}>Create Your Account</Text>
       <View style={styles.inputSection}>

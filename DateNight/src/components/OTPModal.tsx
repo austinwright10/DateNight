@@ -4,11 +4,13 @@ import OTP from 'src/onboarding/OTP'
 type OTPModalProps = {
   handleModalVisibility: (isVisible: boolean) => void
   isVisible: boolean
+  phoneNumber: string
 }
 
 export default function OTPModal({
   handleModalVisibility,
   isVisible,
+  phoneNumber,
 }: OTPModalProps) {
   const toggleModalVisibility = () => {
     handleModalVisibility(!isVisible)
@@ -25,7 +27,7 @@ export default function OTPModal({
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <OTP />
+            <OTP phoneNumber={phoneNumber} />
           </View>
         </View>
       </Modal>
