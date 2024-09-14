@@ -14,7 +14,7 @@ export default function OTPModal({
     handleModalVisibility(!isVisible)
   }
   return (
-    <View>
+    <View style={styles.container}>
       <Modal
         animationType='slide'
         transparent={true}
@@ -34,12 +34,14 @@ export default function OTPModal({
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'black'
+  },
   centeredView: {
     flex: 1,
-    height: '50%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Add a semi-transparent background
   },
   modalView: {
     margin: 20,
