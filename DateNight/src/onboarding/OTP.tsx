@@ -6,14 +6,14 @@ import { supabase } from 'src/lib/supabase'
 export default function OTP() {
   const [otpCode, setOTPCode] = useState('')
 
-  function handleSubmit() {
-    const { error } = await supabase.from('users').insert({
-      first_name: firstName,
-      last_name: lastName,
-      phone_number: phoneNumber,
-      location: location,
-    })
-  }
+  // function handleSubmit() {
+  //   const { error } = await supabase.from('users').insert({
+  //     first_name: firstName,
+  //     last_name: lastName,
+  //     phone_number: phoneNumber,
+  //     location: location,
+  //   })
+  // }
 
   return (
     <View style={styles.container}>
