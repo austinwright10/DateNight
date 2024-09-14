@@ -36,10 +36,9 @@ export default function OTPModal({
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    height: '50%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Add a semi-transparent background
   },
   modalView: {
     margin: 20,
