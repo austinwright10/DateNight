@@ -16,7 +16,7 @@ export default function OTP() {
   // }
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.text}>
         Enter the 6 digit code we sent to your number.
       </Text>
@@ -37,14 +37,6 @@ export default function OTP() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ffcccc',
-  },
   text: { marginBottom: 30, fontSize: 18 },
   pinCodeContainer: { borderWidth: 1, borderColor: 'black' },
   focusedPinCodeContainer: { borderColor: 'black', borderWidth: 2 },

@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native'
 import * as Location from 'expo-location'
+import OTPModal from 'src/components/OTPModal'
 
 export default function SignUpScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState('')
@@ -24,6 +25,7 @@ export default function SignUpScreen({ navigation }: any) {
   const [location, setLocation] = useState('')
   const [locationError, setLocationError] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   const signUpSchema = z
     .object({
@@ -62,7 +64,8 @@ export default function SignUpScreen({ navigation }: any) {
       }
       signUpSchema.parse(formData)
       resetErrors()
-      navigation.navigate('OTP')
+      setIsModalVisible(true)
+      //navigation.navigate('OTP')
     } catch (error: any) {
       setIsClicked(false)
       const zodErrors = error.errors.map((err: any) => err.path[0])
@@ -125,9 +128,16 @@ export default function SignUpScreen({ navigation }: any) {
   const handleSocialSignUp = (provider: string) => {
     console.log(`Sign up with ${provider}`)
   }
+  const handleModalVisibility = (isVisible: boolean) => {
+    setIsModalVisible(isVisible)
+  }
 
   return (
     <View style={styles.container}>
+      <OTPModal
+        handleModalVisibility={handleModalVisibility}
+        isVisible={isModalVisible}
+      />
       <Text style={styles.header}>Create Your Account</Text>
       <View style={styles.inputSection}>
         <View style={styles.nameSection}>
