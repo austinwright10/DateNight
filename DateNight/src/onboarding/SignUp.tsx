@@ -24,6 +24,7 @@ export default function SignUpScreen({ navigation }: any) {
   const [confirmPasswordError, setConfirmPasswordError] = useState(false)
   const [location, setLocation] = useState('')
   const [locationError, setLocationError] = useState(false)
+  const [isClicked, setIsClicked] = useState(false)
 
   const signUpSchema = z.object({
     firstName: z
@@ -31,7 +32,7 @@ export default function SignUpScreen({ navigation }: any) {
       .min(2, { message: 'First name must be more than two characters' }),
     lastName: z.string().min(2),
     location: z.string().min(2),
-    phoneNumber: z.string().min(10),
+    phoneNumber: z.number().min(10),
     password: z.string().min(1),
     confirmPassword: z.string().min(1),
   })
@@ -47,6 +48,7 @@ export default function SignUpScreen({ navigation }: any) {
   const locationRegex = /^([A-Za-z\s]+),\s*([A-Z]{2})$/
 
   const handleSignUp = async () => {
+    setIsClicked(true)
     try {
       const formData = {
         firstName,
@@ -67,6 +69,7 @@ export default function SignUpScreen({ navigation }: any) {
       resetErrors()
       navigation.navigate('OTP')
     } catch (error: any) {
+      setIsClicked(false)
       const zodErrors = error.errors.map((err: any) => err.path[0])
       resetErrors()
 
@@ -141,6 +144,7 @@ export default function SignUpScreen({ navigation }: any) {
               placeholder='First Name'
               value={firstName}
               onChangeText={setFirstName}
+              editable={!isClicked}
             />
             {firstNameError && (
               <View style={styles.error}>
@@ -156,6 +160,7 @@ export default function SignUpScreen({ navigation }: any) {
               placeholder='Last Name'
               value={lastName}
               onChangeText={setLastName}
+              editable={!isClicked}
             />
             {lastNameError && (
               <View style={styles.error}>
@@ -172,6 +177,7 @@ export default function SignUpScreen({ navigation }: any) {
           value={phoneNumber}
           onChangeText={setPhoneNumber}
           keyboardType='phone-pad'
+          editable={!isClicked}
         />
         {phoneError && (
           <View style={styles.error}>
@@ -186,6 +192,7 @@ export default function SignUpScreen({ navigation }: any) {
           value={location}
           onChangeText={setLocation}
           onFocus={getCurrentLocation}
+          editable={!isClicked}
         />
         {locationError && (
           <View style={styles.error}>
@@ -198,6 +205,7 @@ export default function SignUpScreen({ navigation }: any) {
           value={password}
           onChangeText={setPassword}
           secureTextEntry
+          editable={!isClicked}
         />
         {passwordError && (
           <View style={styles.error}>
@@ -215,6 +223,7 @@ export default function SignUpScreen({ navigation }: any) {
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry
+          editable={!isClicked}
         />
         {confirmPasswordError && (
           <View style={styles.error}>
@@ -222,7 +231,10 @@ export default function SignUpScreen({ navigation }: any) {
           </View>
         )}
 
-        <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
+        <TouchableOpacity 
+          style={styles.signUpButton} 
+          onPress={handleSignUp}
+          disabled={isClicked}>
           <Text style={styles.signUpButtonText}>Sign Up</Text>
         </TouchableOpacity>
 
