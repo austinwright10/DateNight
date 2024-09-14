@@ -9,7 +9,6 @@ import {
   Alert,
 } from 'react-native'
 import * as Location from 'expo-location'
-import { supabase } from 'src/lib/supabase'
 
 export default function SignUpScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState('')
@@ -26,16 +25,19 @@ export default function SignUpScreen({ navigation }: any) {
   const [locationError, setLocationError] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
 
-  const signUpSchema = z.object({
-    firstName: z
-      .string()
-      .min(2, { message: 'First name must be more than two characters' }),
-    lastName: z.string().min(2),
-    location: z.string().min(2),
-    phoneNumber: z.number().min(10),
-    password: z.string().min(1),
-    confirmPassword: z.string().min(1),
-  })
+  const signUpSchema = z
+    .object({
+      firstName: z.string().min(2),
+      lastName: z.string().min(2),
+      location: z.string().min(2),
+      phoneNumber: z.string().min(10),
+      password: z.string().min(1),
+      confirmPassword: z.string().min(1),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: 'passwords do not match',
+      path: ['confirmPassword'],
+    })
 
   function resetErrors() {
     setPhoneError(false)
@@ -59,18 +61,12 @@ export default function SignUpScreen({ navigation }: any) {
         confirmPassword,
       }
       signUpSchema.parse(formData)
-      const { error } = await supabase.from('users').insert({
-        first_name: firstName,
-        last_name: lastName,
-        phone_number: phoneNumber,
-        location: location,
-      })
-      console.log('error ', error)
       resetErrors()
       navigation.navigate('OTP')
     } catch (error: any) {
       setIsClicked(false)
       const zodErrors = error.errors.map((err: any) => err.path[0])
+      console.log('zoderrors ', zodErrors)
       resetErrors()
 
       if (zodErrors.includes('firstName')) {
@@ -88,10 +84,7 @@ export default function SignUpScreen({ navigation }: any) {
       if (zodErrors.includes('password')) {
         setPasswordError(true)
       }
-      if (
-        zodErrors.includes('confirmPassword') ||
-        password !== confirmPassword
-      ) {
+      if (zodErrors.includes('confirmPassword')) {
         setConfirmPasswordError(true)
       }
     }
@@ -231,10 +224,11 @@ export default function SignUpScreen({ navigation }: any) {
           </View>
         )}
 
-        <TouchableOpacity 
-          style={styles.signUpButton} 
+        <TouchableOpacity
+          style={styles.signUpButton}
           onPress={handleSignUp}
-          disabled={isClicked}>
+          disabled={isClicked}
+        >
           <Text style={styles.signUpButtonText}>Sign Up</Text>
         </TouchableOpacity>
 
