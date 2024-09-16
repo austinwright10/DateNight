@@ -5,9 +5,10 @@ import { supabase } from 'src/lib/supabase'
 
 type OTPProps = {
   phoneNumber: string
+  showModal: (isVisible: boolean) => void
 }
 
-export default function OTP({ phoneNumber }: OTPProps) {
+export default function OTP({ phoneNumber, showModal }: OTPProps) {
   const [otpCode, setOTPCode] = useState('')
 
   // function handleSubmit() {
@@ -36,12 +37,18 @@ export default function OTP({ phoneNumber }: OTPProps) {
       <TouchableOpacity style={styles.submitButton}>
         <Text style={styles.submitButtonText}>Submit</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => showModal(false)}
+      >
+        <Text style={styles.backButtonText}>Back to Sign up</Text>
+      </TouchableOpacity>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  text: { marginBottom: 30, fontSize: 18 },
+  text: { marginBottom: 30, fontSize: 18, textAlign: 'center' },
   pinCodeContainer: { borderWidth: 1, borderColor: 'black' },
   focusedPinCodeContainer: { borderColor: 'black', borderWidth: 2 },
   submitButton: {
@@ -55,5 +62,15 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  backButton: {
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 30,
+  },
+  backButtonText: {
+    color: 'black',
+    fontSize: 13,
+    fontWeight: '300',
   },
 })

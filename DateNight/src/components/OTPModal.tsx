@@ -27,7 +27,7 @@ export default function OTPModal({
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <OTP phoneNumber={phoneNumber} />
+            <OTP phoneNumber={phoneNumber} showModal={handleModalVisibility} />
           </View>
         </View>
       </Modal>

@@ -64,10 +64,10 @@ export default function SignUpScreen({ navigation }: any) {
       }
       signUpSchema.parse(formData)
       resetErrors()
-      setIsModalVisible(true)
       //navigation.navigate('OTP')
     } catch (error: any) {
       setIsClicked(false)
+      setIsModalVisible(true)
       const zodErrors = error.errors.map((err: any) => err.path[0])
       console.log('zoderrors ', zodErrors)
       resetErrors()
