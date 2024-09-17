@@ -11,6 +11,15 @@ type OTPProps = {
 export default function OTP({ phoneNumber, showModal }: OTPProps) {
   const [otpCode, setOTPCode] = useState('')
 
+  function formatPhoneNumber(phoneNumber: string): string {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, '')
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
+    if (match) {
+      return `(${match[1]})-${match[2]}-${match[3]}`
+    }
+    return phoneNumber
+  }
+
   // function handleSubmit() {
   //   const { error } = await supabase.from('users').insert({
   //     first_name: firstName,
@@ -23,7 +32,7 @@ export default function OTP({ phoneNumber, showModal }: OTPProps) {
   return (
     <View>
       <Text style={styles.text}>
-        Enter the 6 digit code we sent to {phoneNumber}.
+        Enter the 6 digit code we sent to {formatPhoneNumber(phoneNumber)}.
       </Text>
       <OtpInput
         numberOfDigits={6}

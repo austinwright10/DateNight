@@ -65,12 +65,13 @@ export default function SignUpScreen({ navigation }: any) {
       }
       signUpSchema.parse(formData)
       resetErrors()
-      const { data, error } = await supabase.auth.signInWithOtp({
-        phone: phoneNumber,
-      })
-      if (error) {
-        console.log('error ', error)
-      } //navigation.navigate('OTP')
+      // OTP LOGIC RIGHT HERE
+      // const { data, error } = await supabase.auth.signInWithOtp({
+      //   phone: phoneNumber,
+      // })
+      // if (error) {
+      //   console.log('error ', error)
+      // } //navigation.navigate('OTP')
     } catch (error: any) {
       setIsClicked(false)
       setIsModalVisible(true)
