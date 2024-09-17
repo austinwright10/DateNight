@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import * as Location from 'expo-location'
 import OTPModal from 'src/components/OTPModal'
+import { supabase } from 'src/lib/supabase'
 
 export default function SignUpScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState('')
@@ -64,12 +65,17 @@ export default function SignUpScreen({ navigation }: any) {
       }
       signUpSchema.parse(formData)
       resetErrors()
-      //navigation.navigate('OTP')
+      // OTP LOGIC RIGHT HERE
+      // const { data, error } = await supabase.auth.signInWithOtp({
+      //   phone: phoneNumber,
+      // })
+      // if (error) {
+      //   console.log('error ', error)
+      // } //navigation.navigate('OTP')
     } catch (error: any) {
       setIsClicked(false)
       setIsModalVisible(true)
       const zodErrors = error.errors.map((err: any) => err.path[0])
-      console.log('zoderrors ', zodErrors)
       resetErrors()
 
       if (zodErrors.includes('firstName')) {
@@ -93,8 +99,9 @@ export default function SignUpScreen({ navigation }: any) {
     }
   }
   const getCurrentLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync() //used for the pop up box where we give permission to use location
+    let { status } = await Location.requestForegroundPermissionsAsync()
     if (status !== 'granted') {
+      // add some error management here in the future if the user decides not to share location
       Alert.alert(
         'Permission denied',
         'Allow the app to use the location services',
@@ -123,10 +130,6 @@ export default function SignUpScreen({ navigation }: any) {
         setLocation(address)
       }
     }
-  }
-
-  const handleSocialSignUp = (provider: string) => {
-    console.log(`Sign up with ${provider}`)
   }
   const handleModalVisibility = (isVisible: boolean) => {
     setIsModalVisible(isVisible)
