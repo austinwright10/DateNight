@@ -6,9 +6,18 @@ import { supabase } from 'src/lib/supabase'
 type OTPProps = {
   phoneNumber: string
   showModal: (isVisible: boolean) => void
+  firstName: string
+  lastName: string
+  location: string
 }
 
-export default function OTP({ phoneNumber, showModal }: OTPProps) {
+export default function OTP({
+  phoneNumber,
+  showModal,
+  firstName,
+  lastName,
+  location,
+}: OTPProps) {
   const [otpCode, setOTPCode] = useState('')
 
   function formatPhoneNumber(phoneNumber: string): string {
@@ -18,6 +27,15 @@ export default function OTP({ phoneNumber, showModal }: OTPProps) {
       return `(${match[1]})-${match[2]}-${match[3]}`
     }
     return phoneNumber
+  }
+
+  async function handleSubmit() {
+    const { error } = await supabase.from('users').insert({
+      first_name: firstName,
+      last_name: lastName,
+      phone_number: formatPhoneNumber(phoneNumber),
+      location: location,
+    })
   }
 
   // function handleSubmit() {
@@ -32,9 +50,10 @@ export default function OTP({ phoneNumber, showModal }: OTPProps) {
   return (
     <View>
       <Text style={styles.text}>
-        Enter the 6 digit code we sent to {formatPhoneNumber(phoneNumber)}.
+        {formatPhoneNumber(phoneNumber)} is the number we have. If correct,
+        please continue.
       </Text>
-      <OtpInput
+      {/* <OtpInput
         numberOfDigits={6}
         onTextChange={(text: string) => setOTPCode(text)}
         theme={{
@@ -42,9 +61,9 @@ export default function OTP({ phoneNumber, showModal }: OTPProps) {
           focusedPinCodeContainerStyle: styles.focusedPinCodeContainer,
         }}
         focusColor={'black'}
-      />
-      <TouchableOpacity style={styles.submitButton}>
-        <Text style={styles.submitButtonText}>Submit</Text>
+      /> */}
+      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+        <Text style={styles.submitButtonText}>Continue</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.backButton}
@@ -57,7 +76,7 @@ export default function OTP({ phoneNumber, showModal }: OTPProps) {
 }
 
 const styles = StyleSheet.create({
-  text: { marginBottom: 30, fontSize: 18, textAlign: 'center' },
+  text: { marginBottom: 10, fontSize: 18, textAlign: 'center' },
   pinCodeContainer: { borderWidth: 1, borderColor: 'black' },
   focusedPinCodeContainer: { borderColor: 'black', borderWidth: 2 },
   submitButton: {

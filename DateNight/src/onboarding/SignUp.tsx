@@ -65,6 +65,7 @@ export default function SignUpScreen({ navigation }: any) {
       }
       signUpSchema.parse(formData)
       resetErrors()
+      setIsModalVisible(true)
       // OTP LOGIC RIGHT HERE
       // const { data, error } = await supabase.auth.signInWithOtp({
       //   phone: phoneNumber,
@@ -74,7 +75,6 @@ export default function SignUpScreen({ navigation }: any) {
       // } //navigation.navigate('OTP')
     } catch (error: any) {
       setIsClicked(false)
-      setIsModalVisible(true)
       const zodErrors = error.errors.map((err: any) => err.path[0])
       resetErrors()
 
@@ -141,6 +141,9 @@ export default function SignUpScreen({ navigation }: any) {
         handleModalVisibility={handleModalVisibility}
         isVisible={isModalVisible}
         phoneNumber={phoneNumber}
+        firstName={firstName}
+        lastName={lastName}
+        location={location}
       />
       <Text style={styles.header}>Create Your Account</Text>
       <View style={styles.inputSection}>

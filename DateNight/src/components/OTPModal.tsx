@@ -5,12 +5,18 @@ type OTPModalProps = {
   handleModalVisibility: (isVisible: boolean) => void
   isVisible: boolean
   phoneNumber: string
+  firstName: string
+  lastName: string
+  location: string
 }
 
 export default function OTPModal({
   handleModalVisibility,
   isVisible,
   phoneNumber,
+  firstName,
+  lastName,
+  location,
 }: OTPModalProps) {
   const toggleModalVisibility = () => {
     handleModalVisibility(!isVisible)
@@ -27,7 +33,13 @@ export default function OTPModal({
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <OTP phoneNumber={phoneNumber} showModal={handleModalVisibility} />
+            <OTP
+              phoneNumber={phoneNumber}
+              showModal={handleModalVisibility}
+              firstName={firstName}
+              lastName={lastName}
+              location={location}
+            />
           </View>
         </View>
       </Modal>
