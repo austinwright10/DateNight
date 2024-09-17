@@ -135,6 +135,26 @@ export default function SignUpScreen({ navigation }: any) {
     setIsModalVisible(isVisible)
   }
 
+  function formatPhoneNumber(phoneNumber: string): string {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, '')
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
+    if (match) {
+      return `(${match[1]})-${match[2]}-${match[3]}`
+    }
+    return phoneNumber
+  }
+
+  async function goNext() {
+    const { error } = await supabase.from('users').insert({
+      first_name: firstName,
+      last_name: lastName,
+      phone_number: formatPhoneNumber(phoneNumber),
+      location: location,
+    })
+    setIsModalVisible(false)
+    navigation.navigate('Paywall')
+  }
+
   return (
     <View style={styles.container}>
       <OTPModal
@@ -144,6 +164,7 @@ export default function SignUpScreen({ navigation }: any) {
         firstName={firstName}
         lastName={lastName}
         location={location}
+        next={goNext}
       />
       <Text style={styles.header}>Create Your Account</Text>
       <View style={styles.inputSection}>

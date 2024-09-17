@@ -6,7 +6,7 @@ import AddressAndPrice from 'src/onboarding/AddressAndPrice'
 import InterestSelection from 'src/onboarding/InterestSelection'
 import SignUp from 'src/onboarding/SignUp'
 import Review from 'src/onboarding/Review'
-import OTP from 'src/onboarding/OTP'
+import Paywall from 'src/components/Paywall'
 
 const Stack = createNativeStackNavigator()
 
@@ -45,8 +45,8 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name='OTP'
-          component={OTP}
+          name='Paywall'
+          component={Paywall}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

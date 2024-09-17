@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { OtpInput } from 'react-native-otp-entry'
 import { supabase } from 'src/lib/supabase'
+import { useNavigation } from '@react-navigation/native'
 
 type OTPProps = {
   phoneNumber: string
@@ -9,6 +10,7 @@ type OTPProps = {
   firstName: string
   lastName: string
   location: string
+  goNext: () => void
 }
 
 export default function OTP({
@@ -17,8 +19,10 @@ export default function OTP({
   firstName,
   lastName,
   location,
+  goNext,
 }: OTPProps) {
   const [otpCode, setOTPCode] = useState('')
+  const navigation = useNavigation()
 
   function formatPhoneNumber(phoneNumber: string): string {
     const cleaned = ('' + phoneNumber).replace(/\D/g, '')
@@ -27,15 +31,6 @@ export default function OTP({
       return `(${match[1]})-${match[2]}-${match[3]}`
     }
     return phoneNumber
-  }
-
-  async function handleSubmit() {
-    const { error } = await supabase.from('users').insert({
-      first_name: firstName,
-      last_name: lastName,
-      phone_number: formatPhoneNumber(phoneNumber),
-      location: location,
-    })
   }
 
   // function handleSubmit() {
@@ -62,7 +57,7 @@ export default function OTP({
         }}
         focusColor={'black'}
       /> */}
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+      <TouchableOpacity style={styles.submitButton} onPress={goNext}>
         <Text style={styles.submitButtonText}>Continue</Text>
       </TouchableOpacity>
       <TouchableOpacity

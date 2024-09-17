@@ -8,6 +8,7 @@ type OTPModalProps = {
   firstName: string
   lastName: string
   location: string
+  next: () => void
 }
 
 export default function OTPModal({
@@ -17,6 +18,7 @@ export default function OTPModal({
   firstName,
   lastName,
   location,
+  next,
 }: OTPModalProps) {
   const toggleModalVisibility = () => {
     handleModalVisibility(!isVisible)
@@ -39,6 +41,7 @@ export default function OTPModal({
               firstName={firstName}
               lastName={lastName}
               location={location}
+              goNext={next}
             />
           </View>
         </View>
