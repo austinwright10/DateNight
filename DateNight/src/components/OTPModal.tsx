@@ -1,4 +1,4 @@
-import { Modal, StyleSheet, Text, Pressable, View } from 'react-native'
+import { Modal, StyleSheet, View } from 'react-native'
 import OTP from 'src/onboarding/OTP'
 
 type OTPModalProps = {

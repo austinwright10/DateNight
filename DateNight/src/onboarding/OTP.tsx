@@ -41,7 +41,7 @@ export default function OTP({ phoneNumber, showModal }: OTPProps) {
         style={styles.backButton}
         onPress={() => showModal(false)}
       >
-        <Text style={styles.backButtonText}>Back to Sign up</Text>
+        <Text style={styles.backButtonText}>Back</Text>
       </TouchableOpacity>
     </View>
   )
