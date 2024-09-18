@@ -11,6 +11,7 @@ import {
 import * as Location from 'expo-location'
 import OTPModal from 'src/components/OTPModal'
 import { supabase } from 'src/lib/supabase'
+//import { TextInput } from 'react-native-paper'
 
 export default function SignUpScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState('')
@@ -170,6 +171,7 @@ export default function SignUpScreen({ navigation }: any) {
             <TextInput
               style={[styles.input, firstNameError && styles.firstNameError]}
               placeholder='First Name'
+              placeholderTextColor='#666666'
               value={firstName}
               onChangeText={setFirstName}
               editable={!isClicked}
@@ -186,6 +188,7 @@ export default function SignUpScreen({ navigation }: any) {
             <TextInput
               style={[styles.input, lastNameError && styles.lastNameError]}
               placeholder='Last Name'
+              placeholderTextColor='#666666'
               value={lastName}
               onChangeText={setLastName}
               editable={!isClicked}
@@ -202,6 +205,7 @@ export default function SignUpScreen({ navigation }: any) {
         <TextInput
           style={[styles.input, phoneError && styles.phoneError]}
           placeholder='Phone Number'
+          placeholderTextColor='#666666'
           value={phoneNumber}
           onChangeText={setPhoneNumber}
           keyboardType='phone-pad'
@@ -217,6 +221,7 @@ export default function SignUpScreen({ navigation }: any) {
         <TextInput
           style={[styles.input, locationError && styles.locationError]}
           placeholder='City (generate dates in your area)'
+          placeholderTextColor='#666666'
           value={location}
           onChangeText={setLocation}
           onFocus={getCurrentLocation}
@@ -230,13 +235,12 @@ export default function SignUpScreen({ navigation }: any) {
         <TextInput
           style={[styles.input, passwordError && styles.passWordError]}
           placeholder='Password'
+          placeholderTextColor='#666666'
           value={password}
           onChangeText={setPassword}
           secureTextEntry
           editable={!isClicked}
-        >
-          <Text>HI</Text>
-        </TextInput>
+        />
         {passwordError && (
           <View style={styles.error}>
             <Text style={styles.errorMessage}>
@@ -250,6 +254,7 @@ export default function SignUpScreen({ navigation }: any) {
             confirmPasswordError && styles.confirmPassWordError,
           ]}
           placeholder='Confirm Password'
+          placeholderTextColor='#666666'
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry
