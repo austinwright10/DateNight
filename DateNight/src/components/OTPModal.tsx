@@ -38,9 +38,6 @@ export default function OTPModal({
             <OTP
               phoneNumber={phoneNumber}
               showModal={handleModalVisibility}
-              firstName={firstName}
-              lastName={lastName}
-              location={location}
               goNext={next}
             />
           </View>

@@ -7,20 +7,10 @@ import { useNavigation } from '@react-navigation/native'
 type OTPProps = {
   phoneNumber: string
   showModal: (isVisible: boolean) => void
-  firstName: string
-  lastName: string
-  location: string
   goNext: () => void
 }
 
-export default function OTP({
-  phoneNumber,
-  showModal,
-  firstName,
-  lastName,
-  location,
-  goNext,
-}: OTPProps) {
+export default function OTP({ phoneNumber, showModal, goNext }: OTPProps) {
   const [otpCode, setOTPCode] = useState('')
   const navigation = useNavigation()
 
@@ -32,15 +22,6 @@ export default function OTP({
     }
     return phoneNumber
   }
-
-  // function handleSubmit() {
-  //   const { error } = await supabase.from('users').insert({
-  //     first_name: firstName,
-  //     last_name: lastName,
-  //     phone_number: phoneNumber,
-  //     location: location,
-  //   })
-  // }
 
   return (
     <View>

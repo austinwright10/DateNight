@@ -53,7 +53,7 @@ export default function SignUpScreen({ navigation }: any) {
   const locationRegex = /^([A-Za-z\s]+),\s*([A-Z]{2})$/
 
   const handleSignUp = async () => {
-    setIsClicked(true)
+    //setIsClicked(true)
     try {
       const formData = {
         firstName,
@@ -70,11 +70,8 @@ export default function SignUpScreen({ navigation }: any) {
       // const { data, error } = await supabase.auth.signInWithOtp({
       //   phone: phoneNumber,
       // })
-      // if (error) {
-      //   console.log('error ', error)
-      // } //navigation.navigate('OTP')
     } catch (error: any) {
-      setIsClicked(false)
+      //setIsClicked(false)
       const zodErrors = error.errors.map((err: any) => err.path[0])
       resetErrors()
 
@@ -237,7 +234,9 @@ export default function SignUpScreen({ navigation }: any) {
           onChangeText={setPassword}
           secureTextEntry
           editable={!isClicked}
-        />
+        >
+          <Text>HI</Text>
+        </TextInput>
         {passwordError && (
           <View style={styles.error}>
             <Text style={styles.errorMessage}>

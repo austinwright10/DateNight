@@ -47,7 +47,11 @@ export default function App() {
         <Stack.Screen
           name='Paywall'
           component={Paywall}
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+            headerLeft: () => null,
+            gestureEnabled: false,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
