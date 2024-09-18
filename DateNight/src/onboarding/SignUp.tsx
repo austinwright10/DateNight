@@ -11,6 +11,7 @@ import {
 import * as Location from 'expo-location'
 import OTPModal from 'src/components/OTPModal'
 import { supabase } from 'src/lib/supabase'
+//import { TextInput } from 'react-native-paper'
 
 export default function SignUpScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState('')
@@ -53,7 +54,7 @@ export default function SignUpScreen({ navigation }: any) {
   const locationRegex = /^([A-Za-z\s]+),\s*([A-Z]{2})$/
 
   const handleSignUp = async () => {
-    setIsClicked(true)
+    //setIsClicked(true)
     try {
       const formData = {
         firstName,
@@ -65,16 +66,13 @@ export default function SignUpScreen({ navigation }: any) {
       }
       signUpSchema.parse(formData)
       resetErrors()
+      setIsModalVisible(true)
       // OTP LOGIC RIGHT HERE
       // const { data, error } = await supabase.auth.signInWithOtp({
       //   phone: phoneNumber,
       // })
-      // if (error) {
-      //   console.log('error ', error)
-      // } //navigation.navigate('OTP')
     } catch (error: any) {
-      setIsClicked(false)
-      setIsModalVisible(true)
+      //setIsClicked(false)
       const zodErrors = error.errors.map((err: any) => err.path[0])
       resetErrors()
 
@@ -135,12 +133,36 @@ export default function SignUpScreen({ navigation }: any) {
     setIsModalVisible(isVisible)
   }
 
+  function formatPhoneNumber(phoneNumber: string): string {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, '')
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
+    if (match) {
+      return `(${match[1]})-${match[2]}-${match[3]}`
+    }
+    return phoneNumber
+  }
+
+  async function goNext() {
+    const { error } = await supabase.from('users').insert({
+      first_name: firstName,
+      last_name: lastName,
+      phone_number: formatPhoneNumber(phoneNumber),
+      location: location,
+    })
+    setIsModalVisible(false)
+    navigation.navigate('Paywall')
+  }
+
   return (
     <View style={styles.container}>
       <OTPModal
         handleModalVisibility={handleModalVisibility}
         isVisible={isModalVisible}
         phoneNumber={phoneNumber}
+        firstName={firstName}
+        lastName={lastName}
+        location={location}
+        next={goNext}
       />
       <Text style={styles.header}>Create Your Account</Text>
       <View style={styles.inputSection}>
@@ -149,6 +171,7 @@ export default function SignUpScreen({ navigation }: any) {
             <TextInput
               style={[styles.input, firstNameError && styles.firstNameError]}
               placeholder='First Name'
+              placeholderTextColor='#666666'
               value={firstName}
               onChangeText={setFirstName}
               editable={!isClicked}
@@ -165,6 +188,7 @@ export default function SignUpScreen({ navigation }: any) {
             <TextInput
               style={[styles.input, lastNameError && styles.lastNameError]}
               placeholder='Last Name'
+              placeholderTextColor='#666666'
               value={lastName}
               onChangeText={setLastName}
               editable={!isClicked}
@@ -181,6 +205,7 @@ export default function SignUpScreen({ navigation }: any) {
         <TextInput
           style={[styles.input, phoneError && styles.phoneError]}
           placeholder='Phone Number'
+          placeholderTextColor='#666666'
           value={phoneNumber}
           onChangeText={setPhoneNumber}
           keyboardType='phone-pad'
@@ -196,6 +221,7 @@ export default function SignUpScreen({ navigation }: any) {
         <TextInput
           style={[styles.input, locationError && styles.locationError]}
           placeholder='City (generate dates in your area)'
+          placeholderTextColor='#666666'
           value={location}
           onChangeText={setLocation}
           onFocus={getCurrentLocation}
@@ -209,6 +235,7 @@ export default function SignUpScreen({ navigation }: any) {
         <TextInput
           style={[styles.input, passwordError && styles.passWordError]}
           placeholder='Password'
+          placeholderTextColor='#666666'
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -227,6 +254,7 @@ export default function SignUpScreen({ navigation }: any) {
             confirmPasswordError && styles.confirmPassWordError,
           ]}
           placeholder='Confirm Password'
+          placeholderTextColor='#666666'
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry
