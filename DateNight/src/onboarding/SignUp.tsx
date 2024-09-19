@@ -156,7 +156,6 @@ export default function SignUpScreen({ navigation }: any) {
           },
         }
       )
-      console.log('response ', response)
       const data = await response.json()
       if (data && data.data) {
         const cities = data.data.map(
@@ -166,9 +165,7 @@ export default function SignUpScreen({ navigation }: any) {
       } else {
         setCitySuggestions([])
       }
-    } catch (error) {
-      console.error('Error fetching cities: ', error)
-    }
+    } catch (error) {}
     setLoading(false)
   }
 
@@ -282,9 +279,9 @@ export default function SignUpScreen({ navigation }: any) {
             styles.input,
             locationError && styles.locationError,
           ]}
+          containerStyle={styles.containerStyle}
           placeholder='City (e.g. New York, NY)'
         />
-
         {locationError && (
           <View style={styles.error}>
             <Text style={styles.errorMessage}>*Example format: Dallas, TX</Text>
@@ -380,7 +377,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffcccc',
-    padding: 20,
+    padding: 25,
   },
   header: {
     fontSize: 24,
@@ -395,6 +392,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     fontSize: 16,
+  },
+  containerStyle: {
+    width: '100%',
   },
   nameSection: {
     flexDirection: 'row',
@@ -416,7 +416,7 @@ const styles = StyleSheet.create({
   inputSection: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '95%',
+    width: '100%',
   },
   error: {
     width: '100%',
