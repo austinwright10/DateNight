@@ -6,12 +6,13 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
   Alert,
 } from 'react-native'
 import * as Location from 'expo-location'
 import OTPModal from 'src/components/OTPModal'
 import { supabase } from 'src/lib/supabase'
-//import { TextInput } from 'react-native-paper'
+import Autocomplete from 'react-native-autocomplete-input'
 
 export default function SignUpScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState('')
@@ -28,6 +29,11 @@ export default function SignUpScreen({ navigation }: any) {
   const [locationError, setLocationError] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [citySuggestions, setCitySuggestions] = useState([])
+  const [query, setQuery] = useState('')
+  const [loading, setLoading] = useState(false)
+  const geoDBKEY = process.env.GEODB_KEY!
+  const geoDBURL = process.env.GEODB_URL!
 
   const signUpSchema = z
     .object({
@@ -133,6 +139,39 @@ export default function SignUpScreen({ navigation }: any) {
     setIsModalVisible(isVisible)
   }
 
+  const fetchCities = async (query: string) => {
+    if (!query) {
+      setCitySuggestions([])
+      return
+    }
+    setLoading(true)
+    try {
+      const response = await fetch(
+        `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${query}`,
+        {
+          method: 'GET',
+          headers: {
+            'x-rapidapi-host': 'wft-geo-db.p.rapidapi.com',
+            'x-rapidapi-key': geoDBKEY,
+          },
+        }
+      )
+      console.log('response ', response)
+      const data = await response.json()
+      if (data && data.data) {
+        const cities = data.data.map(
+          (city: any) => `${city.city}, ${city.regionCode}`
+        )
+        setCitySuggestions(cities)
+      } else {
+        setCitySuggestions([])
+      }
+    } catch (error) {
+      console.error('Error fetching cities: ', error)
+    }
+    setLoading(false)
+  }
+
   function formatPhoneNumber(phoneNumber: string): string {
     const cleaned = ('' + phoneNumber).replace(/\D/g, '')
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
@@ -218,7 +257,41 @@ export default function SignUpScreen({ navigation }: any) {
             </Text>
           </View>
         )}
-        <TextInput
+        <Autocomplete
+          data={citySuggestions}
+          defaultValue={query}
+          onChangeText={(text) => {
+            setQuery(text)
+            fetchCities(text)
+          }}
+          flatListProps={{
+            keyExtractor: (_, idx) => idx.toString(),
+            renderItem: ({ item }) => (
+              <TouchableOpacity
+                onPress={() => {
+                  setLocation(item)
+                  setQuery(item)
+                  setCitySuggestions([])
+                }}
+              >
+                <Text>{item}</Text>
+              </TouchableOpacity>
+            ),
+          }}
+          inputContainerStyle={[
+            styles.input,
+            locationError && styles.locationError,
+          ]}
+          placeholder='City (e.g. New York, NY)'
+        />
+
+        {locationError && (
+          <View style={styles.error}>
+            <Text style={styles.errorMessage}>*Example format: Dallas, TX</Text>
+          </View>
+        )}
+        {loading && <ActivityIndicator />}
+        {/* <TextInput
           style={[styles.input, locationError && styles.locationError]}
           placeholder='City (generate dates in your area)'
           placeholderTextColor='#666666'
@@ -231,7 +304,7 @@ export default function SignUpScreen({ navigation }: any) {
           <View style={styles.error}>
             <Text style={styles.errorMessage}>*Example format: Dallas, TX</Text>
           </View>
-        )}
+        )} */}
         <TextInput
           style={[styles.input, passwordError && styles.passWordError]}
           placeholder='Password'
