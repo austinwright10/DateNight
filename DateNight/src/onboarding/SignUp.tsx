@@ -271,7 +271,7 @@ export default function SignUpScreen({ navigation }: any) {
                   setCitySuggestions([])
                 }}
               >
-                <Text>{item}</Text>
+                <Text style={styles.listItem}>{item}</Text>
               </TouchableOpacity>
             ),
           }}
@@ -280,6 +280,7 @@ export default function SignUpScreen({ navigation }: any) {
             locationError && styles.locationError,
           ]}
           containerStyle={styles.containerStyle}
+          listContainerStyle={styles.listContainerStyle}
           placeholder='City (e.g. New York, NY)'
         />
         {locationError && (
@@ -387,7 +388,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
-    padding: 15,
+    padding: 17,
     marginVertical: 10,
     backgroundColor: 'white',
     borderRadius: 10,
@@ -396,6 +397,15 @@ const styles = StyleSheet.create({
   containerStyle: {
     width: '100%',
   },
+  listContainerStyle: {
+    position: 'absolute',
+    top: 85,
+    zIndex: 1,
+    width: '100%',
+    borderRadius: 10,
+  },
+  listStyle: {},
+  listItem: { fontSize: 16, padding: 15 },
   nameSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
