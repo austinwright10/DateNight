@@ -189,11 +189,11 @@ export default function SignUpScreen({ navigation }: any) {
     navigation.navigate('Paywall')
   }
 
-  const debouncedFetchCities = useCallback(debounce(fetchCities, 500), [])
+  //const debouncedFetchCities = useCallback(debounce(fetchCities, 500), [])
 
-  useEffect(() => {
-    debouncedFetchCities(query)
-  }, [query])
+  // useEffect(() => {
+  //   debouncedFetchCities(query)
+  // }, [query])
 
   return (
     <View style={styles.container}>
@@ -288,13 +288,14 @@ export default function SignUpScreen({ navigation }: any) {
           containerStyle={styles.containerStyle}
           listContainerStyle={styles.listContainerStyle}
           placeholder='City (e.g. New York, NY)'
+          placeholderTextColor='#666666'
+          autoCorrect={false}
         />
         {locationError && (
           <View style={styles.error}>
             <Text style={styles.errorMessage}>*Example format: Dallas, TX</Text>
           </View>
         )}
-        {loading && <ActivityIndicator />}
         {/* <TextInput
           style={[styles.input, locationError && styles.locationError]}
           placeholder='City (generate dates in your area)'
