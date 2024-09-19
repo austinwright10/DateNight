@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { z } from 'zod'
 import {
   View,
@@ -13,6 +13,7 @@ import * as Location from 'expo-location'
 import OTPModal from 'src/components/OTPModal'
 import { supabase } from 'src/lib/supabase'
 import Autocomplete from 'react-native-autocomplete-input'
+import { debounce } from 'lodash'
 
 export default function SignUpScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState('')
@@ -33,7 +34,6 @@ export default function SignUpScreen({ navigation }: any) {
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
   const geoDBKEY = process.env.GEODB_KEY!
-  const geoDBURL = process.env.GEODB_URL!
 
   const signUpSchema = z
     .object({
@@ -188,6 +188,12 @@ export default function SignUpScreen({ navigation }: any) {
     setIsModalVisible(false)
     navigation.navigate('Paywall')
   }
+
+  const debouncedFetchCities = useCallback(debounce(fetchCities, 500), [])
+
+  useEffect(() => {
+    debouncedFetchCities(query)
+  }, [query])
 
   return (
     <View style={styles.container}>
