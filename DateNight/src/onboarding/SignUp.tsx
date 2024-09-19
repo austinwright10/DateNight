@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { z } from 'zod'
 import {
   View,
@@ -6,12 +6,14 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
   Alert,
 } from 'react-native'
 import * as Location from 'expo-location'
 import OTPModal from 'src/components/OTPModal'
 import { supabase } from 'src/lib/supabase'
-//import { TextInput } from 'react-native-paper'
+import Autocomplete from 'react-native-autocomplete-input'
+import { debounce } from 'lodash'
 
 export default function SignUpScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState('')
@@ -28,6 +30,10 @@ export default function SignUpScreen({ navigation }: any) {
   const [locationError, setLocationError] = useState(false)
   const [isClicked, setIsClicked] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [citySuggestions, setCitySuggestions] = useState([])
+  const [query, setQuery] = useState('')
+  const [loading, setLoading] = useState(false)
+  const geoDBKEY = process.env.GEODB_KEY!
 
   const signUpSchema = z
     .object({
@@ -133,6 +139,36 @@ export default function SignUpScreen({ navigation }: any) {
     setIsModalVisible(isVisible)
   }
 
+  const fetchCities = async (query: string) => {
+    if (!query) {
+      setCitySuggestions([])
+      return
+    }
+    setLoading(true)
+    try {
+      const response = await fetch(
+        `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${query}`,
+        {
+          method: 'GET',
+          headers: {
+            'x-rapidapi-host': 'wft-geo-db.p.rapidapi.com',
+            'x-rapidapi-key': geoDBKEY,
+          },
+        }
+      )
+      const data = await response.json()
+      if (data && data.data) {
+        const cities = data.data.map(
+          (city: any) => `${city.city}, ${city.regionCode}`
+        )
+        setCitySuggestions(cities)
+      } else {
+        setCitySuggestions([])
+      }
+    } catch (error) {}
+    setLoading(false)
+  }
+
   function formatPhoneNumber(phoneNumber: string): string {
     const cleaned = ('' + phoneNumber).replace(/\D/g, '')
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
@@ -152,6 +188,12 @@ export default function SignUpScreen({ navigation }: any) {
     setIsModalVisible(false)
     navigation.navigate('Paywall')
   }
+
+  const debouncedFetchCities = useCallback(debounce(fetchCities, 500), [])
+
+  useEffect(() => {
+    debouncedFetchCities(query)
+  }, [query])
 
   return (
     <View style={styles.container}>
@@ -218,7 +260,42 @@ export default function SignUpScreen({ navigation }: any) {
             </Text>
           </View>
         )}
-        <TextInput
+        <Autocomplete
+          data={citySuggestions}
+          defaultValue={query}
+          onChangeText={(text) => {
+            setQuery(text)
+            fetchCities(text)
+          }}
+          flatListProps={{
+            keyExtractor: (_, idx) => idx.toString(),
+            renderItem: ({ item }) => (
+              <TouchableOpacity
+                onPress={() => {
+                  setLocation(item)
+                  setQuery(item)
+                  setCitySuggestions([])
+                }}
+              >
+                <Text style={styles.listItem}>{item}</Text>
+              </TouchableOpacity>
+            ),
+          }}
+          inputContainerStyle={[
+            styles.input,
+            locationError && styles.locationError,
+          ]}
+          containerStyle={styles.containerStyle}
+          listContainerStyle={styles.listContainerStyle}
+          placeholder='City (e.g. New York, NY)'
+        />
+        {locationError && (
+          <View style={styles.error}>
+            <Text style={styles.errorMessage}>*Example format: Dallas, TX</Text>
+          </View>
+        )}
+        {loading && <ActivityIndicator />}
+        {/* <TextInput
           style={[styles.input, locationError && styles.locationError]}
           placeholder='City (generate dates in your area)'
           placeholderTextColor='#666666'
@@ -231,7 +308,7 @@ export default function SignUpScreen({ navigation }: any) {
           <View style={styles.error}>
             <Text style={styles.errorMessage}>*Example format: Dallas, TX</Text>
           </View>
-        )}
+        )} */}
         <TextInput
           style={[styles.input, passwordError && styles.passWordError]}
           placeholder='Password'
@@ -307,7 +384,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffcccc',
-    padding: 20,
+    padding: 25,
   },
   header: {
     fontSize: 24,
@@ -317,12 +394,24 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
-    padding: 15,
+    padding: 17,
     marginVertical: 10,
     backgroundColor: 'white',
     borderRadius: 10,
     fontSize: 16,
   },
+  containerStyle: {
+    width: '100%',
+  },
+  listContainerStyle: {
+    position: 'absolute',
+    top: 85,
+    zIndex: 1,
+    width: '100%',
+    borderRadius: 10,
+  },
+  listStyle: {},
+  listItem: { fontSize: 16, padding: 15 },
   nameSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -343,7 +432,7 @@ const styles = StyleSheet.create({
   inputSection: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '95%',
+    width: '100%',
   },
   error: {
     width: '100%',
