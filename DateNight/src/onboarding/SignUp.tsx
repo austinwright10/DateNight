@@ -8,10 +8,10 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native'
-import * as Location from 'expo-location'
 import OTPModal from 'src/components/OTPModal'
 import { supabase } from 'src/lib/supabase'
 import Autocomplete from 'react-native-autocomplete-input'
+import { debounce } from 'lodash'
 
 export default function SignUpScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState('')
@@ -135,10 +135,16 @@ export default function SignUpScreen({ navigation }: any) {
     }
     setLoading(false)
   }
+  const debouncedFetchCities = useCallback(
+    debounce((query: string) => {
+      fetchCities(query)
+    }, 1000),
+    []
+  )
 
   useEffect(() => {
-    console.log('City Suggestions:', citySuggestions)
-  }, [citySuggestions])
+    debouncedFetchCities(query)
+  }, [query])
 
   function formatPhoneNumber(phoneNumber: string): string {
     const cleaned = ('' + phoneNumber).replace(/\D/g, '')
