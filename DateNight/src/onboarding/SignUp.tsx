@@ -6,14 +6,12 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator,
   Alert,
 } from 'react-native'
 import * as Location from 'expo-location'
 import OTPModal from 'src/components/OTPModal'
 import { supabase } from 'src/lib/supabase'
 import Autocomplete from 'react-native-autocomplete-input'
-import { debounce } from 'lodash'
 
 export default function SignUpScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState('')
@@ -102,39 +100,6 @@ export default function SignUpScreen({ navigation }: any) {
       }
     }
   }
-  const getCurrentLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync()
-    if (status !== 'granted') {
-      // add some error management here in the future if the user decides not to share location
-      Alert.alert(
-        'Permission denied',
-        'Allow the app to use the location services',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ]
-      )
-    }
-
-    const { coords } = await Location.getCurrentPositionAsync()
-
-    if (coords) {
-      const { latitude, longitude } = coords
-
-      let response = await Location.reverseGeocodeAsync({
-        latitude,
-        longitude,
-      })
-      for (let item of response) {
-        let address = `${item.city}, ${item.region}`
-        setLocation(address)
-      }
-    }
-  }
   const handleModalVisibility = (isVisible: boolean) => {
     setIsModalVisible(isVisible)
   }
@@ -165,9 +130,15 @@ export default function SignUpScreen({ navigation }: any) {
       } else {
         setCitySuggestions([])
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error(error)
+    }
     setLoading(false)
   }
+
+  useEffect(() => {
+    console.log('City Suggestions:', citySuggestions)
+  }, [citySuggestions])
 
   function formatPhoneNumber(phoneNumber: string): string {
     const cleaned = ('' + phoneNumber).replace(/\D/g, '')
@@ -405,9 +376,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   listContainerStyle: {
-    position: 'absolute',
-    top: 85,
-    zIndex: 1,
+    top: -10,
     width: '100%',
     borderRadius: 10,
   },
