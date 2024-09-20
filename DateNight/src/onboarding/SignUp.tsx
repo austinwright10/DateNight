@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: 'white',
     borderRadius: 10,
-    fontSize: 16,
+    fontSize: 14,
   },
   inputContainerStyle: {
     width: '100%',
@@ -379,6 +379,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: 'white',
     borderRadius: 10,
+    borderWidth: 0,
   },
   containerStyle: {
     width: '100%',
