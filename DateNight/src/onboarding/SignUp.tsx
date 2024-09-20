@@ -166,12 +166,6 @@ export default function SignUpScreen({ navigation }: any) {
     navigation.navigate('Paywall')
   }
 
-  //const debouncedFetchCities = useCallback(debounce(fetchCities, 500), [])
-
-  // useEffect(() => {
-  //   debouncedFetchCities(query)
-  // }, [query])
-
   return (
     <View style={styles.container}>
       <OTPModal
@@ -259,7 +253,7 @@ export default function SignUpScreen({ navigation }: any) {
             ),
           }}
           inputContainerStyle={[
-            styles.input,
+            styles.inputContainerStyle,
             locationError && styles.locationError,
           ]}
           containerStyle={styles.containerStyle}
@@ -267,6 +261,7 @@ export default function SignUpScreen({ navigation }: any) {
           placeholder='City (e.g. New York, NY)'
           placeholderTextColor='#666666'
           autoCorrect={false}
+          style={{ height: 25 }}
         />
         {locationError && (
           <View style={styles.error}>
@@ -378,6 +373,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontSize: 16,
   },
+  inputContainerStyle: {
+    width: '100%',
+    padding: 17,
+    marginVertical: 10,
+    backgroundColor: 'white',
+    borderRadius: 10,
+  },
   containerStyle: {
     width: '100%',
   },
@@ -397,14 +399,14 @@ const styles = StyleSheet.create({
   firstNameInput: { width: '48%' },
   lastNameInput: { width: '48%' },
   phoneError: {
-    borderLeftWidth: 8,
+    borderWidth: 2,
     borderColor: 'red',
   },
-  firstNameError: { borderLeftWidth: 8, borderColor: 'red' },
-  lastNameError: { borderLeftWidth: 8, borderColor: 'red' },
-  passWordError: { borderLeftWidth: 8, borderColor: 'red' },
-  confirmPassWordError: { borderLeftWidth: 8, borderColor: 'red' },
-  locationError: { borderLeftWidth: 8, borderColor: 'red' },
+  firstNameError: { borderWidth: 2, borderColor: 'red' },
+  lastNameError: { borderWidth: 2, borderColor: 'red' },
+  passWordError: { borderWidth: 2, borderColor: 'red' },
+  confirmPassWordError: { borderWidth: 2, borderColor: 'red' },
+  locationError: { borderWidth: 2, borderColor: 'red' },
   inputSection: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -436,28 +438,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-  },
-  socialButton: {
-    flex: 1,
-    padding: 15,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginHorizontal: 5,
-  },
-  googleButton: {
-    backgroundColor: '#db4437',
-    borderRadius: 10,
-  },
-  appleButton: {
-    backgroundColor: '#000000',
-    borderRadius: 10,
-  },
-  facebookButton: {
-    backgroundColor: '#4267B2',
-    borderRadius: 10,
-  },
-  socialButtonText: {
-    color: 'white',
-    fontSize: 16,
   },
 })
