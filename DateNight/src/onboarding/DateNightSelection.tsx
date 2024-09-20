@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    width: '100%',
   },
   dayButton: {
     backgroundColor: 'transparent',

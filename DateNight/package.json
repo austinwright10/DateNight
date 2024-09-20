@@ -21,6 +21,7 @@
     "lodash": "^4.17.21",
     "react": "18.2.0",
     "react-native": "0.74.5",
+    "react-native-autocomplete-dropdown": "^4.0.0-rc.5",
     "react-native-autocomplete-input": "^5.4.0",
     "react-native-config": "^1.5.3",
     "react-native-geodb": "^1.5.5",

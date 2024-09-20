@@ -6,10 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator,
   Alert,
 } from 'react-native'
-import * as Location from 'expo-location'
 import OTPModal from 'src/components/OTPModal'
 import { supabase } from 'src/lib/supabase'
 import Autocomplete from 'react-native-autocomplete-input'
@@ -102,39 +100,6 @@ export default function SignUpScreen({ navigation }: any) {
       }
     }
   }
-  const getCurrentLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync()
-    if (status !== 'granted') {
-      // add some error management here in the future if the user decides not to share location
-      Alert.alert(
-        'Permission denied',
-        'Allow the app to use the location services',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ]
-      )
-    }
-
-    const { coords } = await Location.getCurrentPositionAsync()
-
-    if (coords) {
-      const { latitude, longitude } = coords
-
-      let response = await Location.reverseGeocodeAsync({
-        latitude,
-        longitude,
-      })
-      for (let item of response) {
-        let address = `${item.city}, ${item.region}`
-        setLocation(address)
-      }
-    }
-  }
   const handleModalVisibility = (isVisible: boolean) => {
     setIsModalVisible(isVisible)
   }
@@ -165,9 +130,21 @@ export default function SignUpScreen({ navigation }: any) {
       } else {
         setCitySuggestions([])
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error(error)
+    }
     setLoading(false)
   }
+  const debouncedFetchCities = useCallback(
+    debounce((query: string) => {
+      fetchCities(query)
+    }, 1000),
+    []
+  )
+
+  useEffect(() => {
+    debouncedFetchCities(query)
+  }, [query])
 
   function formatPhoneNumber(phoneNumber: string): string {
     const cleaned = ('' + phoneNumber).replace(/\D/g, '')
@@ -188,12 +165,6 @@ export default function SignUpScreen({ navigation }: any) {
     setIsModalVisible(false)
     navigation.navigate('Paywall')
   }
-
-  const debouncedFetchCities = useCallback(debounce(fetchCities, 500), [])
-
-  useEffect(() => {
-    debouncedFetchCities(query)
-  }, [query])
 
   return (
     <View style={styles.container}>
@@ -282,19 +253,21 @@ export default function SignUpScreen({ navigation }: any) {
             ),
           }}
           inputContainerStyle={[
-            styles.input,
+            styles.inputContainerStyle,
             locationError && styles.locationError,
           ]}
           containerStyle={styles.containerStyle}
           listContainerStyle={styles.listContainerStyle}
           placeholder='City (e.g. New York, NY)'
+          placeholderTextColor='#666666'
+          autoCorrect={false}
+          style={{ height: 25 }}
         />
         {locationError && (
           <View style={styles.error}>
             <Text style={styles.errorMessage}>*Example format: Dallas, TX</Text>
           </View>
         )}
-        {loading && <ActivityIndicator />}
         {/* <TextInput
           style={[styles.input, locationError && styles.locationError]}
           placeholder='City (generate dates in your area)'
@@ -400,13 +373,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontSize: 16,
   },
+  inputContainerStyle: {
+    width: '100%',
+    padding: 17,
+    marginVertical: 10,
+    backgroundColor: 'white',
+    borderRadius: 10,
+  },
   containerStyle: {
     width: '100%',
   },
   listContainerStyle: {
-    position: 'absolute',
-    top: 85,
-    zIndex: 1,
+    top: -10,
     width: '100%',
     borderRadius: 10,
   },
@@ -421,14 +399,14 @@ const styles = StyleSheet.create({
   firstNameInput: { width: '48%' },
   lastNameInput: { width: '48%' },
   phoneError: {
-    borderLeftWidth: 8,
+    borderWidth: 2,
     borderColor: 'red',
   },
-  firstNameError: { borderLeftWidth: 8, borderColor: 'red' },
-  lastNameError: { borderLeftWidth: 8, borderColor: 'red' },
-  passWordError: { borderLeftWidth: 8, borderColor: 'red' },
-  confirmPassWordError: { borderLeftWidth: 8, borderColor: 'red' },
-  locationError: { borderLeftWidth: 8, borderColor: 'red' },
+  firstNameError: { borderWidth: 2, borderColor: 'red' },
+  lastNameError: { borderWidth: 2, borderColor: 'red' },
+  passWordError: { borderWidth: 2, borderColor: 'red' },
+  confirmPassWordError: { borderWidth: 2, borderColor: 'red' },
+  locationError: { borderWidth: 2, borderColor: 'red' },
   inputSection: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -460,28 +438,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-  },
-  socialButton: {
-    flex: 1,
-    padding: 15,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginHorizontal: 5,
-  },
-  googleButton: {
-    backgroundColor: '#db4437',
-    borderRadius: 10,
-  },
-  appleButton: {
-    backgroundColor: '#000000',
-    borderRadius: 10,
-  },
-  facebookButton: {
-    backgroundColor: '#4267B2',
-    borderRadius: 10,
-  },
-  socialButtonText: {
-    color: 'white',
-    fontSize: 16,
   },
 })
