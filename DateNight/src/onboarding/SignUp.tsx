@@ -6,6 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
   Alert,
 } from 'react-native'
 import OTPModal from 'src/components/OTPModal'
@@ -167,108 +169,114 @@ export default function SignUpScreen({ navigation }: any) {
   }
 
   return (
-    <View style={styles.container}>
-      <OTPModal
-        handleModalVisibility={handleModalVisibility}
-        isVisible={isModalVisible}
-        phoneNumber={phoneNumber}
-        firstName={firstName}
-        lastName={lastName}
-        location={location}
-        next={goNext}
-      />
-      <Text style={styles.header}>Create Your Account</Text>
-      <View style={styles.inputSection}>
-        <View style={styles.nameSection}>
-          <View style={styles.firstNameInput}>
-            <TextInput
-              style={[styles.input, firstNameError && styles.firstNameError]}
-              placeholder='First Name'
-              placeholderTextColor='#666666'
-              value={firstName}
-              onChangeText={setFirstName}
-              editable={!isClicked}
-            />
-            {firstNameError && (
-              <View style={styles.error}>
-                <Text style={styles.errorMessage}>
-                  *First name needs to be longer than 2 characters
-                </Text>
-              </View>
-            )}
-          </View>
-          <View style={styles.lastNameInput}>
-            <TextInput
-              style={[styles.input, lastNameError && styles.lastNameError]}
-              placeholder='Last Name'
-              placeholderTextColor='#666666'
-              value={lastName}
-              onChangeText={setLastName}
-              editable={!isClicked}
-            />
-            {lastNameError && (
-              <View style={styles.error}>
-                <Text style={styles.errorMessage}>
-                  *Last name needs to be longer than 2 characters
-                </Text>
-              </View>
-            )}
-          </View>
-        </View>
-        <TextInput
-          style={[styles.input, phoneError && styles.phoneError]}
-          placeholder='Phone Number'
-          placeholderTextColor='#666666'
-          value={phoneNumber}
-          onChangeText={setPhoneNumber}
-          keyboardType='phone-pad'
-          editable={!isClicked}
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <View style={styles.container}>
+        <OTPModal
+          handleModalVisibility={handleModalVisibility}
+          isVisible={isModalVisible}
+          phoneNumber={phoneNumber}
+          firstName={firstName}
+          lastName={lastName}
+          location={location}
+          next={goNext}
         />
-        {phoneError && (
-          <View style={styles.error}>
-            <Text style={styles.errorMessage}>
-              *Phone Number should be 10 digits
-            </Text>
+        <Text style={styles.header}>Create Your Account</Text>
+        <View style={styles.inputSection}>
+          <View style={styles.nameSection}>
+            <View style={styles.firstNameInput}>
+              <TextInput
+                style={[styles.input, firstNameError && styles.firstNameError]}
+                placeholder='First Name'
+                placeholderTextColor='#666666'
+                value={firstName}
+                onChangeText={setFirstName}
+                editable={!isClicked}
+              />
+              {firstNameError && (
+                <View style={styles.error}>
+                  <Text style={styles.errorMessage}>
+                    *First name needs to be longer than 2 characters
+                  </Text>
+                </View>
+              )}
+            </View>
+            <View style={styles.lastNameInput}>
+              <TextInput
+                style={[styles.input, lastNameError && styles.lastNameError]}
+                placeholder='Last Name'
+                placeholderTextColor='#666666'
+                value={lastName}
+                onChangeText={setLastName}
+                editable={!isClicked}
+              />
+              {lastNameError && (
+                <View style={styles.error}>
+                  <Text style={styles.errorMessage}>
+                    *Last name needs to be longer than 2 characters
+                  </Text>
+                </View>
+              )}
+            </View>
           </View>
-        )}
-        <Autocomplete
-          data={citySuggestions}
-          defaultValue={query}
-          onChangeText={(text) => {
-            setQuery(text)
-            fetchCities(text)
-          }}
-          flatListProps={{
-            keyExtractor: (_, idx) => idx.toString(),
-            renderItem: ({ item }) => (
-              <TouchableOpacity
-                onPress={() => {
-                  setLocation(item)
-                  setQuery(item)
-                  setCitySuggestions([])
-                }}
-              >
-                <Text style={styles.listItem}>{item}</Text>
-              </TouchableOpacity>
-            ),
-          }}
-          inputContainerStyle={[
-            styles.inputContainerStyle,
-            locationError && styles.locationError,
-          ]}
-          containerStyle={styles.containerStyle}
-          listContainerStyle={styles.listContainerStyle}
-          placeholder='City (e.g. New York, NY)'
-          placeholderTextColor='#666666'
-          autoCorrect={false}
-          style={{ height: 25 }}
-        />
-        {locationError && (
-          <View style={styles.error}>
-            <Text style={styles.errorMessage}>*Example format: Dallas, TX</Text>
-          </View>
-        )}
-        {/* <TextInput
+          <TextInput
+            style={[styles.input, phoneError && styles.phoneError]}
+            placeholder='Phone Number'
+            placeholderTextColor='#666666'
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+            keyboardType='phone-pad'
+            editable={!isClicked}
+          />
+          {phoneError && (
+            <View style={styles.error}>
+              <Text style={styles.errorMessage}>
+                *Phone Number should be 10 digits
+              </Text>
+            </View>
+          )}
+          <Autocomplete
+            data={citySuggestions}
+            defaultValue={query}
+            onChangeText={(text) => {
+              setQuery(text)
+              fetchCities(text)
+            }}
+            flatListProps={{
+              keyExtractor: (_, idx) => idx.toString(),
+              renderItem: ({ item }) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    setLocation(item)
+                    setQuery(item)
+                    setCitySuggestions([])
+                  }}
+                >
+                  <Text style={styles.listItem}>{item}</Text>
+                </TouchableOpacity>
+              ),
+            }}
+            inputContainerStyle={[
+              styles.inputContainerStyle,
+              locationError && styles.locationError,
+            ]}
+            containerStyle={styles.containerStyle}
+            listContainerStyle={styles.listContainerStyle}
+            placeholder='City (e.g. New York, NY)'
+            placeholderTextColor='#666666'
+            autoCorrect={false}
+            style={{ height: 25 }}
+          />
+          {locationError && (
+            <View style={styles.error}>
+              <Text style={styles.errorMessage}>
+                *Example format: Dallas, TX
+              </Text>
+            </View>
+          )}
+          {/* <TextInput
           style={[styles.input, locationError && styles.locationError]}
           placeholder='City (generate dates in your area)'
           placeholderTextColor='#666666'
@@ -282,49 +290,49 @@ export default function SignUpScreen({ navigation }: any) {
             <Text style={styles.errorMessage}>*Example format: Dallas, TX</Text>
           </View>
         )} */}
-        <TextInput
-          style={[styles.input, passwordError && styles.passWordError]}
-          placeholder='Password'
-          placeholderTextColor='#666666'
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          editable={!isClicked}
-        />
-        {passwordError && (
-          <View style={styles.error}>
-            <Text style={styles.errorMessage}>
-              *Password needs to be longer than 2 digits
-            </Text>
-          </View>
-        )}
-        <TextInput
-          style={[
-            styles.input,
-            confirmPasswordError && styles.confirmPassWordError,
-          ]}
-          placeholder='Confirm Password'
-          placeholderTextColor='#666666'
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
-          editable={!isClicked}
-        />
-        {confirmPasswordError && (
-          <View style={styles.error}>
-            <Text style={styles.errorMessage}>*Passwords do not match</Text>
-          </View>
-        )}
+          <TextInput
+            style={[styles.input, passwordError && styles.passWordError]}
+            placeholder='Password'
+            placeholderTextColor='#666666'
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            editable={!isClicked}
+          />
+          {passwordError && (
+            <View style={styles.error}>
+              <Text style={styles.errorMessage}>
+                *Password needs to be longer than 2 digits
+              </Text>
+            </View>
+          )}
+          <TextInput
+            style={[
+              styles.input,
+              confirmPasswordError && styles.confirmPassWordError,
+            ]}
+            placeholder='Confirm Password'
+            placeholderTextColor='#666666'
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry
+            editable={!isClicked}
+          />
+          {confirmPasswordError && (
+            <View style={styles.error}>
+              <Text style={styles.errorMessage}>*Passwords do not match</Text>
+            </View>
+          )}
 
-        <TouchableOpacity
-          style={styles.signUpButton}
-          onPress={handleSignUp}
-          disabled={isClicked}
-        >
-          <Text style={styles.signUpButtonText}>Sign Up</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.signUpButton}
+            onPress={handleSignUp}
+            disabled={isClicked}
+          >
+            <Text style={styles.signUpButtonText}>Sign Up</Text>
+          </TouchableOpacity>
 
-        {/* <Text style={styles.orText}>Or sign up with</Text>
+          {/* <Text style={styles.orText}>Or sign up with</Text>
 
         <View style={styles.socialButtonsContainer}>
           <TouchableOpacity
@@ -346,8 +354,9 @@ export default function SignUpScreen({ navigation }: any) {
             <Text style={styles.socialButtonText}>Facebook</Text>
           </TouchableOpacity>
         </View> */}
+        </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
