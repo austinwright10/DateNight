@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import * as Progress from 'react-native-progress'
 import { dayOfWeekStore } from 'src/stores/store'
 
 const daysOfWeek = [
