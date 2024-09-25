@@ -29,7 +29,7 @@ export default function DateNightSelectionScreen({ navigation }: any) {
       <Text style={styles.header}>Date Night</Text>
       <Text style={styles.subheader}>
         Choose a day of the week that you&apos;d like to have your date night.
-        You&apos;ll receive a reminder the morning of.
+        You&apos;ll receive your date the morning of.
       </Text>
 
       <View style={styles.daysContainer}>

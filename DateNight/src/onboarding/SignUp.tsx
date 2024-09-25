@@ -288,6 +288,7 @@ export default function SignUpScreen({ navigation }: any) {
             onChangeText={setPassword}
             secureTextEntry
             editable={!isClicked}
+            textContentType='none'
           />
           {passwordError && (
             <View style={styles.error}>
