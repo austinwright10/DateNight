@@ -5,7 +5,7 @@ export default function HomePage({ navigation }: any) {
   return (
     <View style={styles.container}>
       <View style={styles.headerView}>
-        <Text style={styles.header}>DateNight</Text>
+        <Text style={styles.header}>Date Night</Text>
         <Text style={styles.subheader}>
           Inspiring Date Ideas at Your Fingertips
         </Text>
