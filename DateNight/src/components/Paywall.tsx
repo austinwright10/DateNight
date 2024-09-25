@@ -1,6 +1,9 @@
-import { Text, StyleSheet, View } from 'react-native'
+import { Text, StyleSheet, View, Dimensions } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
+
+const { width } = Dimensions.get('window')
 export default function Paywall() {
+  const squareSize = width * 0.25
   return (
     <View style={styles.container}>
       <View style={styles.paywallContainer}>
@@ -11,7 +14,7 @@ export default function Paywall() {
               name='heart'
               size={16}
               color='#ff6666'
-              style={{ marginRight: 10 }}
+              style={{ marginRight: 15 }}
             />
             <Text style={styles.subHeader}>
               Consistent dates with your loved one
@@ -22,7 +25,7 @@ export default function Paywall() {
               name='heart'
               size={16}
               color='#ff6666'
-              style={{ marginRight: 10 }}
+              style={{ marginRight: 15 }}
             />
             <Text style={styles.subHeader}>Fully planned dates</Text>
           </View>
@@ -31,12 +34,30 @@ export default function Paywall() {
               name='heart'
               size={16}
               color='#ff6666'
-              style={{ marginRight: 10 }}
+              style={{ marginRight: 15 }}
             />
             <Text style={styles.subHeader}>
               Unique/Different ideas each week
             </Text>
           </View>
+          <View style={styles.row}>
+            <Icon
+              name='heart'
+              size={16}
+              color='#ff6666'
+              style={{ marginRight: 15 }}
+            />
+            <Text style={styles.subHeader}>Tailored to your preferences</Text>
+          </View>
+        </View>
+        <View
+          style={[
+            styles.priceContainer,
+            { width: squareSize, height: squareSize },
+          ]}
+        >
+          <Text style={styles.price}>$5.99</Text>
+          <Text>a month</Text>
         </View>
       </View>
     </View>
@@ -76,6 +97,15 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 10, // Add vertical spacing between rows
+    marginVertical: 10,
   },
+  priceContainer: {
+    borderWidth: 1,
+    marginTop: 40,
+    borderColor: 'black',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  price: { fontSize: 22 },
 })
