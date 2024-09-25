@@ -6,10 +6,37 @@ export default function Paywall() {
       <View style={styles.paywallContainer}>
         <Text style={styles.header}>Start receiving your date nights!</Text>
         <View style={styles.subContainer}>
-          <Icon name='heart' size={16} color='#ff6666' />
-          <Text style={styles.subHeader}>
-            Unlock weekly date night recommendations based on your preferences
-          </Text>
+          <View style={styles.row}>
+            <Icon
+              name='heart'
+              size={16}
+              color='#ff6666'
+              style={{ marginRight: 10 }}
+            />
+            <Text style={styles.subHeader}>
+              Consistent dates with your loved one
+            </Text>
+          </View>
+          <View style={styles.row}>
+            <Icon
+              name='heart'
+              size={16}
+              color='#ff6666'
+              style={{ marginRight: 10 }}
+            />
+            <Text style={styles.subHeader}>Fully planned dates</Text>
+          </View>
+          <View style={styles.row}>
+            <Icon
+              name='heart'
+              size={16}
+              color='#ff6666'
+              style={{ marginRight: 10 }}
+            />
+            <Text style={styles.subHeader}>
+              Unique/Different ideas each week
+            </Text>
+          </View>
         </View>
       </View>
     </View>
@@ -44,5 +71,11 @@ const styles = StyleSheet.create({
   subHeader: {
     fontSize: 16,
     textAlign: 'center',
+  },
+  row: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10, // Add vertical spacing between rows
   },
 })
