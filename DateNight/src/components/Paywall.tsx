@@ -3,7 +3,12 @@ export default function Paywall() {
   return (
     <View style={styles.container}>
       <View style={styles.paywallContainer}>
-        <Text>hi</Text>
+        <Text style={styles.header}>Start receiving your date nights!</Text>
+        <View style={styles.subContainer}>
+          <Text style={styles.subHeader}>
+            Unlock weekly date night recommendations based on your preferences
+          </Text>
+        </View>
       </View>
     </View>
   )
@@ -18,7 +23,24 @@ const styles = StyleSheet.create({
   },
   paywallContainer: {
     backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 10,
     padding: 20,
+    width: '95%',
+  },
+  header: {
+    fontSize: 22,
+    textAlign: 'center',
+    fontWeight: '500',
+    color: 'black',
+    marginBottom: 20,
+  },
+  subContainer: {
+    width: '80%',
+  },
+  subHeader: {
+    fontSize: 16,
+    textAlign: 'center',
   },
 })
