@@ -1,19 +1,12 @@
-import { useState } from 'react'
-import { Text, StyleSheet, View, Dimensions } from 'react-native'
+import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-const { width } = Dimensions.get('window')
 export default function Paywall() {
-  const [paymentSelected, setPaymentSelected] = useState(false)
-  const squareSize = width * 0.25
-
-  function togglePayment() {
-    setPaymentSelected((prev) => !prev)
-  }
   return (
     <View style={styles.container}>
       <View style={styles.paywallContainer}>
         <Text style={styles.header}>Start receiving your date nights!</Text>
+        <Text style={styles.header}>$5.99/month</Text>
         <View style={styles.subContainer}>
           <View style={styles.row}>
             <Icon
@@ -55,17 +48,29 @@ export default function Paywall() {
             />
             <Text style={styles.subHeader}>Tailored to your preferences</Text>
           </View>
+          <View style={styles.row}>
+            <Icon
+              name='heart'
+              size={16}
+              color='#ff6666'
+              style={{ marginRight: 15 }}
+            />
+            <Text style={styles.subHeader}>Grow closer to your loved one</Text>
+          </View>
         </View>
-        <View
-          style={[
-            styles.priceContainer,
-            { width: squareSize, height: squareSize },
-            paymentSelected ? styles.toggle : null,
-          ]}
-        >
-          <Text style={styles.price}>$5.99</Text>
-          <Text>a month</Text>
-        </View>
+        <TouchableOpacity style={styles.subscribeButton}>
+          <Text style={styles.subscribeButtonText}>Subscribe</Text>
+          {/* <View
+            style={[
+              styles.priceContainer,
+              { width: squareSize, height: squareSize },
+              paymentSelected ? styles.toggle : null,
+            ]}
+          >
+            <Text style={styles.price}>$5.99</Text>
+            <Text>a month</Text>
+          </View> */}
+        </TouchableOpacity>
       </View>
     </View>
   )
@@ -95,6 +100,9 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     width: '80%',
+    borderTopWidth: 2,
+    borderTopColor: 'black',
+    paddingTop: 10,
   },
   subHeader: {
     fontSize: 16,
@@ -115,5 +123,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   price: { fontSize: 22 },
-  toggle: { backgroundColor: 'grey' },
+  toggle: { backgroundColor: '#f5f5dc' },
+  subscribeButton: {
+    backgroundColor: '#ff6666',
+    padding: 15,
+    borderRadius: 8,
+    marginTop: 30,
+    alignItems: 'center',
+  },
+  subscribeButtonText: {
+    color: 'white',
+    fontSize: 18,
+  },
 })
