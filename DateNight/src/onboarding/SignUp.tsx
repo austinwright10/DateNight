@@ -58,6 +58,7 @@ export default function SignUpScreen({ navigation }: any) {
     setLocationError(false)
   }
   const locationRegex = /^([A-Za-z\s]+),\s*([A-Z]{2})$/
+  const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
 
   const handleSignUp = async () => {
     //setIsClicked(true)
@@ -92,6 +93,9 @@ export default function SignUpScreen({ navigation }: any) {
         setLocationError(true)
       }
       if (zodErrors.includes('phoneNumber')) {
+        setPhoneError(true)
+      }
+      if (!phoneRegex.test(phoneNumber)) {
         setPhoneError(true)
       }
       if (zodErrors.includes('password')) {
