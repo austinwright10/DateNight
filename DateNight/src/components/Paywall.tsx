@@ -1,9 +1,15 @@
+import { useState } from 'react'
 import { Text, StyleSheet, View, Dimensions } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 const { width } = Dimensions.get('window')
 export default function Paywall() {
+  const [paymentSelected, setPaymentSelected] = useState(false)
   const squareSize = width * 0.25
+
+  function togglePayment() {
+    setPaymentSelected((prev) => !prev)
+  }
   return (
     <View style={styles.container}>
       <View style={styles.paywallContainer}>
@@ -54,6 +60,7 @@ export default function Paywall() {
           style={[
             styles.priceContainer,
             { width: squareSize, height: squareSize },
+            paymentSelected ? styles.toggle : null,
           ]}
         >
           <Text style={styles.price}>$5.99</Text>
@@ -103,9 +110,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 40,
     borderColor: 'black',
-    borderRadius: 10,
+    borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
   },
   price: { fontSize: 22 },
+  toggle: { backgroundColor: 'grey' },
 })
