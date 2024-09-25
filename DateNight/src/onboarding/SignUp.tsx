@@ -267,7 +267,7 @@ export default function SignUpScreen({ navigation }: any) {
             placeholder='City (e.g. New York, NY)'
             placeholderTextColor='#666666'
             autoCorrect={false}
-            style={{ height: 25 }}
+            style={{ height: 20 }}
           />
           {locationError && (
             <View style={styles.error}>
@@ -276,20 +276,6 @@ export default function SignUpScreen({ navigation }: any) {
               </Text>
             </View>
           )}
-          {/* <TextInput
-          style={[styles.input, locationError && styles.locationError]}
-          placeholder='City (generate dates in your area)'
-          placeholderTextColor='#666666'
-          value={location}
-          onChangeText={setLocation}
-          onFocus={getCurrentLocation}
-          editable={!isClicked}
-        />
-        {locationError && (
-          <View style={styles.error}>
-            <Text style={styles.errorMessage}>*Example format: Dallas, TX</Text>
-          </View>
-        )} */}
           <TextInput
             style={[styles.input, passwordError && styles.passWordError]}
             placeholder='Password'

@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import * as Progress from 'react-native-progress'
 import { dayOfWeekStore } from 'src/stores/store'
 
 const daysOfWeek = [
@@ -30,6 +29,7 @@ export default function DateNightSelectionScreen({ navigation }: any) {
       <Text style={styles.header}>Date Night</Text>
       <Text style={styles.subheader}>
         Choose a day of the week that you&apos;d like to have your date night.
+        You&apos;ll receive a reminder the morning of.
       </Text>
 
       <View style={styles.daysContainer}>
