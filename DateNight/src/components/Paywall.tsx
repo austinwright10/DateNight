@@ -1,5 +1,6 @@
 import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Push from 'components/Push'
 
 export default function Paywall() {
   return (
@@ -72,6 +73,7 @@ export default function Paywall() {
           </View> */}
         </TouchableOpacity>
       </View>
+      <Push />
     </View>
   )
 }
