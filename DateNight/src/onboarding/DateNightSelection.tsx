@@ -80,10 +80,11 @@ const styles = StyleSheet.create({
     color: 'grey',
     textAlign: 'center',
     marginBottom: 10,
+    lineHeight: 25,
   },
   daysContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
     justifyContent: 'center',
     width: '100%',
   },
