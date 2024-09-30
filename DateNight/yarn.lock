@@ -7169,7 +7169,15 @@ react-native-progress@^5.0.1:
   dependencies:
     prop-types "^15.7.2"
 
-react-native-purchases@^8.2.2:
+react-native-purchases-ui@^8.2.2:
+  version "8.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-purchases-ui/-/react-native-purchases-ui-8.2.2.tgz#8ec29653454e55b481b6ae998f45d7413f9284ad"
+  integrity sha512-ytaRfz2VTbt4oNGQ6irbfC4QecLVblZDyKZqCR9UNtpy1gXJ1XuI8cu5YFGT0Y3V2AndIaWdIFQkxncjMcNpUg==
+  dependencies:
+    "@revenuecat/purchases-typescript-internal" "13.3.0"
+    react-native-purchases "8.2.2"
+
+react-native-purchases@8.2.2, react-native-purchases@^8.2.2:
   version "8.2.2"
   resolved "https://registry.yarnpkg.com/react-native-purchases/-/react-native-purchases-8.2.2.tgz#c7973077caaebed5aed0f87c1fdc2210fddc313c"
   integrity sha512-jUvOJwT78iYbuzPCQz6E4Naiqv646RZHP2oYlXr7OJuw4H2q9MYIo8wyFc2LQd62YVpqucI9+ZZsV5X27AqHOQ==
