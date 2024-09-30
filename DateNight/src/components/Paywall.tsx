@@ -1,6 +1,7 @@
 import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Push from 'components/Push'
+import Purchases from 'react-native-purchases'
 
 export default function Paywall() {
   return (
