@@ -6,11 +6,23 @@ import AddressAndPrice from 'src/onboarding/AddressAndPrice'
 import InterestSelection from 'src/onboarding/InterestSelection'
 import SignUp from 'src/onboarding/SignUp'
 import Review from 'src/onboarding/Review'
-import Paywall from 'src/components/Paywall'
+import Purchases from 'react-native-purchases'
+import { Platform } from 'react-native'
+import { useEffect } from 'react'
+//import Paywall from 'src/components/Paywall'
 
 const Stack = createNativeStackNavigator()
 
 export default function App() {
+  useEffect(() => {
+    if (Platform.OS === 'ios') {
+      Purchases.configure({ apiKey: process.env.REVENUE_CAT! })
+    } else if (Platform.OS === 'android') {
+      Purchases.configure({ apiKey: process.env.REVENUE_CAT! })
+      Purchases.configure({ apiKey: process.env.REVENUE_CAT!, useAmazon: true })
+    }
+    Purchases.getOfferings().then(console.log)
+  }, [])
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='HomePage'>
