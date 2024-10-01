@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   subheader: {
+    lineHeight: 30,
     fontSize: 18,
     color: 'grey',
     textAlign: 'center',
