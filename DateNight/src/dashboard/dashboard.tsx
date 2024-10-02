@@ -51,15 +51,14 @@ export default function Dashboard() {
       <View style={styles.profileButtonContainer}>
         <TouchableOpacity
           style={styles.profileButton}
-          // /onPress={() => navigation.navigate('Profile')} // Navigate to Profile screen
+          //onPress={() => navigation.navigate('Profile')} // Navigate to Profile screen
         >
           <Ionicons name='person' size={24} color='white' />
         </TouchableOpacity>
       </View>
 
-      {/* FlatList Section */}
       <View style={styles.flatListContainer}>
-        <Text>All Your Dates So Far</Text>
+        <Text style={styles.header}>Past Dates</Text>
         <FlatList
           data={items}
           renderItem={renderItem}
@@ -81,16 +80,23 @@ const styles = StyleSheet.create({
   },
   profileButtonContainer: {
     position: 'absolute',
-    top: 75, // Adjust as needed
-    right: 25, // Adjust as needed
+    top: 80, // Adjust as needed
+    right: 35, // Adjust as needed
+  },
+  header: {
+    fontSize: 30,
+    fontWeight: '500',
+    color: 'black',
+    marginBottom: 10,
+    marginLeft: 10,
   },
   flatListContainer: {
     flexGrow: 1,
     width: '100%',
-    paddingTop: 80, // Add padding to avoid overlap with the button
+    paddingTop: 60, // Add padding to avoid overlap with the button
   },
   listContainer: {
-    padding: 20, // Add padding to the FlatList
+    padding: 10, // Add padding to the FlatList
   },
   item: {
     backgroundColor: 'white',
