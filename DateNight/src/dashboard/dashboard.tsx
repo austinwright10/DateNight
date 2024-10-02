@@ -39,12 +39,18 @@ export default function Dashboard() {
 
       <View style={styles.flatListContainer}>
         <Text style={styles.header}>Previous Dates</Text>
-        <FlatList
-          data={previousDates}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.listContainer}
-        />
+        {previousDates.length !== 0 ? (
+          <FlatList
+            data={previousDates}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.listContainer}
+          />
+        ) : (
+          <Text style={styles.noDatesText}>
+            Stay tuned for your first date!
+          </Text>
+        )}
       </View>
     </View>
   )
@@ -97,5 +103,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
+  },
+  noDatesText: {
+    fontSize: 18,
+    color: '#333',
+    textAlign: 'center',
+    marginTop: 20,
   },
 })
