@@ -34,15 +34,16 @@ const items = [
   { id: '3', title: 'Item 3' },
   { id: '4', title: 'Item 4' },
   { id: '5', title: 'Item 5' },
-  // Add more items as needed
 ]
 
 export default function Dashboard() {
-  const navigation = useNavigation() // Get the navigation object
+  const navigation = useNavigation()
 
   const renderItem = ({ item }: { item: { id: string; title: string } }) => (
     <View style={styles.item}>
-      <Text style={styles.itemText}>{item.title}</Text>
+      <TouchableOpacity onPress={() => console.log('clicaddddddked')}>
+        <Text style={styles.itemText}>{item.title}</Text>
+      </TouchableOpacity>
     </View>
   )
 
@@ -51,9 +52,9 @@ export default function Dashboard() {
       <View style={styles.profileButtonContainer}>
         <TouchableOpacity
           style={styles.profileButton}
-          //onPress={() => navigation.navigate('Profile')} // Navigate to Profile screen
+          onPress={() => console.log('clieasdf')}
         >
-          <Ionicons name='person' size={24} color='white' />
+          <Ionicons name='person' size={28} color='white' />
         </TouchableOpacity>
       </View>
 
@@ -80,8 +81,8 @@ const styles = StyleSheet.create({
   },
   profileButtonContainer: {
     position: 'absolute',
-    top: 80, // Adjust as needed
-    right: 35, // Adjust as needed
+    top: 80,
+    right: 35,
   },
   header: {
     fontSize: 30,
@@ -93,10 +94,10 @@ const styles = StyleSheet.create({
   flatListContainer: {
     flexGrow: 1,
     width: '100%',
-    paddingTop: 60, // Add padding to avoid overlap with the button
+    paddingTop: 60,
   },
   listContainer: {
-    padding: 10, // Add padding to the FlatList
+    padding: 10,
   },
   item: {
     backgroundColor: 'white',
@@ -112,8 +113,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff6666',
     borderRadius: 50,
     padding: 10,
-    elevation: 5, // Add shadow for Android
-    shadowColor: '#000', // Add shadow for iOS
+    elevation: 5,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
