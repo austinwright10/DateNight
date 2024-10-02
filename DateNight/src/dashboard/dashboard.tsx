@@ -1,23 +1,3 @@
-// import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
-
-// export default function Dashboard() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Test</Text>
-//     </View>
-//   )
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#ffcccc',
-//     padding: 25,
-//   },
-// })
-
 import {
   Text,
   View,
@@ -25,19 +5,14 @@ import {
   StyleSheet,
   FlatList,
 } from 'react-native'
-import { Ionicons } from '@expo/vector-icons' // Import Ionicons for the user icon
-import { useNavigation } from '@react-navigation/native' // Import useNavigation for navigation
-
-const items = [
-  { id: '1', title: 'Item 1' },
-  { id: '2', title: 'Item 2' },
-  { id: '3', title: 'Item 3' },
-  { id: '4', title: 'Item 4' },
-  { id: '5', title: 'Item 5' },
-]
+import { Ionicons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
+import { useDateStore } from 'src/stores/store'
+import { useEffect } from 'react'
 
 export default function Dashboard() {
   const navigation = useNavigation()
+  const { previousDates, loadDates } = useDateStore()
 
   const renderItem = ({ item }: { item: { id: string; title: string } }) => (
     <View style={styles.item}>
@@ -46,6 +21,10 @@ export default function Dashboard() {
       </TouchableOpacity>
     </View>
   )
+
+  useEffect(() => {
+    loadDates()
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -59,9 +38,9 @@ export default function Dashboard() {
       </View>
 
       <View style={styles.flatListContainer}>
-        <Text style={styles.header}>Past Dates</Text>
+        <Text style={styles.header}>Previous Dates</Text>
         <FlatList
-          data={items}
+          data={previousDates}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContainer}
