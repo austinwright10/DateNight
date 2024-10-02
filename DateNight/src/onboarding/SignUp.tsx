@@ -182,9 +182,6 @@ export default function SignUpScreen({ navigation }: any) {
           handleModalVisibility={handleModalVisibility}
           isVisible={isModalVisible}
           phoneNumber={phoneNumber}
-          firstName={firstName}
-          lastName={lastName}
-          location={location}
           next={goNext}
         />
         <Text style={styles.header}>Create Your Account</Text>

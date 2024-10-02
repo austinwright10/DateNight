@@ -13,7 +13,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.austin.datenight"
+      "bundleIdentifier": "com.austin.datenight",
+      "icon": "./assets/DNIcon.png"
     },
     "android": {
       "adaptiveIcon": {
