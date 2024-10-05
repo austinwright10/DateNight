@@ -14,6 +14,12 @@ import OTPModal from 'src/components/OTPModal'
 import { supabase } from 'src/lib/supabase'
 import Autocomplete from 'react-native-autocomplete-input'
 import { debounce } from 'lodash'
+import {
+  dayOfWeekStore,
+  interestStore,
+  priceStore,
+  travelStore,
+} from 'src/stores/store'
 
 export default function SignUpScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState('')
@@ -33,6 +39,10 @@ export default function SignUpScreen({ navigation }: any) {
   const [citySuggestions, setCitySuggestions] = useState([])
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
+  const selectedDay = dayOfWeekStore((state: any) => state.day)
+  const selectedPrice = priceStore((state: any) => state.price)
+  const selectedTravel = travelStore((state: any) => state.travel)
+  const interests = interestStore((state: any) => state.interests)
   const geoDBKEY = process.env.GEODB_KEY!
 
   const signUpSchema = z
@@ -162,11 +172,19 @@ export default function SignUpScreen({ navigation }: any) {
   }
 
   async function goNext() {
+    const onboardData = {
+      selectedDay,
+      selectedPrice,
+      selectedTravel,
+      interests,
+    }
+    const onboardJSON = JSON.stringify(onboardData)
     const { error } = await supabase.from('users').insert({
       first_name: firstName,
       last_name: lastName,
       phone_number: formatPhoneNumber(phoneNumber),
       location: location,
+      onboard: onboardJSON,
     })
     setIsModalVisible(false)
     navigation.navigate('Paywall')

@@ -13,7 +13,7 @@ export default function HomePage({ navigation }: any) {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          navigation.navigate('Dashboard')
+          navigation.navigate('DateNightSelection')
         }}
       >
         <Text style={styles.buttonText}>Start</Text>
