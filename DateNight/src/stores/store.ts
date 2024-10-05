@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export const dayOfWeekStore = create((set) => ({
   day: '',
@@ -24,4 +25,27 @@ export const interestStore = create((set) => ({
         : [...state.interests, newInterest]
       return { interests: updatedInterests }
     }),
+}))
+
+interface DateStore {
+  previousDates: Array<{ id: string; title: string }>
+  addDate: (date: { id: string; title: string }) => void
+  loadDates: () => Promise<void>
+}
+
+export const useDateStore = create<DateStore>((set) => ({
+  previousDates: [],
+  addDate: async (date) => {
+    set((state) => {
+      const updatedDates = [...state.previousDates, date]
+      AsyncStorage.setItem('previousDates', JSON.stringify(updatedDates))
+      return { previousDates: updatedDates }
+    })
+  },
+  loadDates: async () => {
+    const storedDates = await AsyncStorage.getItem('previousDates')
+    if (storedDates) {
+      set({ previousDates: JSON.parse(storedDates) })
+    }
+  },
 }))

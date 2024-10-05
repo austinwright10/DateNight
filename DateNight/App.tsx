@@ -10,6 +10,7 @@ import Purchases from 'react-native-purchases'
 import { Platform } from 'react-native'
 import { useEffect } from 'react'
 import Paywall from 'src/components/Paywall'
+import Dashboard from 'src/dashboard/dashboard'
 
 const Stack = createNativeStackNavigator()
 
@@ -59,6 +60,15 @@ export default function App() {
         <Stack.Screen
           name='Paywall'
           component={Paywall}
+          options={{
+            headerShown: false,
+            headerLeft: () => null,
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name='Dashboard'
+          component={Dashboard}
           options={{
             headerShown: false,
             headerLeft: () => null,
