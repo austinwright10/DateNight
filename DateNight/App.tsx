@@ -11,6 +11,7 @@ import { Platform } from 'react-native'
 import { useEffect } from 'react'
 import Paywall from 'src/components/Paywall'
 import Dashboard from 'src/dashboard/dashboard'
+import Profile from 'src/profile/Profile'
 
 const Stack = createNativeStackNavigator()
 
@@ -73,6 +74,13 @@ export default function App() {
             headerShown: false,
             headerLeft: () => null,
             gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name='Profile'
+          component={Profile}
+          options={{
+            headerShown: false,
           }}
         />
       </Stack.Navigator>
