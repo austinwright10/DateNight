@@ -32,15 +32,6 @@ export default function App() {
           component={HomePage}
           options={{ headerShown: false }}
         />
-        {/* <Stack.Screen
-          name='Dashboard'
-          component={Dashboard}
-          options={{
-            headerShown: false,
-            headerLeft: () => null,
-            gestureEnabled: false,
-          }}
-        /> */}
         <Stack.Screen
           name='DateNightSelection'
           component={DateNightSelection}
@@ -69,6 +60,15 @@ export default function App() {
         <Stack.Screen
           name='Paywall'
           component={Paywall}
+          options={{
+            headerShown: false,
+            headerLeft: () => null,
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name='Dashboard'
+          component={Dashboard}
           options={{
             headerShown: false,
             headerLeft: () => null,
