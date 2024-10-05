@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   View,
   Text,
@@ -8,37 +8,84 @@ import {
   ScrollView,
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import {
-  dayOfWeekStore,
-  interestStore,
-  priceStore,
-  travelStore,
-} from '../stores/store'
+import { Ionicons } from '@expo/vector-icons'
+import { supabase } from '../lib/supabase'
+import { interestStore } from '../stores/store'
 
 export default function Profile() {
   const navigation = useNavigation()
-  const selectedDay = dayOfWeekStore((state: any) => state.day)
-  const setSelectedDay = dayOfWeekStore((state: any) => state.setDay)
-  const selectedPrice = priceStore((state: any) => state.price)
-  const setSelectedPrice = priceStore((state: any) => state.setPrice)
-  const selectedTravel = travelStore((state: any) => state.travel)
-  const setSelectedTravel = travelStore((state: any) => state.setTravel)
-  const interests = interestStore((state: any) => state.interests)
-  const setInterests = interestStore((state: any) => state.setInterests)
-
+  const [userInfo, setUserInfo] = useState({
+    phone_number: '',
+    location: '',
+  })
+  const [editingPhone, setEditingPhone] = useState(false)
+  const [editingLocation, setEditingLocation] = useState(false)
   const [tempPhone, setTempPhone] = useState('')
   const [tempLocation, setTempLocation] = useState('')
 
-  //   const handleSave = () => {
-  //     setPhoneNumber(tempPhone)
-  //     setLocation(tempLocation)
-  //     // You might want to add a confirmation message here
-  //   }
+  const interests = interestStore((state: any) => state.interests)
+  const setInterests = interestStore((state: any) => state.setInterests)
 
-  const handleSignOut = () => {
-    // Implement your sign out logic here
-    // For example, clear all stores and navigate to the login screen
-    // navigation.navigate('Login')
+  useEffect(() => {
+    fetchUserInfo()
+  }, [])
+
+  const fetchUserInfo = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    if (user) {
+      const { data, error } = await supabase
+        .from('users')
+        .select('phone_number, location')
+        .eq('id', user.id)
+        .single()
+      console.log('data ', data)
+
+      if (error) {
+        console.error('Error fetching user info:', error)
+      } else if (data) {
+        setUserInfo(data)
+        setTempPhone(data.phone_number)
+        setTempLocation(data.location)
+      }
+    } else {
+      console.log('error loading user data')
+    }
+  }
+
+  const handleSave = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    if (user) {
+      const { error } = await supabase
+        .from('users')
+        .update({
+          phone_number: tempPhone,
+          location: tempLocation,
+        })
+        .eq('id', user.id)
+
+      if (error) {
+        console.error('Error updating user info:', error)
+      } else {
+        setUserInfo({
+          ...userInfo,
+          phone_number: tempPhone,
+          location: tempLocation,
+        })
+        setEditingPhone(false)
+        setEditingLocation(false)
+      }
+    }
+  }
+
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut()
+    // if (!error) {
+    //   navigation.navigate('Login')
+    // }
   }
 
   const toggleInterest = (interest: string) => {
@@ -51,23 +98,49 @@ export default function Profile() {
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Phone Number</Text>
-        <TextInput
-          style={styles.input}
-          value={tempPhone}
-          onChangeText={setTempPhone}
-          placeholder='Enter your phone number'
-          keyboardType='phone-pad'
-        />
+        <View style={styles.infoRow}>
+          {editingPhone ? (
+            <TextInput
+              style={styles.input}
+              value={tempPhone}
+              onChangeText={setTempPhone}
+              keyboardType='phone-pad'
+            />
+          ) : (
+            <Text style={styles.infoText}>{userInfo.phone_number}</Text>
+          )}
+          <TouchableOpacity onPress={() => setEditingPhone(!editingPhone)}>
+            <Ionicons
+              name={editingPhone ? 'checkmark' : 'pencil'}
+              size={24}
+              color='#333'
+            />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Location</Text>
-        <TextInput
-          style={styles.input}
-          value={tempLocation}
-          onChangeText={setTempLocation}
-          placeholder='Enter your location'
-        />
+        <View style={styles.infoRow}>
+          {editingLocation ? (
+            <TextInput
+              style={styles.input}
+              value={tempLocation}
+              onChangeText={setTempLocation}
+            />
+          ) : (
+            <Text style={styles.infoText}>{userInfo.location}</Text>
+          )}
+          <TouchableOpacity
+            onPress={() => setEditingLocation(!editingLocation)}
+          >
+            <Ionicons
+              name={editingLocation ? 'checkmark' : 'pencil'}
+              size={24}
+              color='#333'
+            />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <Text style={styles.label}>Interests</Text>
@@ -86,9 +159,11 @@ export default function Profile() {
         ))}
       </View>
 
-      <TouchableOpacity style={styles.saveButton}>
-        <Text style={styles.buttonText}>Save Changes</Text>
-      </TouchableOpacity>
+      {(editingPhone || editingLocation) && (
+        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+          <Text style={styles.buttonText}>Save Changes</Text>
+        </TouchableOpacity>
+      )}
 
       <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
         <Text style={styles.buttonText}>Sign Out</Text>
@@ -158,5 +233,17 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  infoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 5,
+  },
+  infoText: {
+    fontSize: 16,
+    color: '#333',
   },
 })
