@@ -32,7 +32,7 @@ export default function App() {
           component={HomePage}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name='Dashboard'
           component={Dashboard}
           options={{
@@ -40,7 +40,7 @@ export default function App() {
             headerLeft: () => null,
             gestureEnabled: false,
           }}
-        />
+        /> */}
         <Stack.Screen
           name='DateNightSelection'
           component={DateNightSelection}
@@ -66,7 +66,7 @@ export default function App() {
           component={SignUp}
           options={{ headerShown: false }}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name='Paywall'
           component={Paywall}
           options={{
@@ -74,7 +74,7 @@ export default function App() {
             headerLeft: () => null,
             gestureEnabled: false,
           }}
-        /> */}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )
