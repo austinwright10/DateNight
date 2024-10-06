@@ -51,8 +51,8 @@ export default function SignUpScreen({ navigation }: any) {
       lastName: z.string().min(2),
       location: z.string().min(2),
       phoneNumber: z.string().min(10),
-      password: z.string().min(1),
-      confirmPassword: z.string().min(1),
+      password: z.string().min(6),
+      confirmPassword: z.string().min(6),
     })
     .refine((data) => data.password === data.confirmPassword, {
       message: 'passwords do not match',
@@ -172,22 +172,42 @@ export default function SignUpScreen({ navigation }: any) {
   }
 
   async function goNext() {
-    const onboardData = {
-      selectedDay,
-      selectedPrice,
-      selectedTravel,
-      interests,
+    try {
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        phone: formatPhoneNumber(phoneNumber),
+        password: password,
+      })
+      if (authError) {
+        throw authError
+      }
+      if (!authData.user) {
+        throw new Error('User creation failed')
+      }
+      const onboardData = {
+        selectedDay,
+        selectedPrice,
+        selectedTravel,
+        interests,
+      }
+      const onboardJSON = JSON.stringify(onboardData)
+
+      const { error: insertError } = await supabase.from('users').insert({
+        id: authData.user.id,
+        first_name: firstName,
+        last_name: lastName,
+        phone_number: formatPhoneNumber(phoneNumber),
+        location: location,
+        onboard: onboardJSON,
+      })
+      if (insertError) {
+        throw insertError
+      }
+      setIsModalVisible(false)
+      navigation.navigate('Profile')
+    } catch (error: any) {
+      console.error('Error during sign up:', error)
+      Alert.alert('Sign Up Error', error.message)
     }
-    const onboardJSON = JSON.stringify(onboardData)
-    const { error } = await supabase.from('users').insert({
-      first_name: firstName,
-      last_name: lastName,
-      phone_number: formatPhoneNumber(phoneNumber),
-      location: location,
-      onboard: onboardJSON,
-    })
-    setIsModalVisible(false)
-    navigation.navigate('Paywall')
   }
 
   return (
@@ -308,7 +328,7 @@ export default function SignUpScreen({ navigation }: any) {
           {passwordError && (
             <View style={styles.error}>
               <Text style={styles.errorMessage}>
-                *Password needs to be longer than 2 digits
+                *Password needs must be at least 6 characters
               </Text>
             </View>
           )}

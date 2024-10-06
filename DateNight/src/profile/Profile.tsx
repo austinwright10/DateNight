@@ -33,6 +33,7 @@ export default function Profile() {
   const fetchUserInfo = async () => {
     const {
       data: { user },
+      error,
     } = await supabase.auth.getUser()
     if (user) {
       const { data, error } = await supabase
@@ -50,7 +51,7 @@ export default function Profile() {
         setTempLocation(data.location)
       }
     } else {
-      console.log('error loading user data')
+      console.log(error)
     }
   }
 

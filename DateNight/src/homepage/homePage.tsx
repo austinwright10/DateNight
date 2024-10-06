@@ -13,7 +13,7 @@ export default function HomePage({ navigation }: any) {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          navigation.navigate('Profile')
+          navigation.navigate('SignUp')
         }}
       >
         <Text style={styles.buttonText}>Start</Text>

@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { useState, useEffect } from 'react'
+import { Text, View, StyleSheet, Alert } from 'react-native'
 import { OtpInput } from 'react-native-otp-entry'
 import { supabase } from 'src/lib/supabase'
 import { useNavigation } from '@react-navigation/native'
+import { TouchableOpacity } from 'react-native'
 
 type OTPProps = {
   phoneNumber: string
@@ -14,6 +15,12 @@ export default function OTP({ phoneNumber, showModal, goNext }: OTPProps) {
   const [otpCode, setOTPCode] = useState('')
   const navigation = useNavigation()
 
+  useEffect(() => {
+    if (otpCode.length === 6) {
+      verifyOTP(otpCode)
+    }
+  }, [otpCode])
+
   function formatPhoneNumber(phoneNumber: string): string {
     const cleaned = ('' + phoneNumber).replace(/\D/g, '')
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
@@ -23,13 +30,34 @@ export default function OTP({ phoneNumber, showModal, goNext }: OTPProps) {
     return phoneNumber
   }
 
+  async function verifyOTP(otp: string) {
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        phone: formatPhoneNumber(phoneNumber),
+        token: otp,
+        type: 'sms',
+      })
+
+      if (error) throw error
+
+      if (data.user) {
+        goNext()
+      }
+    } catch (error: any) {
+      console.error('Error during OTP verification:', error)
+      Alert.alert('Verification Error', error.message)
+      setOTPCode('')
+    }
+  }
+
   return (
     <View>
       <Text style={styles.text}>
-        {formatPhoneNumber(phoneNumber)} is the number we have. If correct,
-        please continue.
+        {`Enter the six digit code we sent to ${formatPhoneNumber(
+          phoneNumber
+        )}`}
       </Text>
-      {/* <OtpInput
+      <OtpInput
         numberOfDigits={6}
         onTextChange={(text: string) => setOTPCode(text)}
         theme={{
@@ -37,15 +65,12 @@ export default function OTP({ phoneNumber, showModal, goNext }: OTPProps) {
           focusedPinCodeContainerStyle: styles.focusedPinCodeContainer,
         }}
         focusColor={'black'}
-      /> */}
-      <TouchableOpacity style={styles.submitButton} onPress={goNext}>
-        <Text style={styles.submitButtonText}>Continue</Text>
-      </TouchableOpacity>
+      />
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => showModal(false)}
       >
-        <Text style={styles.backButtonText}>Back</Text>
+        <Text style={styles.backButtonText}>Resend Code</Text>
       </TouchableOpacity>
     </View>
   )
