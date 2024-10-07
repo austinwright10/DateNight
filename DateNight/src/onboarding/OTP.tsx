@@ -53,9 +53,7 @@ export default function OTP({ phoneNumber, showModal, goNext }: OTPProps) {
   return (
     <View>
       <Text style={styles.text}>
-        {`Enter the six digit code we sent to ${formatPhoneNumber(
-          phoneNumber
-        )}`}
+        Enter the 6 digit code we sent to {formatPhoneNumber(phoneNumber)}.
       </Text>
       <OtpInput
         numberOfDigits={6}
@@ -66,11 +64,14 @@ export default function OTP({ phoneNumber, showModal, goNext }: OTPProps) {
         }}
         focusColor={'black'}
       />
+      {/* <TouchableOpacity style={styles.submitButton} onPress={goNext}>
+        <Text style={styles.submitButtonText}>Continue</Text>
+      </TouchableOpacity> */}
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => showModal(false)}
       >
-        <Text style={styles.backButtonText}>Resend Code</Text>
+        <Text style={styles.backButtonText}>Back</Text>
       </TouchableOpacity>
     </View>
   )

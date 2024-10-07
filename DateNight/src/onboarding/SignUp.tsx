@@ -85,9 +85,12 @@ export default function SignUpScreen({ navigation }: any) {
       resetErrors()
       setIsModalVisible(true)
       // OTP LOGIC RIGHT HERE
-      // const { data, error } = await supabase.auth.signInWithOtp({
-      //   phone: phoneNumber,
-      // })
+      const { data, error } = await supabase.auth.signInWithOtp({
+        phone: phoneNumber,
+      })
+      if (error) {
+        throw error.message
+      }
     } catch (error: any) {
       //setIsClicked(false)
       const zodErrors = error.errors.map((err: any) => err.path[0])
@@ -166,9 +169,9 @@ export default function SignUpScreen({ navigation }: any) {
     const cleaned = ('' + phoneNumber).replace(/\D/g, '')
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
     if (match) {
-      return `(${match[1]})-${match[2]}-${match[3]}`
+      return `+1${match[1]}${match[2]}${match[3]}` // Assuming US numbers
     }
-    return phoneNumber
+    return '+1' + phoneNumber // Assuming US numbers
   }
 
   async function goNext() {
