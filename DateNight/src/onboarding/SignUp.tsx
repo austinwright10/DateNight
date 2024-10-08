@@ -194,13 +194,15 @@ export default function SignUpScreen({ navigation }: any) {
       }
       const onboardJSON = JSON.stringify(onboardData)
 
-      const { error: insertError } = await supabase.from('users').insert({
-        first_name: firstName,
-        last_name: lastName,
-        phone_number: formatPhoneNumber(phoneNumber),
-        location: location,
-        onboard: onboardJSON,
-      })
+      const { error: insertError } = await supabase
+        .from('registered_users')
+        .insert({
+          first_name: firstName,
+          last_name: lastName,
+          phone_number: formatPhoneNumber(phoneNumber),
+          location: location,
+          onboard: onboardJSON,
+        })
       if (insertError) {
         throw insertError
       }
