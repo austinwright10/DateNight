@@ -53,9 +53,10 @@ export default function OTP({ phoneNumber, showModal, goNext }: OTPProps) {
   return (
     <View>
       <Text style={styles.text}>
-        Enter the 6 digit code we sent to {formatPhoneNumber(phoneNumber)}.
+        {formatPhoneNumber(phoneNumber)} is the number we have. If correct,
+        press continue.
       </Text>
-      <OtpInput
+      {/* <OtpInput
         numberOfDigits={6}
         onTextChange={(text: string) => setOTPCode(text)}
         theme={{
@@ -63,10 +64,10 @@ export default function OTP({ phoneNumber, showModal, goNext }: OTPProps) {
           focusedPinCodeContainerStyle: styles.focusedPinCodeContainer,
         }}
         focusColor={'black'}
-      />
-      {/* <TouchableOpacity style={styles.submitButton} onPress={goNext}>
+      /> */}
+      <TouchableOpacity style={styles.submitButton} onPress={goNext}>
         <Text style={styles.submitButtonText}>Continue</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => showModal(false)}

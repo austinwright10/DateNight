@@ -85,12 +85,12 @@ export default function SignUpScreen({ navigation }: any) {
       resetErrors()
       setIsModalVisible(true)
       // OTP LOGIC RIGHT HERE
-      const { data, error } = await supabase.auth.signInWithOtp({
-        phone: phoneNumber,
-      })
-      if (error) {
-        throw error.message
-      }
+      // const { data, error } = await supabase.auth.signInWithOtp({
+      //   phone: phoneNumber,
+      // })
+      // if (error) {
+      //   throw error.message
+      // }
     } catch (error: any) {
       //setIsClicked(false)
       const zodErrors = error.errors.map((err: any) => err.path[0])
@@ -176,16 +176,16 @@ export default function SignUpScreen({ navigation }: any) {
 
   async function goNext() {
     try {
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        phone: formatPhoneNumber(phoneNumber),
-        password: password,
-      })
-      if (authError) {
-        throw authError
-      }
-      if (!authData.user) {
-        throw new Error('User creation failed')
-      }
+      // const { data: authData, error: authError } = await supabase.auth.signUp({
+      //   phone: formatPhoneNumber(phoneNumber),
+      //   password: password,
+      // })
+      // if (authError) {
+      //   throw authError
+      // }
+      // if (!authData.user) {
+      //   throw new Error('User creation failed')
+      // }
       const onboardData = {
         selectedDay,
         selectedPrice,
@@ -195,7 +195,6 @@ export default function SignUpScreen({ navigation }: any) {
       const onboardJSON = JSON.stringify(onboardData)
 
       const { error: insertError } = await supabase.from('users').insert({
-        id: authData.user.id,
         first_name: firstName,
         last_name: lastName,
         phone_number: formatPhoneNumber(phoneNumber),
@@ -208,8 +207,8 @@ export default function SignUpScreen({ navigation }: any) {
       setIsModalVisible(false)
       navigation.navigate('Profile')
     } catch (error: any) {
-      console.error('Error during sign up:', error)
-      Alert.alert('Sign Up Error', error.message)
+      // console.error('Error during sign up:', error)
+      // Alert.alert('Sign Up Error', error.message)
     }
   }
 

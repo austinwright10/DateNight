@@ -27,32 +27,12 @@ export default function Profile() {
   const setInterests = interestStore((state: any) => state.setInterests)
 
   useEffect(() => {
-    fetchUserInfo()
+    //fetchUserInfo()
   }, [])
 
   const fetchUserInfo = async () => {
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.getUser()
-    if (user) {
-      const { data, error } = await supabase
-        .from('users')
-        .select('phone_number, location')
-        .eq('id', user.id)
-        .single()
-      console.log('data ', data)
-
-      if (error) {
-        console.error('Error fetching user info:', error)
-      } else if (data) {
-        setUserInfo(data)
-        setTempPhone(data.phone_number)
-        setTempLocation(data.location)
-      }
-    } else {
-      console.log(error)
-    }
+    const { data, error } = await supabase.from('users').select('uuid').single()
+    console.log('data ', data)
   }
 
   const handleSave = async () => {
