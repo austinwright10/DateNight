@@ -13,7 +13,6 @@ import { supabase } from '../lib/supabase'
 import { interestStore } from '../stores/store'
 
 export default function Profile() {
-  const navigation = useNavigation()
   const [userInfo, setUserInfo] = useState({
     phone_number: '',
     location: '',

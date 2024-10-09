@@ -19,6 +19,7 @@ import {
   interestStore,
   priceStore,
   travelStore,
+  userIDStore,
 } from 'src/stores/store'
 
 export default function SignUpScreen({ navigation }: any) {
@@ -44,6 +45,7 @@ export default function SignUpScreen({ navigation }: any) {
   const selectedTravel = travelStore((state: any) => state.travel)
   const interests = interestStore((state: any) => state.interests)
   const geoDBKEY = process.env.GEODB_KEY!
+  const setID = userIDStore((state: any) => state.setID)
 
   const signUpSchema = z
     .object({
@@ -194,7 +196,7 @@ export default function SignUpScreen({ navigation }: any) {
       }
       const onboardJSON = JSON.stringify(onboardData)
 
-      const { error: insertError } = await supabase
+      const { data, error: insertError } = await supabase
         .from('registered_users')
         .insert({
           first_name: firstName,
@@ -203,14 +205,18 @@ export default function SignUpScreen({ navigation }: any) {
           location: location,
           onboard: onboardJSON,
         })
+        .select('id')
       if (insertError) {
         throw insertError
+      }
+      if (data) {
+        setID(data)
+        console.log('data ', data)
       }
       setIsModalVisible(false)
       navigation.navigate('Profile')
     } catch (error: any) {
-      // console.error('Error during sign up:', error)
-      // Alert.alert('Sign Up Error', error.message)
+      console.log('error ', error)
     }
   }
 

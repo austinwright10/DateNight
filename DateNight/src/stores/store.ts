@@ -50,7 +50,7 @@ export const useDateStore = create<DateStore>((set) => ({
   },
 }))
 
-export const userID = create((set) => ({
-  id: '',
+export const userIDStore = create((set) => ({
+  id: null,
   setID: (new_id: string) => set({ id: new_id }),
 }))
