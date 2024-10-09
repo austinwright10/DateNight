@@ -49,3 +49,8 @@ export const useDateStore = create<DateStore>((set) => ({
     }
   },
 }))
+
+export const userID = create((set) => ({
+  id: '',
+  setID: (new_id: string) => set({ id: new_id }),
+}))
