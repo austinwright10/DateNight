@@ -10,7 +10,7 @@ import {
 import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { supabase } from '../lib/supabase'
-import { interestStore } from '../stores/store'
+import { interestStore, userIDStore } from '../stores/store'
 
 export default function Profile() {
   const [userInfo, setUserInfo] = useState({
@@ -21,23 +21,33 @@ export default function Profile() {
   const [editingLocation, setEditingLocation] = useState(false)
   const [tempPhone, setTempPhone] = useState('')
   const [tempLocation, setTempLocation] = useState('')
+  const userID = userIDStore((state: any) => state.id)
 
   const interests = interestStore((state: any) => state.interests)
   const setInterests = interestStore((state: any) => state.setInterests)
 
   useEffect(() => {
-    //fetchUserInfo()
+    fetchUserInfo()
+    console.log('user idddddd ', userID[0].id)
   }, [])
 
   const fetchUserInfo = async () => {
-    const { data, error } = await supabase.from('users').select('uuid').single()
-    console.log('data ', data)
+    const { data, error } = await supabase
+      .from('registered_users')
+      .select('id, phone_number, location, onboard')
+      .eq('id', userID[0].id)
+      .single()
+    if (error) {
+      console.log('error from profile ', error)
+    } else {
+      console.log('data ', data)
+    }
   }
 
   const handleSave = async () => {
     const {
       data: { user },
-    } = await supabase.auth.getUser()
+    } = await supabase.auth.getUser() // handle retrieveing the user from the table here
     if (user) {
       const { error } = await supabase
         .from('users')
