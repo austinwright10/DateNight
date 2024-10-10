@@ -211,7 +211,6 @@ export default function SignUpScreen({ navigation }: any) {
       }
       if (data) {
         setID(data)
-        console.log('data ', data)
       }
       setIsModalVisible(false)
       navigation.navigate('Profile')

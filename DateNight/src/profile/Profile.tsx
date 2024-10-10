@@ -28,7 +28,6 @@ export default function Profile() {
 
   useEffect(() => {
     fetchUserInfo()
-    console.log('user idddddd ', userID[0].id)
   }, [])
 
   const fetchUserInfo = async () => {
@@ -87,18 +86,11 @@ export default function Profile() {
       <Text style={styles.header}>Profile</Text>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Phone Number</Text>
+        <Text style={styles.label}>Location</Text>
         <View style={styles.infoRow}>
-          {editingPhone ? (
-            <TextInput
-              style={styles.input}
-              value={tempPhone}
-              onChangeText={setTempPhone}
-              keyboardType='phone-pad'
-            />
-          ) : (
-            <Text style={styles.infoText}>{userInfo.phone_number}</Text>
-          )}
+          <View>
+            <Text>placeholder</Text>
+          </View>
           <TouchableOpacity onPress={() => setEditingPhone(!editingPhone)}>
             <Ionicons
               name={editingPhone ? 'checkmark' : 'pencil'}
@@ -110,7 +102,7 @@ export default function Profile() {
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Location</Text>
+        <Text style={styles.label}>Phone Number</Text>
         <View style={styles.infoRow}>
           {editingLocation ? (
             <TextInput
@@ -179,7 +171,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   label: {
-    fontSize: 16,
+    fontSize: 20,
     marginBottom: 5,
     color: '#333',
   },
@@ -228,12 +220,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: 'white',
     padding: 10,
+    paddingLeft: 0,
     borderRadius: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
   },
   infoText: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#333',
   },
 })
