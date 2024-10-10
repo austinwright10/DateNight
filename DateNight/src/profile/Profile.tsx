@@ -16,6 +16,8 @@ export default function Profile() {
   const [userInfo, setUserInfo] = useState({
     phone_number: '',
     location: '',
+    budget: '',
+    travel: '',
   })
   const [editingPhone, setEditingPhone] = useState(false)
   const [editingLocation, setEditingLocation] = useState(false)
@@ -40,6 +42,13 @@ export default function Profile() {
       console.log('error from profile ', error)
     } else {
       console.log('data ', data)
+      const onboardData = data.onboard ? JSON.parse(data.onboard) : ''
+      setUserInfo({
+        phone_number: data.phone_number || '',
+        location: data.location || '',
+        budget: onboardData.selectedPrice || '',
+        travel: onboardData.selectedTravel || '',
+      })
     }
   }
 
@@ -89,7 +98,7 @@ export default function Profile() {
         <Text style={styles.label}>Location</Text>
         <View style={styles.infoRow}>
           <View>
-            <Text>placeholder</Text>
+            <Text style={styles.infoText}>{userInfo.location}</Text>
           </View>
           <TouchableOpacity onPress={() => setEditingPhone(!editingPhone)}>
             <Ionicons
@@ -104,15 +113,39 @@ export default function Profile() {
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Phone Number</Text>
         <View style={styles.infoRow}>
-          {editingLocation ? (
-            <TextInput
-              style={styles.input}
-              value={tempLocation}
-              onChangeText={setTempLocation}
+          <Text style={styles.infoText}>{userInfo.phone_number}</Text>
+          <TouchableOpacity
+            onPress={() => setEditingLocation(!editingLocation)}
+          >
+            <Ionicons
+              name={editingLocation ? 'checkmark' : 'pencil'}
+              size={24}
+              color='#333'
             />
-          ) : (
-            <Text style={styles.infoText}>{userInfo.location}</Text>
-          )}
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Budget</Text>
+        <View style={styles.infoRow}>
+          <Text>${userInfo.budget}</Text>
+          <TouchableOpacity
+            onPress={() => setEditingLocation(!editingLocation)}
+          >
+            <Ionicons
+              name={editingLocation ? 'checkmark' : 'pencil'}
+              size={24}
+              color='#333'
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Travel</Text>
+        <View style={styles.infoRow}>
+          <Text>{userID[0].onboard}</Text>
           <TouchableOpacity
             onPress={() => setEditingLocation(!editingLocation)}
           >
@@ -227,7 +260,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
   },
   infoText: {
-    fontSize: 18,
+    fontSize: 17,
     color: '#333',
   },
 })

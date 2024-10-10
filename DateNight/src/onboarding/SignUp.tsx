@@ -171,9 +171,9 @@ export default function SignUpScreen({ navigation }: any) {
     const cleaned = ('' + phoneNumber).replace(/\D/g, '')
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
     if (match) {
-      return `+1${match[1]}${match[2]}${match[3]}` // Assuming US numbers
+      return `${match[1]}${match[2]}${match[3]}` // Assuming US numbers
     }
-    return '+1' + phoneNumber // Assuming US numbers
+    return phoneNumber // Assuming US numbers
   }
 
   async function goNext() {
