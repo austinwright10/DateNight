@@ -18,6 +18,7 @@ export default function Profile() {
     location: '',
     budget: '',
     travel: '',
+    day: '',
   })
   const [editingPhone, setEditingPhone] = useState(false)
   const [editingLocation, setEditingLocation] = useState(false)
@@ -48,6 +49,7 @@ export default function Profile() {
         location: data.location || '',
         budget: onboardData.selectedPrice || '',
         travel: onboardData.selectedTravel || '',
+        day: onboardData.selectedDay || '',
       })
     }
   }
@@ -129,7 +131,7 @@ export default function Profile() {
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Budget</Text>
         <View style={styles.infoRow}>
-          <Text>${userInfo.budget}</Text>
+          <Text style={styles.infoText}>${userInfo.budget}</Text>
           <TouchableOpacity
             onPress={() => setEditingLocation(!editingLocation)}
           >
@@ -145,7 +147,22 @@ export default function Profile() {
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Travel</Text>
         <View style={styles.infoRow}>
-          <Text>{userID[0].onboard}</Text>
+          <Text style={styles.infoText}>{userInfo.travel} mi.</Text>
+          <TouchableOpacity
+            onPress={() => setEditingLocation(!editingLocation)}
+          >
+            <Ionicons
+              name={editingLocation ? 'checkmark' : 'pencil'}
+              size={24}
+              color='#333'
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Day</Text>
+        <View style={styles.infoRow}>
+          <Text style={styles.infoText}>{userInfo.day}</Text>
           <TouchableOpacity
             onPress={() => setEditingLocation(!editingLocation)}
           >
@@ -218,6 +235,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginBottom: 20,
+    borderBottomWidth: 1,
   },
   interestButton: {
     backgroundColor: 'white',
@@ -257,7 +275,6 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     borderRadius: 5,
     borderBottomWidth: 1,
-    borderBottomColor: 'black',
   },
   infoText: {
     fontSize: 17,
