@@ -7,7 +7,6 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { supabase } from '../lib/supabase'
 import { interestStore, userIDStore } from '../stores/store'
@@ -33,17 +32,6 @@ export default function Profile() {
     fetchUserInfo()
   }, [])
 
-  function formatPhoneNumber(phoneNumber: string): string {
-    const cleaned = ('' + phoneNumber).replace(/\D/g, '')
-    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
-
-    if (match) {
-      return `(${match[1]})-${match[2]}-${match[3]}`
-    }
-
-    return phoneNumber
-  }
-
   const fetchUserInfo = async () => {
     const { data, error } = await supabase
       .from('registered_users')
@@ -66,29 +54,24 @@ export default function Profile() {
   }
 
   const handleSave = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser() // handle retrieveing the user from the table here
-    if (user) {
-      const { error } = await supabase
-        .from('users')
-        .update({
-          phone_number: tempPhone,
-          location: tempLocation,
-        })
-        .eq('id', user.id)
+    const { error } = await supabase
+      .from('registered_users')
+      .update({
+        //phone_number: tempPhone,
+        location: tempLocation,
+      })
+      .eq('id', userID[0].id)
 
-      if (error) {
-        console.error('Error updating user info:', error)
-      } else {
-        setUserInfo({
-          ...userInfo,
-          phone_number: tempPhone,
-          location: tempLocation,
-        })
-        setEditingPhone(false)
-        setEditingLocation(false)
-      }
+    if (error) {
+      console.error('Error updating user info:', error)
+    } else {
+      setUserInfo({
+        ...userInfo,
+        phone_number: tempPhone,
+        location: tempLocation,
+      })
+      setEditingPhone(false)
+      setEditingLocation(false)
     }
   }
 
@@ -109,26 +92,42 @@ export default function Profile() {
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Location</Text>
-        <View style={styles.infoRow}>
-          <View>
-            <Text style={styles.infoText}>{userInfo.location}</Text>
+        {!editingLocation ? (
+          <View style={styles.infoRow}>
+            <View>
+              <Text style={styles.infoText}>{userInfo.location}</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => setEditingLocation(!editingLocation)}
+            >
+              <Ionicons name='pencil' size={24} color='#333' />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={() => setEditingPhone(!editingPhone)}>
-            <Ionicons
-              name={editingPhone ? 'checkmark' : 'pencil'}
-              size={24}
-              color='#333'
+        ) : (
+          <View style={styles.infoRow}>
+            <TextInput
+              style={styles.input} // Add your input styles here
+              value={tempLocation}
+              onChangeText={setTempLocation} // Update tempLocation as user types
             />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              onPress={() => {
+                // Save changes
+                setUserInfo({
+                  ...userInfo,
+                  location: tempLocation,
+                })
+                setEditingLocation(false)
+              }}
+            ></TouchableOpacity>
+          </View>
+        )}
       </View>
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Phone Number</Text>
         <View style={styles.infoRow}>
-          <Text style={styles.infoText}>
-            {formatPhoneNumber(userInfo.phone_number)}
-          </Text>
+          <Text style={styles.infoText}>{userInfo.phone_number}</Text>
           <TouchableOpacity
             onPress={() => setEditingLocation(!editingLocation)}
           >
@@ -243,6 +242,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     fontSize: 16,
+    width: '100%',
   },
   interestsContainer: {
     flexDirection: 'row',
