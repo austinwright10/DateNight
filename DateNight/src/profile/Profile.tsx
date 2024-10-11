@@ -33,6 +33,17 @@ export default function Profile() {
     fetchUserInfo()
   }, [])
 
+  function formatPhoneNumber(phoneNumber: string): string {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, '')
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
+
+    if (match) {
+      return `(${match[1]})-${match[2]}-${match[3]}`
+    }
+
+    return phoneNumber
+  }
+
   const fetchUserInfo = async () => {
     const { data, error } = await supabase
       .from('registered_users')
@@ -115,7 +126,9 @@ export default function Profile() {
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Phone Number</Text>
         <View style={styles.infoRow}>
-          <Text style={styles.infoText}>{userInfo.phone_number}</Text>
+          <Text style={styles.infoText}>
+            {formatPhoneNumber(userInfo.phone_number)}
+          </Text>
           <TouchableOpacity
             onPress={() => setEditingLocation(!editingLocation)}
           >
