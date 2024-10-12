@@ -18,13 +18,27 @@ export default function Profile() {
     budget: '',
     travel: '',
     day: '',
+    onboard: {
+      selectedPrice: '',
+      selectedTravel: '',
+      selectedDay: '',
+      interests: [],
+    },
   })
+
   const [editingPhone, setEditingPhone] = useState(false)
   const [editingLocation, setEditingLocation] = useState(false)
+  const [editingBudget, setEditingBudget] = useState(false) // For budget
+  const [editingTravel, setEditingTravel] = useState(false) // For travel
+  const [editingDay, setEditingDay] = useState(false) // For day
+
   const [tempPhone, setTempPhone] = useState('')
   const [tempLocation, setTempLocation] = useState('')
-  const userID = userIDStore((state: any) => state.id)
+  const [tempBudget, setTempBudget] = useState('')
+  const [tempTravel, setTempTravel] = useState('')
+  const [tempDay, setTempDay] = useState('')
 
+  const userID = userIDStore((state: any) => state.id)
   const interests = interestStore((state: any) => state.interests)
   const setInterests = interestStore((state: any) => state.setInterests)
 
@@ -38,40 +52,73 @@ export default function Profile() {
       .select('id, phone_number, location, onboard')
       .eq('id', userID[0].id)
       .single()
+
     if (error) {
       console.log('error from profile ', error)
     } else {
-      console.log('data ', data)
-      const onboardData = data.onboard ? JSON.parse(data.onboard) : ''
+      const onboardData = data.onboard ? JSON.parse(data.onboard) : {}
       setUserInfo({
         phone_number: data.phone_number || '',
         location: data.location || '',
         budget: onboardData.selectedPrice || '',
         travel: onboardData.selectedTravel || '',
         day: onboardData.selectedDay || '',
+        onboard: onboardData,
       })
+      // Set temporary states for editing
+      setTempPhone(data.phone_number || '')
+      setTempLocation(data.location || '')
+      setTempBudget(onboardData.selectedPrice || '')
+      setTempTravel(onboardData.selectedTravel || '')
+      setTempDay(onboardData.selectedDay || '')
     }
   }
 
   const handleSave = async () => {
+    const updates: any = {} // Object to hold updates
+
+    // Only add fields that have changed
+    if (tempPhone !== userInfo.phone_number) {
+      updates.phone_number = tempPhone
+    }
+    if (tempLocation !== userInfo.location) {
+      updates.location = tempLocation
+    }
+    if (tempBudget !== userInfo.budget) {
+      updates.onboard = { ...userInfo.onboard, selectedPrice: tempBudget }
+    }
+    if (tempTravel !== userInfo.travel) {
+      updates.onboard = { ...userInfo.onboard, selectedTravel: tempTravel }
+    }
+    if (tempDay !== userInfo.day) {
+      updates.onboard = { ...userInfo.onboard, selectedDay: tempDay }
+    }
+
+    // Update the user in the database
     const { error } = await supabase
       .from('registered_users')
-      .update({
-        //phone_number: tempPhone,
-        location: tempLocation,
-      })
+      .update(updates)
       .eq('id', userID[0].id)
 
     if (error) {
       console.error('Error updating user info:', error)
     } else {
-      setUserInfo({
-        ...userInfo,
+      setUserInfo((prev) => ({
+        ...prev,
         phone_number: tempPhone,
         location: tempLocation,
-      })
+        onboard: {
+          ...prev.onboard,
+          selectedPrice: tempBudget,
+          selectedTravel: tempTravel,
+          selectedDay: tempDay,
+        },
+      }))
       setEditingPhone(false)
       setEditingLocation(false)
+      setEditingBudget(false) // Reset editing state for budget
+      setEditingTravel(false) // Reset editing state for travel
+      setEditingDay(false) // Reset editing state for day
     }
   }
 
@@ -98,7 +145,10 @@ export default function Profile() {
               <Text style={styles.infoText}>{userInfo.location}</Text>
             </View>
             <TouchableOpacity
-              onPress={() => setEditingLocation(!editingLocation)}
+              onPress={() => {
+                setTempLocation(userInfo.location) // Set tempLocation to current location
+                setEditingLocation(true)
+              }}
             >
               <Ionicons name='pencil' size={24} color='#333' />
             </TouchableOpacity>
@@ -106,85 +156,135 @@ export default function Profile() {
         ) : (
           <View style={styles.infoRow}>
             <TextInput
-              style={styles.input} // Add your input styles here
+              style={styles.input}
               value={tempLocation}
-              onChangeText={setTempLocation} // Update tempLocation as user types
+              onChangeText={setTempLocation}
             />
-            <TouchableOpacity
-              onPress={() => {
-                // Save changes
-                setUserInfo({
-                  ...userInfo,
-                  location: tempLocation,
-                })
-                setEditingLocation(false)
-              }}
-            ></TouchableOpacity>
+            <TouchableOpacity onPress={handleSave}>
+              <Ionicons name='checkmark' size={24} color='#333' />
+            </TouchableOpacity>
           </View>
         )}
       </View>
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Phone Number</Text>
-        <View style={styles.infoRow}>
-          <Text style={styles.infoText}>{userInfo.phone_number}</Text>
-          <TouchableOpacity
-            onPress={() => setEditingLocation(!editingLocation)}
-          >
-            <Ionicons
-              name={editingLocation ? 'checkmark' : 'pencil'}
-              size={24}
-              color='#333'
+        {!editingPhone ? (
+          <View style={styles.infoRow}>
+            <View>
+              <Text style={styles.infoText}>{userInfo.phone_number}</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                setTempPhone(userInfo.phone_number) // Set tempPhone to current phone number
+                setEditingPhone(true)
+              }}
+            >
+              <Ionicons name='pencil' size={24} color='#333' />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.infoRow}>
+            <TextInput
+              style={styles.input}
+              value={tempPhone}
+              onChangeText={setTempPhone}
             />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity onPress={handleSave}>
+              <Ionicons name='checkmark' size={24} color='#333' />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Budget</Text>
-        <View style={styles.infoRow}>
-          <Text style={styles.infoText}>${userInfo.budget}</Text>
-          <TouchableOpacity
-            onPress={() => setEditingLocation(!editingLocation)}
-          >
-            <Ionicons
-              name={editingLocation ? 'checkmark' : 'pencil'}
-              size={24}
-              color='#333'
+        {!editingBudget ? (
+          <View style={styles.infoRow}>
+            <View>
+              <Text style={styles.infoText}>${userInfo.budget}</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                setTempBudget(userInfo.budget) // Set tempBudget to current budget
+                setEditingBudget(true)
+              }}
+            >
+              <Ionicons name='pencil' size={24} color='#333' />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.infoRow}>
+            <TextInput
+              style={styles.input}
+              value={tempBudget}
+              onChangeText={setTempBudget}
             />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity onPress={handleSave}>
+              <Ionicons name='checkmark' size={24} color='#333' />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Travel</Text>
-        <View style={styles.infoRow}>
-          <Text style={styles.infoText}>{userInfo.travel} mi.</Text>
-          <TouchableOpacity
-            onPress={() => setEditingLocation(!editingLocation)}
-          >
-            <Ionicons
-              name={editingLocation ? 'checkmark' : 'pencil'}
-              size={24}
-              color='#333'
+        {!editingTravel ? (
+          <View style={styles.infoRow}>
+            <View>
+              <Text style={styles.infoText}>{userInfo.travel} mi.</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                setTempTravel(userInfo.travel) // Set tempTravel to current travel
+                setEditingTravel(true)
+              }}
+            >
+              <Ionicons name='pencil' size={24} color='#333' />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.infoRow}>
+            <TextInput
+              style={styles.input}
+              value={tempTravel}
+              onChangeText={setTempTravel}
             />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity onPress={handleSave}>
+              <Ionicons name='checkmark' size={24} color='#333' />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
+
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Day</Text>
-        <View style={styles.infoRow}>
-          <Text style={styles.infoText}>{userInfo.day}</Text>
-          <TouchableOpacity
-            onPress={() => setEditingLocation(!editingLocation)}
-          >
-            <Ionicons
-              name={editingLocation ? 'checkmark' : 'pencil'}
-              size={24}
-              color='#333'
+        {!editingDay ? (
+          <View style={styles.infoRow}>
+            <View>
+              <Text style={styles.infoText}>{userInfo.day}</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                setTempDay(userInfo.day) // Set tempDay to current day
+                setEditingDay(true)
+              }}
+            >
+              <Ionicons name='pencil' size={24} color='#333' />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.infoRow}>
+            <TextInput
+              style={styles.input}
+              value={tempDay}
+              onChangeText={setTempDay}
             />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity onPress={handleSave}>
+              <Ionicons name='checkmark' size={24} color='#333' />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       <Text style={styles.label}>Interests</Text>
@@ -202,12 +302,6 @@ export default function Profile() {
           </TouchableOpacity>
         ))}
       </View>
-
-      {(editingPhone || editingLocation) && (
-        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-          <Text style={styles.buttonText}>Save Changes</Text>
-        </TouchableOpacity>
-      )}
 
       <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
         <Text style={styles.buttonText}>Sign Out</Text>
@@ -242,7 +336,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     fontSize: 16,
-    width: '100%',
+    width: '90%',
   },
   interestsContainer: {
     flexDirection: 'row',
