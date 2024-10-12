@@ -47,31 +47,35 @@ export default function Profile() {
   }, [])
 
   const fetchUserInfo = async () => {
-    const { data, error } = await supabase
-      .from('registered_users')
-      .select('id, phone_number, location, onboard')
-      .eq('id', userID[0].id)
-      .single()
+    try {
+      const { data, error } = await supabase
+        .from('registered_users')
+        .select('id, phone_number, location, onboard')
+        .eq('id', userID[0].id)
+        .single()
 
-    if (error) {
-      console.log('error from profile ', error)
-    } else {
-      const onboardData = data.onboard ? JSON.parse(data.onboard) : {}
-      setUserInfo({
-        phone_number: data.phone_number || '',
-        location: data.location || '',
-        budget: onboardData.selectedPrice || '',
-        travel: onboardData.selectedTravel || '',
-        day: onboardData.selectedDay || '',
-        onboard: onboardData,
-      })
-      // Set temporary states for editing
-      setTempPhone(data.phone_number || '')
-      setTempLocation(data.location || '')
-      setTempBudget(onboardData.selectedPrice || '')
-      setTempTravel(onboardData.selectedTravel || '')
-      setTempDay(onboardData.selectedDay || '')
-    }
+      if (error) {
+        console.log('error from profile ', error)
+      } else {
+        const onboardData = data.onboard ? JSON.parse(data.onboard) : {}
+        console.log(onboardData)
+        console.log('data 1 ', data.onboard)
+        setUserInfo({
+          phone_number: data.phone_number || '',
+          location: data.location || '',
+          budget: onboardData.selectedPrice || '',
+          travel: onboardData.selectedTravel || '',
+          day: onboardData.selectedDay || '',
+          onboard: onboardData,
+        })
+        // Set temporary states for editing
+        setTempPhone(data.phone_number || '')
+        setTempLocation(data.location || '')
+        setTempBudget(onboardData.selectedPrice || '')
+        setTempTravel(onboardData.selectedTravel || '')
+        setTempDay(onboardData.selectedDay || '')
+      }
+    } catch (error) {}
   }
 
   const handleSave = async () => {
