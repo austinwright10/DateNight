@@ -57,9 +57,8 @@ export default function Profile() {
       if (error) {
         console.log('error from profile ', error)
       } else {
-        const onboardData = data.onboard ? JSON.parse(data.onboard) : {}
+        const onboardData = data.onboard || {}
         console.log(onboardData)
-        console.log('data 1 ', data.onboard)
         setUserInfo({
           phone_number: data.phone_number || '',
           location: data.location || '',
@@ -68,14 +67,15 @@ export default function Profile() {
           day: onboardData.selectedDay || '',
           onboard: onboardData,
         })
-        // Set temporary states for editing
         setTempPhone(data.phone_number || '')
         setTempLocation(data.location || '')
         setTempBudget(onboardData.selectedPrice || '')
         setTempTravel(onboardData.selectedTravel || '')
         setTempDay(onboardData.selectedDay || '')
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log('error ', error)
+    }
   }
 
   const handleSave = async () => {
