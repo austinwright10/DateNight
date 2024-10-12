@@ -28,9 +28,9 @@ export default function Profile() {
 
   const [editingPhone, setEditingPhone] = useState(false)
   const [editingLocation, setEditingLocation] = useState(false)
-  const [editingBudget, setEditingBudget] = useState(false) // For budget
-  const [editingTravel, setEditingTravel] = useState(false) // For travel
-  const [editingDay, setEditingDay] = useState(false) // For day
+  const [editingBudget, setEditingBudget] = useState(false)
+  const [editingTravel, setEditingTravel] = useState(false)
+  const [editingDay, setEditingDay] = useState(false)
 
   const [tempPhone, setTempPhone] = useState('')
   const [tempLocation, setTempLocation] = useState('')
@@ -58,7 +58,7 @@ export default function Profile() {
         console.log('error from profile ', error)
       } else {
         const onboardData = data.onboard || {}
-        console.log(onboardData)
+        console.log('onboard data ', onboardData)
         setUserInfo({
           phone_number: data.phone_number || '',
           location: data.location || '',
@@ -79,9 +79,8 @@ export default function Profile() {
   }
 
   const handleSave = async () => {
-    const updates: any = {} // Object to hold updates
+    const updates: any = {}
 
-    // Only add fields that have changed
     if (tempPhone !== userInfo.phone_number) {
       updates.phone_number = tempPhone
     }
@@ -111,6 +110,9 @@ export default function Profile() {
         ...prev,
         phone_number: tempPhone,
         location: tempLocation,
+        day: tempDay,
+        budget: tempBudget,
+        travel: tempTravel,
         onboard: {
           ...prev.onboard,
           selectedPrice: tempBudget,
@@ -120,9 +122,9 @@ export default function Profile() {
       }))
       setEditingPhone(false)
       setEditingLocation(false)
-      setEditingBudget(false) // Reset editing state for budget
-      setEditingTravel(false) // Reset editing state for travel
-      setEditingDay(false) // Reset editing state for day
+      setEditingBudget(false)
+      setEditingTravel(false)
+      setEditingDay(false)
     }
   }
 
@@ -150,7 +152,7 @@ export default function Profile() {
             </View>
             <TouchableOpacity
               onPress={() => {
-                setTempLocation(userInfo.location) // Set tempLocation to current location
+                setTempLocation(userInfo.location)
                 setEditingLocation(true)
               }}
             >
@@ -180,7 +182,7 @@ export default function Profile() {
             </View>
             <TouchableOpacity
               onPress={() => {
-                setTempPhone(userInfo.phone_number) // Set tempPhone to current phone number
+                setTempPhone(userInfo.phone_number)
                 setEditingPhone(true)
               }}
             >
@@ -210,7 +212,7 @@ export default function Profile() {
             </View>
             <TouchableOpacity
               onPress={() => {
-                setTempBudget(userInfo.budget) // Set tempBudget to current budget
+                setTempBudget(userInfo.budget)
                 setEditingBudget(true)
               }}
             >
@@ -240,7 +242,7 @@ export default function Profile() {
             </View>
             <TouchableOpacity
               onPress={() => {
-                setTempTravel(userInfo.travel) // Set tempTravel to current travel
+                setTempTravel(userInfo.travel)
                 setEditingTravel(true)
               }}
             >
@@ -270,7 +272,7 @@ export default function Profile() {
             </View>
             <TouchableOpacity
               onPress={() => {
-                setTempDay(userInfo.day) // Set tempDay to current day
+                setTempDay(userInfo.day)
                 setEditingDay(true)
               }}
             >
