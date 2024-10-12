@@ -6,12 +6,11 @@ import {
   FlatList,
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
 import { useDateStore } from 'src/stores/store'
 import { useEffect } from 'react'
 
-export default function Dashboard() {
-  const navigation = useNavigation()
+export default function Dashboard({ navigation }: any) {
+  //const navigation = useNavigation()
   const { previousDates, loadDates } = useDateStore()
 
   const renderItem = ({ item }: { item: { id: string; title: string } }) => (
@@ -31,7 +30,7 @@ export default function Dashboard() {
       <View style={styles.profileButtonContainer}>
         <TouchableOpacity
           style={styles.profileButton}
-          onPress={() => console.log('clieasdf')}
+          onPress={() => navigation.navigate('Profile')}
         >
           <Ionicons name='person' size={28} color='white' />
         </TouchableOpacity>
@@ -68,6 +67,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 80,
     right: 35,
+    zIndex: 1,
   },
   header: {
     fontSize: 30,

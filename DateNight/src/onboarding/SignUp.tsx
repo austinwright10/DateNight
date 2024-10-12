@@ -14,6 +14,13 @@ import OTPModal from 'src/components/OTPModal'
 import { supabase } from 'src/lib/supabase'
 import Autocomplete from 'react-native-autocomplete-input'
 import { debounce } from 'lodash'
+import {
+  dayOfWeekStore,
+  interestStore,
+  priceStore,
+  travelStore,
+  userIDStore,
+} from 'src/stores/store'
 
 export default function SignUpScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState('')
@@ -33,7 +40,12 @@ export default function SignUpScreen({ navigation }: any) {
   const [citySuggestions, setCitySuggestions] = useState([])
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
+  const selectedDay = dayOfWeekStore((state: any) => state.day)
+  const selectedPrice = priceStore((state: any) => state.price)
+  const selectedTravel = travelStore((state: any) => state.travel)
+  const interests = interestStore((state: any) => state.interests)
   const geoDBKEY = process.env.GEODB_KEY!
+  const setID = userIDStore((state: any) => state.setID)
 
   const signUpSchema = z
     .object({
@@ -41,8 +53,8 @@ export default function SignUpScreen({ navigation }: any) {
       lastName: z.string().min(2),
       location: z.string().min(2),
       phoneNumber: z.string().min(10),
-      password: z.string().min(1),
-      confirmPassword: z.string().min(1),
+      password: z.string().min(6),
+      confirmPassword: z.string().min(6),
     })
     .refine((data) => data.password === data.confirmPassword, {
       message: 'passwords do not match',
@@ -78,6 +90,9 @@ export default function SignUpScreen({ navigation }: any) {
       // const { data, error } = await supabase.auth.signInWithOtp({
       //   phone: phoneNumber,
       // })
+      // if (error) {
+      //   throw error.message
+      // }
     } catch (error: any) {
       //setIsClicked(false)
       const zodErrors = error.errors.map((err: any) => err.path[0])
@@ -155,21 +170,55 @@ export default function SignUpScreen({ navigation }: any) {
   function formatPhoneNumber(phoneNumber: string): string {
     const cleaned = ('' + phoneNumber).replace(/\D/g, '')
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/)
+
     if (match) {
       return `(${match[1]})-${match[2]}-${match[3]}`
     }
+
     return phoneNumber
   }
 
   async function goNext() {
-    const { error } = await supabase.from('users').insert({
-      first_name: firstName,
-      last_name: lastName,
-      phone_number: formatPhoneNumber(phoneNumber),
-      location: location,
-    })
-    setIsModalVisible(false)
-    navigation.navigate('Paywall')
+    try {
+      // const { data: authData, error: authError } = await supabase.auth.signUp({
+      //   phone: formatPhoneNumber(phoneNumber),
+      //   password: password,
+      // })
+      // if (authError) {
+      //   throw authError
+      // }
+      // if (!authData.user) {
+      //   throw new Error('User creation failed')
+      // }
+      const onboardData = {
+        selectedDay,
+        selectedPrice,
+        selectedTravel,
+        interests,
+      }
+      const onboardJSON = JSON.stringify(onboardData)
+
+      const { data, error: insertError } = await supabase
+        .from('registered_users')
+        .insert({
+          first_name: firstName,
+          last_name: lastName,
+          phone_number: formatPhoneNumber(phoneNumber),
+          location: location,
+          onboard: onboardJSON,
+        })
+        .select('id')
+      if (insertError) {
+        throw insertError
+      }
+      if (data) {
+        setID(data)
+      }
+      setIsModalVisible(false)
+      navigation.navigate('Profile')
+    } catch (error: any) {
+      console.log('error ', error)
+    }
   }
 
   return (
@@ -290,7 +339,7 @@ export default function SignUpScreen({ navigation }: any) {
           {passwordError && (
             <View style={styles.error}>
               <Text style={styles.errorMessage}>
-                *Password needs to be longer than 2 digits
+                *Password needs must be at least 6 characters
               </Text>
             </View>
           )}

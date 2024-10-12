@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/DNIcon.png",
     "userInterfaceStyle": "light",
+    "owner": "austinwright10",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

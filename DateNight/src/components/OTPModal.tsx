@@ -1,43 +1,44 @@
-import { Modal, StyleSheet, View } from 'react-native'
+import React from 'react'
+import {
+  View,
+  Text,
+  TextInput,
+  Modal,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native'
 import OTP from 'src/onboarding/OTP'
 
 type OTPModalProps = {
-  handleModalVisibility: (isVisible: boolean) => void
   isVisible: boolean
+  handleModalVisibility: (isVisible: boolean) => void
   phoneNumber: string
   next: () => void
 }
 
-export default function OTPModal({
-  handleModalVisibility,
+const OTPModal: React.FC<OTPModalProps> = ({
   isVisible,
+  handleModalVisibility,
   phoneNumber,
   next,
-}: OTPModalProps) {
-  const toggleModalVisibility = () => {
-    handleModalVisibility(!isVisible)
-  }
+}) => {
   return (
-    <View>
-      <Modal
-        animationType='slide'
-        transparent={true}
-        visible={isVisible}
-        onRequestClose={() => {
-          toggleModalVisibility()
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <OTP
-              phoneNumber={phoneNumber}
-              showModal={handleModalVisibility}
-              goNext={next}
-            />
-          </View>
+    <Modal
+      animationType='slide'
+      transparent={true}
+      visible={isVisible}
+      onRequestClose={() => handleModalVisibility(false)}
+    >
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          <OTP
+            phoneNumber={phoneNumber}
+            showModal={handleModalVisibility}
+            goNext={next}
+          />
         </View>
-      </Modal>
-    </View>
+      </View>
+    </Modal>
   )
 }
 
@@ -46,14 +47,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Add a semi-transparent background
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalView: {
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -64,4 +64,28 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  input: {
+    width: 200,
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: '#2196F3',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
 })
+
+export default OTPModal
