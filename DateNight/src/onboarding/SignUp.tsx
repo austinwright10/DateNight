@@ -215,7 +215,7 @@ export default function SignUpScreen({ navigation }: any) {
         setID(data)
       }
       setIsModalVisible(false)
-      navigation.navigate('Profile')
+      navigation.navigate('Paywall')
     } catch (error: any) {
       console.log('error ', error)
     }
